@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(20, 20, 21);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.searchTrainFilter select,
+.trainInviteForm select,
+.trainInviteForm textarea,
+.trainInviteForm input,
+.scoreFormContainer input,
+.scoreFormContainer select,
+.scoreFormContainer textarea,
+.addBalanceFormContainer input {
+  @apply w-full rounded-md text-black px-2 py-3;
+}
+
+.searchTrainFilter label,
+.trainInviteForm label,
+.scoreFormContainer label,
+.addBalanceFormContainer label {
+  @apply font-bold;
+}
+
+.SearchTrainFilterContainer,
+.trainInviteFormContainer,
+.scoreFormContainer,
+.addBalanceFormContainer {
+  @apply mt-4;
+}
