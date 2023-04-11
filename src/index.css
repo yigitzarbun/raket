@@ -24,20 +24,32 @@ code {
 .scoreFormContainer input,
 .scoreFormContainer select,
 .scoreFormContainer textarea,
-.addBalanceFormContainer input {
+.addBalanceFormContainer input,
+.registerFormContainer input,
+.registerFormContainer select {
   @apply w-full rounded-md text-black px-2 py-3;
 }
 
 .searchTrainFilter label,
 .trainInviteForm label,
 .scoreFormContainer label,
-.addBalanceFormContainer label {
+.addBalanceFormContainer label,
+.registerFormContainer label {
   @apply font-bold;
 }
 
 .SearchTrainFilterContainer,
 .trainInviteFormContainer,
 .scoreFormContainer,
-.addBalanceFormContainer {
+.addBalanceFormContainer,
+.registerFormContainer {
   @apply mt-4;
+}
+
+.file-upload input {
+  @apply text-white text-sm italic;
+}
+
+.active-link {
+  @apply p-2 font-bold cursor-pointer text-blue-400;
 }

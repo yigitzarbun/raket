@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 function Footer() {
   const { pathname } = useLocation();
   let resultJsx = "";
-  if (pathname == "/intro") {
+  if (pathname == "/intro" || pathname == "/login" || pathname == "/register") {
     resultJsx = "";
   } else {
     resultJsx = (

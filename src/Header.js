@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -9,42 +9,72 @@ function Header() {
           Raket
         </Link>
         <nav className="flex justify-around w-2/5">
-          <Link
+          <NavLink
+            activeClassName="active-link"
             to="/train"
-            className="p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
           >
             Train
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
+            activeClassName="active-link"
             to="/match"
-            className="p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
           >
             Match
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
+            activeClassName="active-link"
             to="/requests"
-            className="p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
           >
             Requests
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
+            activeClassName="active-link"
             to="/scores"
-            className="p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
           >
             Scores
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
+            activeClassName="active-link"
             to="/calendar"
-            className="p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
           >
             Calendar
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
+            activeClassName="active-link"
             to="/account"
-            className="p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
           >
             Account
-          </Link>
+          </NavLink>
           <Link
             to="/intro"
             className="w-1/5 text-right p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"

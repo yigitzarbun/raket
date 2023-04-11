@@ -17,6 +17,8 @@ import ScoreForm from "./ScoreForm";
 import AddBalance from "./AddBalance";
 import Payments from "./Payments";
 import Landing from "./Landing";
+import Login from "./Login";
+import RegisterInitial from "./RegisterInitial";
 function App() {
   return (
     <div className="max-w-5xl mx-auto">
@@ -38,6 +40,8 @@ function App() {
         <Route path="/add-balance" element={<AddBalance />} />
         <Route path="/payments" element={<Payments />} />
         <Route path="/intro" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<RegisterInitial />} />
       </Routes>
       <Footer />
     </div>

@@ -17,6 +17,8 @@ module.exports = {
         heroBalance: "url('../public/images/add-balance.jpeg')",
         heroPayments: "url('../public/images/payment-history.jpeg')",
         heroLanding: "url('../public/images/landing.jpeg')",
+        heroLogin: "url('../public/images/login.jpeg')",
+        heroRegister: "url('../public/images/register.jpeg')",
       },
       animation: {
         marquee: "marquee 25s linear infinite",
