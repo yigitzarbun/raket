@@ -26,7 +26,9 @@ code {
 .scoreFormContainer textarea,
 .addBalanceFormContainer input,
 .registerFormContainer input,
-.registerFormContainer select {
+.registerFormContainer select,
+.newCourtContainer select,
+.newCourtContainer input {
   @apply w-full rounded-md text-black px-2 py-3;
 }
 
@@ -34,7 +36,8 @@ code {
 .trainInviteForm label,
 .scoreFormContainer label,
 .addBalanceFormContainer label,
-.registerFormContainer label {
+.registerFormContainer label,
+.newCourtContainer label {
   @apply font-bold;
 }
 
@@ -42,7 +45,8 @@ code {
 .trainInviteFormContainer,
 .scoreFormContainer,
 .addBalanceFormContainer,
-.registerFormContainer {
+.registerFormContainer,
+.newCourtContainer {
   @apply mt-4;
 }
 

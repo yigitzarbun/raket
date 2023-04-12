@@ -19,6 +19,10 @@ import Payments from "./Payments";
 import Landing from "./Landing";
 import Login from "./Login";
 import RegisterInitial from "./RegisterInitial";
+import Courts from "./Courts";
+import ClubAccount from "./ClubAccount";
+import ClubPaymentHistory from "./ClubPaymentHistory";
+import ClubReservations from "./ClubReservations";
 function App() {
   return (
     <div className="max-w-5xl mx-auto">
@@ -42,6 +46,10 @@ function App() {
         <Route path="/intro" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterInitial />} />
+        <Route path="/club-courts" element={<Courts />} />
+        <Route path="/club-account" element={<ClubAccount />} />
+        <Route path="/club-payments" element={<ClubPaymentHistory />} />
+        <Route path="/club-calendar" element={<ClubReservations />} />
       </Routes>
       <Footer />
     </div>

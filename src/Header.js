@@ -81,6 +81,39 @@ function Header() {
           >
             Logout
           </Link>
+          <NavLink
+            activeClassName="active-link"
+            to="/club-courts"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
+          >
+            Courts
+          </NavLink>
+          <NavLink
+            activeClassName="active-link"
+            to="/club-account"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
+          >
+            Club Account
+          </NavLink>
+          <NavLink
+            activeClassName="active-link"
+            to="/club-calendar"
+            className={({ isActive }) =>
+              isActive
+                ? "active-link"
+                : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+            }
+          >
+            Club Calendar
+          </NavLink>
         </nav>
       </div>
     </div>

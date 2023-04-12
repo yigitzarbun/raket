@@ -136,10 +136,10 @@ function RegisterClub() {
             <label>Availability of Indoor / Outdoor Courts</label>
             <select
               {...register("indoor_outdoor", {
-                required: "Court type required",
+                required: "Indoor / Outdoor required",
               })}
             >
-              <option value="">-- Select court type --</option>
+              <option value="">-- Select indoor / outdoor --</option>
               <option value="indoor">Indoor-only </option>
               <option value="outdoor">Outdoor-only</option>
               <option value="both">Both</option>

@@ -6,8 +6,11 @@ import Requests from "./Requests";
 import Upcoming from "./Upcoming";
 import Stats from "./Stats";
 import Equipment from "./Equipment";
+import { useSelector } from "react-redux";
 
 function Main() {
+  const { user } = useSelector((store) => store);
+  console.log(user);
   return (
     <div>
       <Hero />
