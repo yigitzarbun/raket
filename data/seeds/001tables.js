@@ -23,47 +23,47 @@ exports.seed = async function (knex) {
   await knex("genders").truncate();
 
   await knex("genders").insert([
-    { gender_id: 1, name: "male" },
-    { gender_id: 2, name: "female" },
+    { gender_id: 1, gender: "male" },
+    { gender_id: 2, gender: "female" },
   ]);
   await knex("court_types").insert([
-    { court_type_id: 1, name: "hard" },
-    { court_type_id: 2, name: "clay" },
-    { court_type_id: 3, name: "grass" },
-    { court_type_id: 4, name: "artificial_grass" },
-    { court_type_id: 5, name: "other" },
+    { court_type_id: 1, court_type: "hard" },
+    { court_type_id: 2, court_type: "clay" },
+    { court_type_id: 3, court_type: "grass" },
+    { court_type_id: 4, court_type: "artificial_grass" },
+    { court_type_id: 5, court_type: "other" },
   ]);
   await knex("levels").insert([
-    { level_id: 1, name: "beginner" },
-    { level_id: 2, name: "intermediate" },
-    { level_id: 3, name: "advanced" },
-    { level_id: 4, name: "pro" },
+    { level_id: 1, level: "beginner" },
+    { level_id: 2, level: "intermediate" },
+    { level_id: 3, level: "advanced" },
+    { level_id: 4, level: "pro" },
   ]);
   await knex("indoor_outdoor").insert([
-    { indoor_outdoor_id: 1, name: "indoor" },
-    { indoor_outdoor_id: 2, name: "outdoor" },
-    { indoor_outdoor_id: 3, name: "both" },
+    { indoor_outdoor_id: 1, indoor_outdoor: "indoor" },
+    { indoor_outdoor_id: 2, indoor_outdoor: "outdoor" },
+    { indoor_outdoor_id: 3, indoor_outdoor: "both" },
   ]);
   await knex("payment_types").insert([
-    { payment_type_id: 1, name: "add_balance" },
-    { payment_type_id: 2, name: "match" },
-    { payment_type_id: 3, name: "registration" },
-    { payment_type_id: 4, name: "promotion" },
-    { payment_type_id: 5, name: "membership" },
+    { payment_type_id: 1, payment_type: "add_balance" },
+    { payment_type_id: 2, payment_type: "match" },
+    { payment_type_id: 3, payment_type: "registration" },
+    { payment_type_id: 4, payment_type: "promotion" },
+    { payment_type_id: 5, payment_type: "membership" },
   ]);
   await knex("districts").insert([
-    { district_id: 1, name: "adalar" },
-    { district_id: 2, name: "ataşehir" },
-    { district_id: 3, name: "beşiktaş" },
-    { district_id: 4, name: "beykoz" },
-    { district_id: 5, name: "beylikdüzü" },
-    { district_id: 6, name: "beyoğlu" },
-    { district_id: 7, name: "çekmeköy" },
-    { district_id: 8, name: "kadıköy" },
-    { district_id: 9, name: "kartal" },
-    { district_id: 10, name: "maltepe" },
-    { district_id: 11, name: "pendik" },
-    { district_id: 12, name: "tuzla" },
+    { district_id: 1, district: "adalar" },
+    { district_id: 2, district: "ataşehir" },
+    { district_id: 3, district: "beşiktaş" },
+    { district_id: 4, district: "beykoz" },
+    { district_id: 5, district: "beylikdüzü" },
+    { district_id: 6, district: "beyoğlu" },
+    { district_id: 7, district: "çekmeköy" },
+    { district_id: 8, district: "kadıköy" },
+    { district_id: 9, district: "kartal" },
+    { district_id: 10, district: "maltepe" },
+    { district_id: 11, district: "pendik" },
+    { district_id: 12, district: "tuzla" },
   ]);
   await knex("players").insert([
     {

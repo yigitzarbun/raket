@@ -6,27 +6,27 @@ exports.up = function (knex) {
   return knex.schema
     .createTable("genders", (tbl) => {
       tbl.increments("gender_id");
-      tbl.string("name").notNullable();
+      tbl.string("gender").notNullable();
     })
     .createTable("court_types", (tbl) => {
       tbl.increments("court_type_id");
-      tbl.string("name");
+      tbl.string("court_type");
     })
     .createTable("levels", (tbl) => {
       tbl.increments("level_id");
-      tbl.string("name").notNullable();
+      tbl.string("level").notNullable();
     })
     .createTable("indoor_outdoor", (tbl) => {
       tbl.increments("indoor_outdoor_id");
-      tbl.string("name");
+      tbl.string("indoor_outdoor");
     })
     .createTable("payment_types", (tbl) => {
       tbl.increments("payment_type_id");
-      tbl.string("name").notNullable();
+      tbl.string("payment_type").notNullable();
     })
     .createTable("districts", (tbl) => {
       tbl.increments("district_id");
-      tbl.string("name").notNullable();
+      tbl.string("district").notNullable();
     })
     .createTable("players", (tbl) => {
       tbl.increments("player_id");
