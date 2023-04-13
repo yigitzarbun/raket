@@ -131,7 +131,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("points", (tbl) => {
-      tbl.integer("point_id");
+      tbl.increments("point_id");
       tbl.integer("points");
       tbl
         .integer("player_id")
@@ -143,7 +143,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("payments", (tbl) => {
-      tbl.integer("payment_id");
+      tbl.increments("payment_id");
       tbl.integer("amount").notNullable();
       tbl.timestamp("date").notNullable();
       tbl
@@ -156,26 +156,24 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("club_payments", (tbl) => {
-      tbl.integer("club_payment_id");
-      tbl
-        .integer("payment_id")
-        .unsigned()
-        .notNullable()
-        .references("payment_id")
-        .inTable("payments")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+      tbl.increments("club_payment_id");
       tbl
         .integer("club_id")
         .unsigned()
         .notNullable()
         .references("club_id")
         .inTable("clubs")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+        .onUpdate("CASCADE");
+      tbl
+        .integer("payment_id")
+        .unsigned()
+        .notNullable()
+        .references("payment_id")
+        .inTable("payments")
+        .onUpdate("CASCADE");
     })
     .createTable("player_payments", (tbl) => {
-      tbl.integer("player_payment_id");
+      tbl.increments("player_payment_id");
       tbl
         .integer("payment_id")
         .unsigned()
@@ -194,7 +192,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("courts", (tbl) => {
-      tbl.integer("court_id");
+      tbl.increments("court_id");
       tbl.string("name").notNullable();
       tbl.integer("opening").notNullable();
       tbl.integer("closing").notNullable();
@@ -225,7 +223,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("challenges", (tbl) => {
-      tbl.integer("challenge_id");
+      tbl.increments("challenge_id");
       tbl.timestamp("event_date").notNullable();
       tbl.integer("time").notNullable();
       tbl.timestamp("date").notNullable();
@@ -264,7 +262,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("invites", (tbl) => {
-      tbl.integer("invite_id");
+      tbl.increments("invite_id");
       tbl.timestamp("event_date").notNullable();
       tbl.integer("time").notNullable();
       tbl.timestamp("date").notNullable();
@@ -303,7 +301,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("scores", (tbl) => {
-      tbl.integer("score_id");
+      tbl.increments("score_id");
       tbl.integer("first_set_challenger").notNullable();
       tbl.integer("first_set_challengee").notNullable();
       tbl.integer("second_set_challenger").notNullable();
@@ -352,7 +350,7 @@ exports.up = function (knex) {
         .onDelete("CASCADE");
     })
     .createTable("bookings", (tbl) => {
-      tbl.integer("booking_id");
+      tbl.increments("booking_id");
       tbl.timestamp("date").notNullable();
       tbl.timestamp("event_date").notNullable();
       tbl.integer("time").notNullable();
