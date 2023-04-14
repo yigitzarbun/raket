@@ -6,18 +6,20 @@ function Register() {
   const {
     register,
     handleSubmit,
+    getValues,
     reset,
     formState: { errors, isValid },
   } = useForm();
   const handleRegister = (data) => {
     let dataWide = {
       ...data,
-      id: Date.now(),
+      player_id: Date.now(),
       user_type: "player",
       registry_date: Date.now(),
     };
     console.log(dataWide);
     navigate("/login");
+    reset();
   };
   return (
     <div>
@@ -66,22 +68,22 @@ function Register() {
           <div className="registerFormContainer">
             <label>Gender</label>
             <select
-              {...register("gender", {
+              {...register("gender_id", {
                 required: "Gender is required",
               })}
             >
               <option value="">-- Select gender --</option>
-              <option value="male">Male </option>
-              <option value="female">Female</option>
+              <option value="1">Male </option>
+              <option value="2">Female</option>
             </select>
-            {errors.gender && <span>{errors.gender.message}</span>}
+            {errors.gender_id && <span>{errors.gender_id.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Year of Birth</label>
             <input
               placeholder="e.g. 1980"
               type="number"
-              {...register("year", {
+              {...register("birth_year", {
                 required: "Year of Birth is required",
                 minLength: 4,
                 maxLength: 4,
@@ -92,88 +94,91 @@ function Register() {
           <div className="registerFormContainer">
             <label>Level</label>
             <select
-              {...register("level", {
+              {...register("level_id", {
                 required: "Level is required",
               })}
             >
               <option value="">-- Select level --</option>
-              <option value="beginner">Beginner </option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-              <option value="prop">Pro</option>
+              <option value="1">Beginner </option>
+              <option value="2">Intermediate</option>
+              <option value="3">Advanced</option>
+              <option value="4">Pro</option>
             </select>
-            {errors.level && <span>{errors.level.message}</span>}
+            {errors.level_id && <span>{errors.level_id.message}</span>}
           </div>
           <div className="registerFormContainer">
-            <label>Court Preference 1</label>
+            <label>Club Preference 1</label>
             <select
-              {...register("court1", {
-                required: "Court preference required",
+              {...register("club_preference_1_id", {
+                required: "Club preference required",
               })}
             >
-              <option value="">-- Select court --</option>
-              <option value="male">Dalyan Club </option>
-              <option value="female">Optimum Tenis Akademisi</option>
-              <option value="female">Miltaş Spor Tesisleri</option>
-              <option value="female">Büyük Kulüp</option>
-              <option value="female">Caddebostan Raket Kulüp</option>
-              <option value="female">İBB Maltepe Spor Tesisleri</option>
+              <option value="">-- Select club --</option>
+              <option value="1">Wimbledon </option>
+              <option value="2">Rolland Garros</option>
+              <option value="3">
+                USTA Billie Jean King National Tennis Center
+              </option>
             </select>
-            {errors.court1 && <span>{errors.court1.message}</span>}
+            {errors.club_preference_1_id && (
+              <span>{errors.club_preference_1_id.message}</span>
+            )}
           </div>
           <div className="registerFormContainer">
-            <label>Court Preference 1</label>
+            <label>Club Preference 2</label>
             <select
-              {...register("court2", {
-                required: "Court preference required",
+              {...register("club_preference_2_id", {
+                required: "Club preference required",
               })}
             >
-              <option value="">-- Select court --</option>
-              <option value="male">Dalyan Club </option>
-              <option value="female">Optimum Tenis Akademisi</option>
-              <option value="female">Miltaş Spor Tesisleri</option>
-              <option value="female">Büyük Kulüp</option>
-              <option value="female">Caddebostan Raket Kulüp</option>
-              <option value="female">İBB Maltepe Spor Tesisleri</option>
+              <option value="">-- Select club --</option>
+              <option value="1">Wimbledon </option>
+              <option value="2">Rolland Garros</option>
+              <option value="3">
+                USTA Billie Jean King National Tennis Center
+              </option>
             </select>
-            {errors.court2 && <span>{errors.court2.message}</span>}
+            {errors.club_preference_2_id && (
+              <span>{errors.club_preference_2_id.message}</span>
+            )}
           </div>
           <div className="registerFormContainer">
-            <label>Court Preference 3</label>
+            <label>Club Preference 3</label>
             <select
-              {...register("court3", {
-                required: "Court preference required",
+              {...register("club_preference_3_id", {
+                required: "Club preference required",
               })}
             >
-              <option value="">-- Select court --</option>
-              <option value="male">Dalyan Club </option>
-              <option value="female">Optimum Tenis Akademisi</option>
-              <option value="female">Miltaş Spor Tesisleri</option>
-              <option value="female">Büyük Kulüp</option>
-              <option value="female">Caddebostan Raket Kulüp</option>
-              <option value="female">İBB Maltepe Spor Tesisleri</option>
+              <option value="">-- Select club --</option>
+              <option value="1">Wimbledon </option>
+              <option value="2">Rolland Garros</option>
+              <option value="3">
+                USTA Billie Jean King National Tennis Center
+              </option>
             </select>
-            {errors.court3 && <span>{errors.court3.message}</span>}
+            {errors.club_preference_3_id && (
+              <span>{errors.club_preference_3_id.message}</span>
+            )}
           </div>
           <div className="registerFormContainer file-upload">
             <label>Face Photo</label>
             <input
-              type="file"
-              {...register("face", {
+              type="text"
+              {...register("face_image", {
                 required: "Photo of your face is required",
               })}
             />
-            {errors.face && <span>{errors.face.message}</span>}
+            {errors.face_image && <span>{errors.face_image.message}</span>}
           </div>
           <div className="registerFormContainer file-upload">
             <label>Body Photo</label>
             <input
-              type="file"
-              {...register("body", {
+              type="text"
+              {...register("body_image", {
                 required: "Photo of your full-body is required",
               })}
             />
-            {errors.body && <span>{errors.body.message}</span>}
+            {errors.body_image && <span>{errors.body_image.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Password</label>
@@ -181,6 +186,28 @@ function Register() {
               type="text"
               {...register("password", {
                 required: "Password is required",
+                minLength: {
+                  value: 4,
+                  message: "Password length must be more than 4 characters",
+                },
+              })}
+            />
+            {errors.password && <span>{errors.password.message}</span>}
+          </div>
+          <div className="registerFormContainer">
+            <label>Repeat Password</label>
+            <input
+              type="text"
+              {...register("password2", {
+                required: "Password is required",
+                minLength: {
+                  value: 4,
+                  message: "Password length must be more than 4 characters",
+                },
+                validate: {
+                  passEqual: (value) =>
+                    value === getValues().password || "Passwords don't match",
+                },
               })}
             />
             {errors.password && <span>{errors.password.message}</span>}

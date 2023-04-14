@@ -28,58 +28,6 @@ exports.up = function (knex) {
       tbl.increments("district_id");
       tbl.string("district").notNullable();
     })
-    .createTable("players", (tbl) => {
-      tbl.increments("player_id");
-      tbl.string("user_type").notNullable();
-      tbl.timestamp("registry_date").notNullable();
-      tbl.string("fname").notNullable();
-      tbl.string("lname").notNullable();
-      tbl.string("email").notNullable().unique();
-      tbl.integer("birth_year").notNullable();
-      tbl.string("face_image").notNullable();
-      tbl.string("body_image").notNullable();
-      tbl.string("password").notNullable();
-      tbl
-        .integer("level_id")
-        .unsigned()
-        .notNullable()
-        .references("level_id")
-        .inTable("levels")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
-      tbl
-        .integer("gender_id")
-        .unsigned()
-        .notNullable()
-        .references("gender_id")
-        .inTable("genders")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
-      tbl
-        .integer("court_preference_1_id")
-        .unsigned()
-        .notNullable()
-        .references("court_type_id")
-        .inTable("court_types")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
-      tbl
-        .integer("court_preference_2_id")
-        .unsigned()
-        .notNullable()
-        .references("court_type_id")
-        .inTable("court_types")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
-      tbl
-        .integer("court_preference_3_id")
-        .unsigned()
-        .notNullable()
-        .references("court_type_id")
-        .inTable("court_types")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
-    })
     .createTable("clubs", (tbl) => {
       tbl.increments("club_id");
       tbl.string("user_type").notNullable();
@@ -130,6 +78,59 @@ exports.up = function (knex) {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
     })
+    .createTable("players", (tbl) => {
+      tbl.increments("player_id");
+      tbl.string("user_type").notNullable();
+      tbl.timestamp("registry_date").notNullable();
+      tbl.string("fname").notNullable();
+      tbl.string("lname").notNullable();
+      tbl.string("email").notNullable().unique();
+      tbl.integer("birth_year").notNullable();
+      tbl.string("face_image").notNullable();
+      tbl.string("body_image").notNullable();
+      tbl.string("password").notNullable();
+      tbl
+        .integer("level_id")
+        .unsigned()
+        .notNullable()
+        .references("level_id")
+        .inTable("levels")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+      tbl
+        .integer("gender_id")
+        .unsigned()
+        .notNullable()
+        .references("gender_id")
+        .inTable("genders")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+      tbl
+        .integer("club_preference_1_id")
+        .unsigned()
+        .notNullable()
+        .references("club_id")
+        .inTable("clubs")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+      tbl
+        .integer("club_preference_2_id")
+        .unsigned()
+        .notNullable()
+        .references("club_id")
+        .inTable("clubs")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+      tbl
+        .integer("club_preference_3_id")
+        .unsigned()
+        .notNullable()
+        .references("club_id")
+        .inTable("clubs")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+    })
+
     .createTable("points", (tbl) => {
       tbl.increments("point_id");
       tbl.integer("points");
@@ -388,8 +389,8 @@ exports.down = function (knex) {
     .dropTableIfExists("club_payments")
     .dropTableIfExists("payments")
     .dropTableIfExists("points")
-    .dropTableIfExists("clubs")
     .dropTableIfExists("players")
+    .dropTableIfExists("clubs")
     .dropTableIfExists("districts")
     .dropTableIfExists("payment_types")
     .dropTableIfExists("indoor_outdoor")

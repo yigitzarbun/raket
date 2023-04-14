@@ -12,7 +12,7 @@ function RegisterClub() {
   const handleRegister = (data) => {
     let dataWide = {
       ...data,
-      id: Date.now(),
+      club_id: Date.now(),
       user_type: "club",
       registry_date: Date.now(),
     };
@@ -45,7 +45,7 @@ function RegisterClub() {
             <input
               placeholder="e.g. Wimbledon Tennis Club"
               type="text"
-              {...register("club_name", {
+              {...register("name", {
                 required: "Club name is required",
               })}
             />
@@ -78,7 +78,7 @@ function RegisterClub() {
             <label>Number of Courts</label>
             <input
               type="number"
-              {...register("courts", {
+              {...register("court_quantity", {
                 required: "Number of courts is required",
               })}
             />
@@ -87,62 +87,62 @@ function RegisterClub() {
           <div className="registerFormContainer">
             <label>Court Type 1</label>
             <select
-              {...register("court_type_1", {
+              {...register("court_type_1_id", {
                 required: "Court type required",
               })}
             >
               <option value="">-- Select court type --</option>
-              <option value="hard">Hard </option>
-              <option value="clay">Clay</option>
-              <option value="grass">Grass</option>
-              <option value="artificial_grass">Artificial Grass</option>
-              <option value="other">Other</option>
+              <option value="1">Hard </option>
+              <option value="2">Clay</option>
+              <option value="3">Grass</option>
+              <option value="4">Artificial Grass</option>
+              <option value="5">Other</option>
             </select>
             {errors.court1 && <span>{errors.court1.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Court Type 2</label>
             <select
-              {...register("court_type_2", {
+              {...register("court_type_2_id", {
                 required: "Court type required",
               })}
             >
               <option value="">-- Select court type --</option>
-              <option value="hard">Hard </option>
-              <option value="clay">Clay</option>
-              <option value="grass">Grass</option>
-              <option value="artificial_grass">Artificial Grass</option>
-              <option value="other">Other</option>
+              <option value="1">Hard </option>
+              <option value="2">Clay</option>
+              <option value="3">Grass</option>
+              <option value="4">Artificial Grass</option>
+              <option value="5">Other</option>
             </select>
             {errors.court2 && <span>{errors.court2.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Court Type 3</label>
             <select
-              {...register("court_type_1", {
+              {...register("court_type_1_id", {
                 required: "Court type required",
               })}
             >
               <option value="">-- Select court type --</option>
-              <option value="hard">Hard </option>
-              <option value="clay">Clay</option>
-              <option value="grass">Grass</option>
-              <option value="artificial_grass">Artificial Grass</option>
-              <option value="other">Other</option>
+              <option value="1">Hard </option>
+              <option value="2">Clay</option>
+              <option value="3">Grass</option>
+              <option value="4">Artificial Grass</option>
+              <option value="5">Other</option>
             </select>
             {errors.court3 && <span>{errors.court3.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Availability of Indoor / Outdoor Courts</label>
             <select
-              {...register("indoor_outdoor", {
+              {...register("indoor_outdoor_id", {
                 required: "Indoor / Outdoor required",
               })}
             >
               <option value="">-- Select indoor / outdoor --</option>
-              <option value="indoor">Indoor-only </option>
-              <option value="outdoor">Outdoor-only</option>
-              <option value="both">Both</option>
+              <option value="1">Indoor-only </option>
+              <option value="2">Outdoor-only</option>
+              <option value="3">Both</option>
             </select>
             {errors.indoor_outdoor && (
               <span>{errors.indoor_outdoor.message}</span>
@@ -152,7 +152,7 @@ function RegisterClub() {
             <label>Club logo</label>
             <input
               type="file"
-              {...register("logo", {
+              {...register("logo_image", {
                 required: "Club's logo is required",
               })}
             />
@@ -162,7 +162,7 @@ function RegisterClub() {
             <label>Club Photo</label>
             <input
               type="file"
-              {...register("photo", {
+              {...register("club_image", {
                 required:
                   "A photo that represents your club, courts etc. is required",
               })}
