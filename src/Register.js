@@ -17,6 +17,8 @@ function Register() {
       user_type: "player",
       registry_date: Date.now(),
     };
+    delete dataWide.password2;
+
     console.log(dataWide);
     navigate("/login");
     reset();
@@ -210,7 +212,7 @@ function Register() {
                 },
               })}
             />
-            {errors.password && <span>{errors.password.message}</span>}
+            {errors.password2 && <span>{errors.password2.message}</span>}
           </div>
           <div className="flex">
             <button

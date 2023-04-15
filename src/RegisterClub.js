@@ -7,6 +7,8 @@ function RegisterClub() {
     register,
     handleSubmit,
     reset,
+    getValues,
+
     formState: { errors, isValid },
   } = useForm();
   const handleRegister = (data) => {
@@ -16,8 +18,11 @@ function RegisterClub() {
       user_type: "club",
       registry_date: Date.now(),
     };
+    delete dataWide.password2;
+
     console.log(dataWide);
     navigate("/login");
+    reset();
   };
   return (
     <div>
@@ -54,25 +59,25 @@ function RegisterClub() {
           <div className="registerFormContainer">
             <label>District</label>
             <select
-              {...register("district", {
+              {...register("district_id", {
                 required: "District is required",
               })}
             >
               <option value="">-- Select district --</option>
-              <option value="hard">Adalar </option>
-              <option value="hard">Ataşehir </option>
-              <option value="clay">Beşiktaş</option>
-              <option value="grass">Beykoz</option>
-              <option value="grass">Beylikdüzü</option>
-              <option value="artificial_grass">Beyoğlu</option>
-              <option value="artificial_grass">Çekmeköy</option>
-              <option value="hard">Kadıköy </option>{" "}
-              <option value="artificial_grass">Kartal</option>
-              <option value="artificial_grass">Maltepe</option>
-              <option value="artificial_grass">Pendik</option>
-              <option value="artificial_grass">Tuzla</option>
+              <option value="1">Adalar </option>
+              <option value="2">Ataşehir </option>
+              <option value="3">Beşiktaş</option>
+              <option value="4">Beykoz</option>
+              <option value="5">Beylikdüzü</option>
+              <option value="6">Beyoğlu</option>
+              <option value="7">Çekmeköy</option>
+              <option value="8">Kadıköy </option>{" "}
+              <option value="9">Kartal</option>
+              <option value="10">Maltepe</option>
+              <option value="11">Pendik</option>
+              <option value="12">Tuzla</option>
             </select>
-            {errors.district && <span>{errors.district.message}</span>}
+            {errors.district_id && <span>{errors.district_id.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Number of Courts</label>
@@ -82,7 +87,9 @@ function RegisterClub() {
                 required: "Number of courts is required",
               })}
             />
-            {errors.courts && <span>{errors.courts.message}</span>}
+            {errors.court_quantity && (
+              <span>{errors.court_quantity.message}</span>
+            )}
           </div>
           <div className="registerFormContainer">
             <label>Court Type 1</label>
@@ -98,7 +105,9 @@ function RegisterClub() {
               <option value="4">Artificial Grass</option>
               <option value="5">Other</option>
             </select>
-            {errors.court1 && <span>{errors.court1.message}</span>}
+            {errors.court_type_1_id && (
+              <span>{errors.court_type_1_id.message}</span>
+            )}
           </div>
           <div className="registerFormContainer">
             <label>Court Type 2</label>
@@ -114,12 +123,14 @@ function RegisterClub() {
               <option value="4">Artificial Grass</option>
               <option value="5">Other</option>
             </select>
-            {errors.court2 && <span>{errors.court2.message}</span>}
+            {errors.court_type_2_id && (
+              <span>{errors.court_type_2_id.message}</span>
+            )}
           </div>
           <div className="registerFormContainer">
             <label>Court Type 3</label>
             <select
-              {...register("court_type_1_id", {
+              {...register("court_type_3_id", {
                 required: "Court type required",
               })}
             >
@@ -130,7 +141,9 @@ function RegisterClub() {
               <option value="4">Artificial Grass</option>
               <option value="5">Other</option>
             </select>
-            {errors.court3 && <span>{errors.court3.message}</span>}
+            {errors.court_type_3_id && (
+              <span>{errors.court_type_3_id.message}</span>
+            )}
           </div>
           <div className="registerFormContainer">
             <label>Availability of Indoor / Outdoor Courts</label>
@@ -148,20 +161,20 @@ function RegisterClub() {
               <span>{errors.indoor_outdoor.message}</span>
             )}
           </div>
-          <div className="registerFormContainer file-upload">
+          <div className="registerFormContainer ">
             <label>Club logo</label>
             <input
-              type="file"
+              type="input"
               {...register("logo_image", {
                 required: "Club's logo is required",
               })}
             />
             {errors.logo && <span>{errors.logo.message}</span>}
           </div>
-          <div className="registerFormContainer file-upload">
+          <div className="registerFormContainer ">
             <label>Club Photo</label>
             <input
-              type="file"
+              type="input"
               {...register("club_image", {
                 required:
                   "A photo that represents your club, courts etc. is required",
@@ -178,6 +191,24 @@ function RegisterClub() {
               })}
             />
             {errors.password && <span>{errors.password.message}</span>}
+          </div>
+          <div className="registerFormContainer">
+            <label>Repeat Password</label>
+            <input
+              type="text"
+              {...register("password2", {
+                required: "Password is required",
+                minLength: {
+                  value: 4,
+                  message: "Password length must be more than 4 characters",
+                },
+                validate: {
+                  passEqual: (value) =>
+                    value === getValues().password || "Passwords don't match",
+                },
+              })}
+            />
+            {errors.password2 && <span>{errors.password2.message}</span>}
           </div>
           <div className="flex">
             <button

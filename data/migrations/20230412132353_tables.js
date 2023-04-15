@@ -37,6 +37,7 @@ exports.up = function (knex) {
       tbl.integer("court_quantity").notNullable();
       tbl.string("logo_image").notNullable();
       tbl.string("club_image").notNullable();
+      tbl.string("password").notNullable();
       tbl
         .integer("indoor_outdoor_id")
         .unsigned()
