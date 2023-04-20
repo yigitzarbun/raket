@@ -1,7 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerPlayer } from "./redux stuff/actions";
 function Register() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -13,21 +16,17 @@ function Register() {
   const handleRegister = (data) => {
     let dataWide = {
       ...data,
-      player_id: Date.now(),
       user_type: "player",
       registry_date: Date.now(),
     };
     delete dataWide.password2;
-
-    console.log(dataWide);
-    navigate("/login");
+    dispatch(registerPlayer(dataWide, navigate));
     reset();
   };
   return (
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">
-          {" "}
           Register as a <span className="text-blue-400">Player</span>
         </h2>
         <form
@@ -91,7 +90,7 @@ function Register() {
                 maxLength: 4,
               })}
             />
-            {errors.year && <span>{errors.year.message}</span>}
+            {errors.birth_year && <span>{errors.birth_year.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Level</label>
@@ -162,20 +161,22 @@ function Register() {
               <span>{errors.club_preference_3_id.message}</span>
             )}
           </div>
-          <div className="registerFormContainer file-upload">
+          <div className="registerFormContainer  ">
             <label>Face Photo</label>
             <input
               type="text"
+              className=""
               {...register("face_image", {
                 required: "Photo of your face is required",
               })}
             />
             {errors.face_image && <span>{errors.face_image.message}</span>}
           </div>
-          <div className="registerFormContainer file-upload">
+          <div className="registerFormContainer  ">
             <label>Body Photo</label>
             <input
               type="text"
+              className=""
               {...register("body_image", {
                 required: "Photo of your full-body is required",
               })}
@@ -185,7 +186,7 @@ function Register() {
           <div className="registerFormContainer">
             <label>Password</label>
             <input
-              type="text"
+              type="password"
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -199,7 +200,7 @@ function Register() {
           <div className="registerFormContainer">
             <label>Repeat Password</label>
             <input
-              type="text"
+              type="password"
               {...register("password2", {
                 required: "Password is required",
                 minLength: {

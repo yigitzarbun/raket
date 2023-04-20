@@ -23,43 +23,9 @@ function CourtsList() {
               <td>TL 150</td>
               <td className="text-green-400">08:00</td>
               <td className="text-red-500">22:00</td>
-              <button
-                type="button"
-                value="edit"
-                className="py-1 px-4 border-2  border-blue-500 rounded-md hover:bg-blue-500 hover:text-white ml-2 mt-2"
-              >
+              <td className="py-1 px-4 border-2  border-blue-500 rounded-md hover:bg-blue-500 hover:text-white ml-2 mt-2">
                 Edit
-              </button>
-            </tr>
-            <tr className="h-12">
-              <td className="text-slate-300">2</td>
-              <td>Clay</td>
-              <td>Indoor</td>
-              <td>TL 150</td>
-              <td className="text-green-400">08:00</td>
-              <td className="text-red-500">22:00</td>
-              <button
-                type="button"
-                value="edit"
-                className="py-1 px-4 border-2  border-blue-500 rounded-md hover:bg-blue-500 hover:text-white ml-2 mt-2"
-              >
-                Edit
-              </button>
-            </tr>
-            <tr className="h-12">
-              <td className="text-slate-300">3</td>
-              <td>Hard</td>
-              <td>Outdoor</td>
-              <td>TL 110</td>
-              <td className="text-green-400">08:00</td>
-              <td className="text-red-500">22:00</td>
-              <button
-                type="button"
-                value="edit"
-                className="py-1 px-4 border-2  border-blue-500 rounded-md hover:bg-blue-500 hover:text-white ml-2 mt-2"
-              >
-                Edit
-              </button>
+              </td>
             </tr>
           </table>
         </div>

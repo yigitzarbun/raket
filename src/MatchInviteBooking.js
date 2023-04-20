@@ -34,14 +34,9 @@ function MatchInviteBooking() {
               <td>09.04.2023</td>
               <td>19:00</td>
               <td>5</td>
-
-              <button
-                type="button"
-                value="invite"
-                className="p-1 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-2"
-              >
+              <td className="p-1 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-2">
                 Cancel
-              </button>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -23,33 +23,36 @@ import Courts from "./Courts";
 import ClubAccount from "./ClubAccount";
 import ClubPaymentHistory from "./ClubPaymentHistory";
 import ClubReservations from "./ClubReservations";
+import PrivateRoutes from "./PrivateRoutes";
 function App() {
   return (
     <div className="max-w-5xl mx-auto">
       <Header />
       <Routes>
-        <Route exact path="/" element={<Main />} />
-        <Route path="/train" element={<NewTraining />} />
-        <Route path="/match" element={<NewMatch />} />
-        <Route path="/invite" element={<TrainInvite />} />
-        <Route path="/challenge" element={<MatchInvite />} />
-        <Route path="/requests" element={<AllRequests />} />
-        <Route path="/invite-booking" element={<TrainInviteBooking />} />
-        <Route path="/challenge-booking" element={<MatchInviteBooking />} />
-        <Route path="/calendar" element={<Calendar />} />
-        <Route path="/leaderboard" element={<LeaderboardFull />} />
-        <Route path="/scores" element={<Scores />} />
-        <Route path="/score" element={<ScoreForm />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/add-balance" element={<AddBalance />} />
-        <Route path="/payments" element={<Payments />} />
         <Route path="/intro" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterInitial />} />
-        <Route path="/club-courts" element={<Courts />} />
-        <Route path="/club-account" element={<ClubAccount />} />
-        <Route path="/club-payments" element={<ClubPaymentHistory />} />
-        <Route path="/club-calendar" element={<ClubReservations />} />
+        <Route path="/login" element={<Login />} />
+        <Route element={<PrivateRoutes />}>
+          <Route exact path="/" element={<Main />} />
+          <Route path="/train" element={<NewTraining />} />
+          <Route path="/match" element={<NewMatch />} />
+          <Route path="/invite" element={<TrainInvite />} />
+          <Route path="/challenge" element={<MatchInvite />} />
+          <Route path="/requests" element={<AllRequests />} />
+          <Route path="/invite-booking" element={<TrainInviteBooking />} />
+          <Route path="/challenge-booking" element={<MatchInviteBooking />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/leaderboard" element={<LeaderboardFull />} />
+          <Route path="/scores" element={<Scores />} />
+          <Route path="/score" element={<ScoreForm />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/add-balance" element={<AddBalance />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/club-courts" element={<Courts />} />
+          <Route path="/club-account" element={<ClubAccount />} />
+          <Route path="/club-payments" element={<ClubPaymentHistory />} />
+          <Route path="/club-calendar" element={<ClubReservations />} />
+        </Route>
       </Routes>
       <Footer />
     </div>

@@ -1,17 +1,21 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginPlayer } from "./redux stuff/actions";
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isValid },
   } = useForm();
-  const handleRegister = (data) => {
-    console.log(data);
+  const handleLoginPlayer = (data) => {
+    dispatch(loginPlayer(data, navigate));
     navigate("/");
+    reset();
   };
   return (
     <div>
@@ -19,7 +23,7 @@ function Login() {
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">Login</h2>
         <form
-          onSubmit={handleSubmit(handleRegister)}
+          onSubmit={handleSubmit(handleLoginPlayer)}
           className="registerForm flex flex-col mt-4"
         >
           <div className="registerFormContainer">
@@ -37,7 +41,7 @@ function Login() {
           <div className="registerFormContainer">
             <label>Password</label>
             <input
-              type="text"
+              type="password"
               {...register("password", {
                 required: "Password is required",
               })}

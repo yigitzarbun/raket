@@ -1,7 +1,14 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-
+import { LOGOUT } from "./redux stuff/actions";
+import { useDispatch, useSelector } from "react-redux";
 function Header() {
+  const user = useSelector((store) => store.user);
+  console.log(user);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch({ type: LOGOUT });
+  };
   return (
     <div className="flex flex-col">
       <div className="flex justify-between py-4 items-center text-white">
@@ -10,7 +17,6 @@ function Header() {
         </Link>
         <nav className="flex justify-around w-2/5">
           <NavLink
-            activeClassName="active-link"
             to="/train"
             className={({ isActive }) =>
               isActive
@@ -21,7 +27,6 @@ function Header() {
             Train
           </NavLink>
           <NavLink
-            activeClassName="active-link"
             to="/match"
             className={({ isActive }) =>
               isActive
@@ -32,7 +37,6 @@ function Header() {
             Match
           </NavLink>
           <NavLink
-            activeClassName="active-link"
             to="/requests"
             className={({ isActive }) =>
               isActive
@@ -43,7 +47,6 @@ function Header() {
             Requests
           </NavLink>
           <NavLink
-            activeClassName="active-link"
             to="/scores"
             className={({ isActive }) =>
               isActive
@@ -54,7 +57,6 @@ function Header() {
             Scores
           </NavLink>
           <NavLink
-            activeClassName="active-link"
             to="/calendar"
             className={({ isActive }) =>
               isActive
@@ -65,7 +67,6 @@ function Header() {
             Calendar
           </NavLink>
           <NavLink
-            activeClassName="active-link"
             to="/account"
             className={({ isActive }) =>
               isActive
@@ -75,14 +76,13 @@ function Header() {
           >
             Account
           </NavLink>
-          <Link
-            to="/intro"
+          <button
+            onClick={handleLogout}
             className="w-1/5 text-right p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
           >
             Logout
-          </Link>
+          </button>
           <NavLink
-            activeClassName="active-link"
             to="/club-courts"
             className={({ isActive }) =>
               isActive
@@ -93,7 +93,6 @@ function Header() {
             Courts
           </NavLink>
           <NavLink
-            activeClassName="active-link"
             to="/club-account"
             className={({ isActive }) =>
               isActive
@@ -104,7 +103,6 @@ function Header() {
             Club Account
           </NavLink>
           <NavLink
-            activeClassName="active-link"
             to="/club-calendar"
             className={({ isActive }) =>
               isActive
