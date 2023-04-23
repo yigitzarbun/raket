@@ -34,7 +34,6 @@ function TrainInviteBooking() {
         </tr>
       ));
   }
-  console.log(resultJsx);
   useEffect(() => {
     dispatch(getInvites());
   }, []);
@@ -59,6 +58,7 @@ function TrainInviteBooking() {
               <th>Court</th>
             </tr>
           </thead>
+          <tbody>{resultJsx}</tbody>
         </table>
 
         <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">

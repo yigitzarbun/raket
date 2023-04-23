@@ -142,6 +142,7 @@ export const getLevels = () => (dispatch) => {
 };
 
 export const addInvite = (formData, navigate) => (dispatch) => {
+  console.log(formData);
   axiosWithAuth()
     .post(url + "api/invites", formData)
     .then((res) => {
