@@ -22,6 +22,7 @@ module.exports = {
         heroCourts: "url('../public/images/courts.jpeg')",
         heroClubAccount: "url('../public/images/clubAccount.jpeg')",
         heroClubCalendar: "url('../public/images/clubCalendar.png')",
+        heroAllPlayers: "url('../public/images/allPlayers.jpeg')",
       },
       animation: {
         marquee: "marquee 25s linear infinite",

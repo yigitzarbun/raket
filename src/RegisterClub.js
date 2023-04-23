@@ -1,34 +1,33 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerClub } from "./redux stuff/actions";
 function RegisterClub() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
     getValues,
-
     formState: { errors, isValid },
   } = useForm();
   const handleRegister = (data) => {
     let dataWide = {
       ...data,
-      club_id: Date.now(),
       user_type: "club",
       registry_date: Date.now(),
     };
     delete dataWide.password2;
-
-    console.log(dataWide);
-    navigate("/login");
+    dispatch(registerClub(dataWide, navigate));
     reset();
   };
   return (
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">
-          Register as a <span className="text-blue-400">Tennis Club</span>
+          Register as <span className="text-blue-400">Tennis Club</span>
         </h2>
         <form
           onSubmit={handleSubmit(handleRegister)}
@@ -54,7 +53,7 @@ function RegisterClub() {
                 required: "Club name is required",
               })}
             />
-            {errors.club_name && <span>{errors.club_name.message}</span>}
+            {errors.name && <span>{errors.name.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>District</label>
@@ -157,8 +156,8 @@ function RegisterClub() {
               <option value="2">Outdoor-only</option>
               <option value="3">Both</option>
             </select>
-            {errors.indoor_outdoor && (
-              <span>{errors.indoor_outdoor.message}</span>
+            {errors.indoor_outdoor_id && (
+              <span>{errors.indoor_outdoor_id.message}</span>
             )}
           </div>
           <div className="registerFormContainer ">
@@ -169,7 +168,7 @@ function RegisterClub() {
                 required: "Club's logo is required",
               })}
             />
-            {errors.logo && <span>{errors.logo.message}</span>}
+            {errors.logo_image && <span>{errors.logo_image.message}</span>}
           </div>
           <div className="registerFormContainer ">
             <label>Club Photo</label>
@@ -180,7 +179,7 @@ function RegisterClub() {
                   "A photo that represents your club, courts etc. is required",
               })}
             />
-            {errors.photo && <span>{errors.photo.message}</span>}
+            {errors.club_image && <span>{errors.club_image.message}</span>}
           </div>
           <div className="registerFormContainer">
             <label>Password</label>

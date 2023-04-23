@@ -27,7 +27,7 @@ function Register() {
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">
-          Register as a <span className="text-blue-400">Player</span>
+          Register as <span className="text-blue-400">Player</span>
         </h2>
         <form
           onSubmit={handleSubmit(handleRegister)}

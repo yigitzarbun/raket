@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 
 function Main() {
   const { user } = useSelector((store) => store);
-  console.log(user);
   return (
     <div>
       <Hero />

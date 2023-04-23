@@ -1,7 +1,9 @@
 const db = require("../../data/dbConfig");
 
 async function getAll() {
-  const players = await db("players");
+  const players = await db("players")
+    .leftJoin("genders", "genders.gender_id", "players.gender_id")
+    .leftJoin("levels", "levels.level_id", "players.level_id");
   return players;
 }
 

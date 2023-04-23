@@ -2,8 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginPlayer } from "./redux stuff/actions";
-function Login() {
+import { loginClub } from "./redux stuff/actions";
+function LoginClub() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -12,18 +12,18 @@ function Login() {
     reset,
     formState: { errors, isValid },
   } = useForm();
-  const handleLoginPlayer = (data) => {
-    dispatch(loginPlayer(data, navigate));
+  const handleLoginClub = (data) => {
+    dispatch(loginClub(data, navigate));
     reset();
   };
   return (
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">
-          <span className="text-blue-400">Player</span> Login
+          <span className="text-blue-400">Club</span> Login
         </h2>
         <form
-          onSubmit={handleSubmit(handleLoginPlayer)}
+          onSubmit={handleSubmit(handleLoginClub)}
           className="registerForm flex flex-col mt-4"
         >
           <div className="registerFormContainer">
@@ -77,4 +77,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginClub;

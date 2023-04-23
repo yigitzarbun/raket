@@ -228,7 +228,7 @@ exports.seed = async function (knex) {
   await knex("courts").insert([
     {
       court_id: 1,
-      name: "1",
+      court_name: "1",
       opening: 0800,
       closing: 2200,
       price: 150,
@@ -238,7 +238,7 @@ exports.seed = async function (knex) {
     },
     {
       court_id: 2,
-      name: "1",
+      court_name: "1",
       opening: 0800,
       closing: 2200,
       price: 150,
@@ -248,7 +248,7 @@ exports.seed = async function (knex) {
     },
     {
       court_id: 3,
-      name: "1",
+      court_name: "1",
       opening: 0800,
       closing: 2200,
       price: 150,

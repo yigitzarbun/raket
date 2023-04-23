@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { addInvite, GET_USER } from "./redux stuff/actions";
 
 function TrainInvite(props) {
+  let user = useSelector((store) => store.user);
+  if (user.player) {
+    user = user.player;
+  } else {
+    user = user;
+  }
+  const location = useLocation();
+  const invitee_player_id = location.state;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -11,10 +22,21 @@ function TrainInvite(props) {
     formState: { errors, isValid },
   } = useForm();
   const handleTrainInvite = (data) => {
-    console.log(data);
-    navigate("/invite-booking");
+    const dataWide = {
+      ...data,
+      inviter_id: user.player_id,
+      invitee_id: invitee_player_id,
+      court_id: Number(data.court_id),
+      club_id: Number(data.club_id),
+      date: Date.now(),
+    };
+    console.log(dataWide);
+    dispatch(addInvite(dataWide, navigate));
+    reset();
   };
-
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+  }, []);
   return (
     <>
       <div className="bg-heroTrain bg-center bg-cover py-28 rounded-md mt-4"></div>
@@ -28,34 +50,34 @@ function TrainInvite(props) {
           <div className="trainInviteFormContainer">
             <label>Location</label>
             <select
-              {...register("location", {
+              {...register("club_id", {
                 required: "Training location is required",
               })}
             >
               <option value="">-- Choose a Location --</option>
-              <option value="dalyan">Dalyan Club</option>
-              <option value="optimum">Optimum Tenis Akademisi</option>
-              <option value="miltas">Miltaş Spor Tesisleri</option>
-              <option value="buyuk-kulub">Büyük Kulüp</option>
-              <option value="ibb-maltepe">İBB Maltepe Sahil Spor Tesisi</option>
-              <option value="raket">Caddebostan Raket Kulübü</option>
+              <option value="1">Dalyan Club</option>
+              <option value="2">Optimum Tenis Akademisi</option>
+              <option value="3">Miltaş Spor Tesisleri</option>
+              <option value="4">Büyük Kulüp</option>
+              <option value="5">İBB Maltepe Sahil Spor Tesisi</option>
+              <option value="6">Caddebostan Raket Kulübü</option>
             </select>
-            {errors.location && <span>{errors.location.message}</span>}
+            {errors.club_id && <span>{errors.club_id.message}</span>}
           </div>
           <div className="trainInviteFormContainer">
             <label>Date</label>
             <input
               type="date"
-              {...register("date", {
+              {...register("event_date", {
                 required: "Training date is required",
               })}
             />
-            {errors.date && <span>{errors.date.message}</span>}
+            {errors.event_date && <span>{errors.event_date.message}</span>}
           </div>
           <div className="trainInviteFormContainer">
             <label>Court</label>
             <select
-              {...register("court", {
+              {...register("court_id", {
                 required: "Court is required",
               })}
             >
@@ -63,8 +85,8 @@ function TrainInvite(props) {
               <option value="1">Court 1</option>
               <option value="2">Court 2</option>
               <option value="3">Court 3</option>
-              <option value="center">Center Court</option>
-              {errors.court && <span>{errors.court.message}</span>}
+              <option value="4">Center Court</option>
+              {errors.court_id && <span>{errors.court_id.message}</span>}
             </select>
           </div>
           <label className="mt-4">Time</label>
@@ -96,7 +118,6 @@ function TrainInvite(props) {
             <Link to="/train">
               <button>
                 <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
-                  {" "}
                   Discard
                 </button>
               </button>

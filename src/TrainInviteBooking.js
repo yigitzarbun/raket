@@ -1,7 +1,43 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import HeroTrainBooking from "./HeroTrainBooking";
+import { deleteInvite, getInvites } from "./redux stuff/actions";
 function TrainInviteBooking() {
+  const { invite_id } = useParams();
+  const invites = useSelector((store) => store.invites);
+  const dispatch = useDispatch();
+  const handleCancel = () => {
+    dispatch(deleteInvite(invite_id));
+  };
+  let resultJsx = "";
+  if (invites == null) {
+    resultJsx = "Loading booking";
+  } else if (invites.length === 0) {
+    resultJsx = "There is no booking";
+  } else if (Array.isArray(invites) && invites) {
+    resultJsx = invites
+      .filter((invite) => invite.invite_id === Number(invite_id))
+      .map((invite) => (
+        <tr key={invite.invite_id}>
+          <td>Training</td>
+          <td>Pending</td>
+          <td>{invite.fname}</td>
+          <td>{invite.lname}</td>
+          <td>{invite.level}</td>
+          <td>{invite.gender}</td>
+          <td>{invite.name}</td>
+          <td>{invite.event_date}</td>
+          <td>{invite.time}</td>
+          <td>{invite.court_name}</td>
+          <td></td>
+        </tr>
+      ));
+  }
+  console.log(resultJsx);
+  useEffect(() => {
+    dispatch(getInvites());
+  }, []);
   return (
     <div>
       <HeroTrainBooking />
@@ -13,8 +49,8 @@ function TrainInviteBooking() {
             <tr className="h-12 text-blue-400">
               <th>Event</th>
               <th>Status</th>
-              <th>#</th>
-              <th>Player Name</th>
+              <th>First Name</th>
+              <th>Last Name</th>
               <th>Level</th>
               <th>Gender</th>
               <th>Location</th>
@@ -23,24 +59,6 @@ function TrainInviteBooking() {
               <th>Court</th>
             </tr>
           </thead>
-          <tbody className="text-slate-300">
-            <tr className="h-12">
-              <td>Training</td>
-              <td className="text-yellow-400">Pending</td>
-              <td>2</td>
-              <td>Roger Federer</td>
-              <td>Pro</td>
-              <td>Male</td>
-              <td>Dalyan Club</td>
-              <td>09.04.2023</td>
-              <td>19:00</td>
-              <td>5</td>
-
-              <td className="p-1 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-2">
-                Cancel
-              </td>
-            </tr>
-          </tbody>
         </table>
 
         <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">

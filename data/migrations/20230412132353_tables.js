@@ -195,7 +195,7 @@ exports.up = function (knex) {
     })
     .createTable("courts", (tbl) => {
       tbl.increments("court_id");
-      tbl.string("name").notNullable();
+      tbl.string("court_name").notNullable();
       tbl.integer("opening").notNullable();
       tbl.integer("closing").notNullable();
       tbl.integer("price").notNullable();

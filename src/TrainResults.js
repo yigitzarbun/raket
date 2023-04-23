@@ -1,51 +1,90 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GET_USER } from "./redux stuff/actions";
 import { Link } from "react-router-dom";
-
-function TrainResults() {
+function TrainResults(props) {
+  let user = useSelector((store) => store.user);
+  if (user.player) {
+    user = user.player;
+  } else {
+    user = user;
+  }
+  const dispatch = useDispatch();
+  const { players, filter } = props;
+  const filteredPlayers = players.filter(
+    (player) => player.player_id != user.player_id
+  );
+  let resultJsx = "";
+  if (filteredPlayers === null) {
+    resultJsx = "Loading players";
+  } else if (filteredPlayers.length === 0) {
+    resultJsx = "No players matching your criteria";
+  } else if (filteredPlayers && Array.isArray(filteredPlayers)) {
+    resultJsx = filteredPlayers
+      .filter((player) => {
+        if (
+          !filter ||
+          (filter.club_preference_id === "" &&
+            filter.gender_id === "" &&
+            filter.level_id === "" &&
+            player.player_id !== user.player_id)
+        ) {
+          return player;
+        } else if (
+          filter &&
+          (filter.club_preference_id === 0 ||
+            filter.club_preference_id === player.club_preference_1_id ||
+            filter.club_preference_id === player.club_preference_2_id ||
+            filter.club_preference_id === player.club_preference_3_id) &&
+          (filter.gender_id === 0 || filter.gender_id === player.gender_id) &&
+          (filter.level_id === 0 || filter.level_id === player.level_id) &&
+          player.player_id !== user.player_id
+        ) {
+          return player;
+        }
+      })
+      .map((player) => (
+        <tr key={player.player_id} className="h-12">
+          <td>
+            <img src={player.face_image} className="w-12" />
+          </td>
+          <td>{player.fname}</td>
+          <td>{player.lname}</td>
+          <td>{player.gender}</td>
+          <td>{player.level}</td>
+          <Link to="/invite" state={player.player_id}>
+            <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
+              Invite
+            </td>
+          </Link>
+        </tr>
+      ));
+  }
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+  }, []);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
       <h2 className="font-bold text-4xl">Results</h2>
       <table className="w-full text-left mt-4">
         <thead>
           <tr className="h-12">
-            <th className="text-slate-300">#</th>
-            <th>Player Name</th>
-            <th>Player</th>
+            <th>Image</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Level</th>
             <th>Gender</th>
-            <th>Events</th>
-            <th className="text-green-400">Won</th>
-            <th className="text-red-500">Lost</th>
-            <th className="text-blue-400">Practice</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr className="h-12">
-            <td className="text-slate-300">1</td>
-            <td>Carlos Alcaraz</td>
-            <td>
-              <img
-                src="/images/alcaraz.png"
-                alt="player-image"
-                className="w-12 h-12 rounded-full object-contain "
-              />
-            </td>
-            <td>Pro</td>
-            <td>Male</td>
-            <td>15</td>
-            <td className="text-green-400">9</td>
-            <td className="text-red-500">1</td>
-            <td className="text-blue-400">5</td>
-            <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
-              Invite
-            </td>
-          </tr>
-        </tbody>
+        <tbody>{resultJsx}</tbody>
       </table>
-      <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
+      <Link
+        to="/all-players"
+        className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400"
+      >
         View All
-      </p>
+      </Link>
     </div>
   );
 }
