@@ -10,9 +10,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:player_id", async (req, res, next) => {
   try {
-    const player = await playersModel.getById(req.params.id);
+    const player = await playersModel.getById(req.params.player_id);
     res.status(200).json(player);
   } catch (error) {
     next(error);

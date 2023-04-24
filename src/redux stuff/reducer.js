@@ -12,6 +12,7 @@ import {
   ADD_INVITE,
   DELETE_INVITE,
   GET_INVITES,
+  GET_COURTS,
 } from "./actions";
 
 const initialState = {
@@ -94,6 +95,12 @@ export function myReducer(state = initialState, action) {
         ...state,
         invites: [...action.payload],
       };
+    case GET_COURTS:
+      return {
+        ...state,
+        courts: [...action.payload],
+      };
+
     default:
       return state;
   }

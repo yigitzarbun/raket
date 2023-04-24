@@ -80,7 +80,7 @@ function TrainResults(props) {
         <tbody>{resultJsx}</tbody>
       </table>
       <Link
-        to="/all-players"
+        to="/train-all-players"
         className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400"
       >
         View All

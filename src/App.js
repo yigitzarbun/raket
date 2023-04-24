@@ -25,7 +25,7 @@ import ClubPaymentHistory from "./ClubPaymentHistory";
 import ClubReservations from "./ClubReservations";
 import PrivateRoutes from "./PrivateRoutes";
 import ClubMain from "./ClubMain";
-import AllPlayers from "./AllPlayers";
+import TrainAllPlayers from "./TrainAllPlayers";
 function App() {
   return (
     <div className="max-w-5xl mx-auto">
@@ -39,7 +39,7 @@ function App() {
           <Route path="/train" element={<NewTraining />} />
           <Route path="/match" element={<NewMatch />} />
           <Route path="/invite" element={<TrainInvite />} />
-          <Route path="/all-players" element={<AllPlayers />} />
+          <Route path="/train-all-players" element={<TrainAllPlayers />} />
           <Route path="/challenge" element={<MatchInvite />} />
           <Route path="/requests" element={<AllRequests />} />
           <Route

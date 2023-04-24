@@ -1,11 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { addInvite, GET_USER } from "./redux stuff/actions";
+import {
+  addInvite,
+  getClubs,
+  getCourts,
+  GET_USER,
+} from "./redux stuff/actions";
 
 function TrainInvite(props) {
-  let user = useSelector((store) => store.user);
+  let { user, clubs, courts } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
@@ -20,7 +25,7 @@ function TrainInvite(props) {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm();
+  } = useForm({ mode: "onChange" });
   const handleTrainInvite = (data) => {
     const dataWide = {
       ...data,
@@ -30,12 +35,18 @@ function TrainInvite(props) {
       club_id: Number(data.club_id),
       date: Date.now(),
     };
-    console.log(dataWide);
     dispatch(addInvite(dataWide, navigate));
     reset();
   };
+  const [selectedClub, setSelectedClub] = useState("");
+  const handleSelectedClub = (event) => {
+    setSelectedClub(event.target.value);
+  };
+
   useEffect(() => {
     dispatch({ type: GET_USER });
+    dispatch(getClubs());
+    dispatch(getCourts());
   }, []);
   return (
     <>
@@ -53,14 +64,15 @@ function TrainInvite(props) {
               {...register("club_id", {
                 required: "Training location is required",
               })}
+              onChange={handleSelectedClub}
             >
               <option value="">-- Choose a Location --</option>
-              <option value="1">Dalyan Club</option>
-              <option value="2">Optimum Tenis Akademisi</option>
-              <option value="3">Miltaş Spor Tesisleri</option>
-              <option value="4">Büyük Kulüp</option>
-              <option value="5">İBB Maltepe Sahil Spor Tesisi</option>
-              <option value="6">Caddebostan Raket Kulübü</option>
+              {clubs &&
+                clubs.map((club) => (
+                  <option key={club.club_id} value={club.club_id}>
+                    {club.name}
+                  </option>
+                ))}
             </select>
             {errors.club_id && <span>{errors.club_id.message}</span>}
           </div>
@@ -74,6 +86,14 @@ function TrainInvite(props) {
             />
             {errors.event_date && <span>{errors.event_date.message}</span>}
           </div>
+          <div className=" flex flex-wrap mt-0">
+            <label className="mt-4">Time</label>
+            <input
+              type="time"
+              {...register("time", { required: "Training time is required" })}
+            />
+            {errors.time && <span>{errors.time.message}</span>}
+          </div>
           <div className="trainInviteFormContainer">
             <label>Court</label>
             <select
@@ -82,21 +102,20 @@ function TrainInvite(props) {
               })}
             >
               <option value="">-- Choose a Court --</option>
-              <option value="1">Court 1</option>
-              <option value="2">Court 2</option>
-              <option value="3">Court 3</option>
-              <option value="4">Center Court</option>
+              {courts &&
+                courts
+                  .filter(
+                    (court) => Number(court.club_id) === Number(selectedClub)
+                  )
+                  .map((court) => (
+                    <option key={court.court_id} value={court.court_id}>
+                      {court.court_name}
+                    </option>
+                  ))}
               {errors.court_id && <span>{errors.court_id.message}</span>}
             </select>
           </div>
-          <label className="mt-4">Time</label>
-          <div className=" flex flex-wrap mt-0">
-            <input
-              type="time"
-              {...register("time", { required: "Training time is required" })}
-            />
-            {errors.time && <span>{errors.time.message}</span>}
-          </div>
+
           <div className="trainInviteFormContainer">
             <label>Message</label>
             <textarea

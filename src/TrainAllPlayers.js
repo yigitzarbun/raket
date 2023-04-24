@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlayers, GET_USER } from "./redux stuff/actions";
 import { Link } from "react-router-dom";
-function AllPlayers() {
+function TrainAllPlayers() {
   const [search, setSearch] = useState("");
   const handleSearch = (event) => {
     setSearch(event.target.value);
@@ -44,9 +44,11 @@ function AllPlayers() {
           <td>{player.lname}</td>
           <td>{player.gender}</td>
           <td>{player.level}</td>
-          <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
-            Invite
-          </td>
+          <Link to="/invite" state={player.player_id}>
+            <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
+              Invite
+            </td>
+          </Link>
         </tr>
       ));
   }
@@ -92,4 +94,4 @@ function AllPlayers() {
   );
 }
 
-export default AllPlayers;
+export default TrainAllPlayers;

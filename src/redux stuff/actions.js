@@ -30,6 +30,7 @@ export const GET_LEVELS = "GET_LEVELS";
 export const ADD_INVITE = "ADD_INVITE";
 export const DELETE_INVITE = "DELETE_INVITE";
 export const GET_INVITES = "GET_INVITES";
+export const GET_COURTS = "GET_COURTS";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -142,7 +143,6 @@ export const getLevels = () => (dispatch) => {
 };
 
 export const addInvite = (formData, navigate) => (dispatch) => {
-  console.log(formData);
   axiosWithAuth()
     .post(url + "api/invites", formData)
     .then((res) => {
@@ -176,3 +176,21 @@ export const getInvites = () => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const getCourts = () => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/courts")
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: GET_COURTS, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+/*
+export const acceptInvite = (invite_id) => (dispatch) => {
+  axiosWithAuth()
+  .put()
+}
+*/

@@ -1,41 +1,94 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import HeroTrainBooking from "./HeroTrainBooking";
-import { deleteInvite, getInvites } from "./redux stuff/actions";
+import { deleteInvite, getInvites, getPlayers } from "./redux stuff/actions";
 function TrainInviteBooking() {
+  const navigate = useNavigate();
   const { invite_id } = useParams();
-  const invites = useSelector((store) => store.invites);
+  const { invites, players } = useSelector((store) => store);
   const dispatch = useDispatch();
-  const handleCancel = () => {
-    dispatch(deleteInvite(invite_id));
+  const handleCancel = (invite_id) => {
+    dispatch(deleteInvite(invite_id, navigate));
   };
   let resultJsx = "";
+  let textJsx = "";
+  let inviteeJsx = "";
   if (invites == null) {
     resultJsx = "Loading booking";
+    inviteeJsx = "Loading booking";
   } else if (invites.length === 0) {
     resultJsx = "There is no booking";
-  } else if (Array.isArray(invites) && invites) {
+    inviteeJsx = "There is no booking";
+  } else if (
+    Array.isArray(invites) &&
+    invites &&
+    Array.isArray(players) &&
+    players
+  ) {
     resultJsx = invites
       .filter((invite) => invite.invite_id === Number(invite_id))
       .map((invite) => (
-        <tr key={invite.invite_id}>
+        <tr key={invite.invite_id} className="text-white">
           <td>Training</td>
-          <td>Pending</td>
-          <td>{invite.fname}</td>
-          <td>{invite.lname}</td>
-          <td>{invite.level}</td>
-          <td>{invite.gender}</td>
+          <td>{invite.status}</td>
+          <td>
+            {players &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0] &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0]["fname"]}
+          </td>
+          <td>
+            {players &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0] &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0]["lname"]}
+          </td>
+          <td>
+            {players &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0] &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0]["level"]}
+          </td>
+          <td>
+            {players &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0] &&
+              players.filter(
+                (player) => player.player_id == invite.invitee_id
+              )[0]["gender"]}
+          </td>
           <td>{invite.name}</td>
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <td></td>
+          <button onClick={() => handleCancel(invite.invite_id)}>
+            <td>Cancel</td>
+          </button>
         </tr>
       ));
+    textJsx = invites.filter(
+      (invite) => invite.invite_id === Number(invite_id)
+    )[0];
+    if (textJsx) {
+      inviteeJsx = players.filter(
+        (p) => p.player_id === textJsx["invitee_id"]
+      )[0];
+    }
   }
   useEffect(() => {
     dispatch(getInvites());
+    dispatch(getPlayers());
   }, []);
   return (
     <div>
@@ -56,48 +109,59 @@ function TrainInviteBooking() {
               <th>Date</th>
               <th>Time</th>
               <th>Court</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>{resultJsx}</tbody>
         </table>
-
-        <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
-          Check out all incoming and outgoing requests
-        </p>
-      </div>
-      <div className="bg-gradient-to-r from-green-500 to-cyan-500 p-8 mt-8 rounded-md shadow-md flex flex-col ">
-        <h3 className="font-bold italic text-xl mt-4">
-          Your training invitation to Roger Federer was sent successufly.
-        </h3>
-        <div className="flex items-center mt-4">
-          <img src="/images/time.png" alt="time" className="w-8 h-8 mr-2" />
-          <p>Roger Federer has 30 mins to accept your invitation.</p>
-        </div>
-        <div className="flex items-center mt-4">
-          <img
-            src="/images/approve.png"
-            alt="approve"
-            className="w-8 h-8 mr-2"
-          />
-          <p>
-            If Roger Federer accepts your invitation within 30 mins, your court
-            booking will be made automatically and the court fee will be
-            deducted from your balance.
+        <Link to="/requests">
+          <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
+            Check out all incoming and outgoing requests
           </p>
-        </div>
-        <div className="flex items-center mt-4">
-          <img
-            src="/images/decline.png"
-            alt="approve"
-            className="w-8 h-8 mr-2"
-          />
-          <p>
-            If Roger Federer doesn't accept your invitation within 30 mins or
-            declines your invitation, your court reservation will automatically
-            be canceled and you will not be charged any fees.
-          </p>
-        </div>
+        </Link>
       </div>
+      {inviteeJsx && (
+        <div className="bg-gradient-to-r from-green-500 to-cyan-500 p-8 mt-8 rounded-md shadow-md flex flex-col ">
+          <h3 className="font-bold italic text-xl mt-4">
+            Your training invitation to{" "}
+            {inviteeJsx["fname"] + " " + inviteeJsx["lname"]} was sent
+            successufly.
+          </h3>
+          <div className="flex items-center mt-4">
+            <img src="/images/time.png" alt="time" className="w-8 h-8 mr-2" />
+            <p>
+              {inviteeJsx["fname"] + " " + inviteeJsx["lname"]} has 30 mins to
+              accept your invitation.
+            </p>
+          </div>
+          <div className="flex items-center mt-4">
+            <img
+              src="/images/approve.png"
+              alt="approve"
+              className="w-8 h-8 mr-2"
+            />
+            <p>
+              If {inviteeJsx["fname"] + " " + inviteeJsx["lname"]} accepts your
+              invitation within 30 mins, your court booking will be made
+              automatically and the court fee will be deducted from your
+              balance.
+            </p>
+          </div>
+          <div className="flex items-center mt-4">
+            <img
+              src="/images/decline.png"
+              alt="approve"
+              className="w-8 h-8 mr-2"
+            />
+            <p>
+              If {inviteeJsx["fname"] + " " + inviteeJsx["lname"]} doesn't
+              accept your invitation within 30 mins or declines your invitation,
+              your court reservation will automatically be canceled and you will
+              not be charged any fees.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
