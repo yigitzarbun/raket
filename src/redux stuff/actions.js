@@ -32,6 +32,7 @@ export const DELETE_INVITE = "DELETE_INVITE";
 export const GET_INVITES = "GET_INVITES";
 export const GET_COURTS = "GET_COURTS";
 export const UPDATE_INVITE = "UPDATE_INVITE";
+export const ADD_PLAYER_PAYMENT = "ADD_PLAYER_PAYMENT";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -194,6 +195,19 @@ export const updateInvite = (changes) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: UPDATE_INVITE, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const addPlayerPayment = (payment, navigate) => (dispatch) => {
+  axiosWithAuth()
+    .post(url + "api/player-payments", payment)
+    .then((res) => {
+      console.log(res);
+      if (res.status === 201) {
+        dispatch({ type: ADD_PLAYER_PAYMENT, payload: res.data });
+        navigate("/account");
       }
     })
     .catch((err) => console.log(err));

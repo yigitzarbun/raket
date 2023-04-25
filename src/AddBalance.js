@@ -1,24 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { addPlayerPayment, GET_USER } from "./redux stuff/actions";
 function AddBalance() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let user = useSelector((store) => store.user);
+  if (user.player) {
+    user = user.player;
+  } else {
+    user = user;
+  }
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm();
+  } = useForm({ mode: "onChange" });
   const handleAddBalance = (data) => {
-    console.log(data);
-    navigate("/account");
+    const dataWide = {
+      amount: data.amount,
+      date: Date.now(),
+      player_id: user.player_id,
+      payment_type_id: 1,
+    };
+    console.log(dataWide);
+    dispatch(addPlayerPayment(dataWide, navigate));
+    reset();
   };
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+  }, []);
   return (
     <div>
       <div className="bg-heroBalance bg-bottom bg-cover py-28 rounded-md mt-4 "></div>
       <div className="bg-slate-800 text-white rounded-md p-4 mt-8 w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">Add Balance</h2>
-
         <form
           onSubmit={handleSubmit(handleAddBalance)}
           className="addBalanceForm flex flex-col mt-4"
@@ -32,7 +50,9 @@ function AddBalance() {
                 required: "name is required",
               })}
             />
-            {errors.name && <span>{errors.name.message}</span>}
+            {errors.name && (
+              <span className="fieldError">{errors.name.message}</span>
+            )}
           </div>
           <div className="addBalanceFormContainer">
             <label>Card Number</label>
@@ -45,7 +65,9 @@ function AddBalance() {
                 maxLength: 16,
               })}
             />
-            {errors.number && <span>{errors.number.message}</span>}
+            {errors.number && (
+              <span className="fieldError">{errors.number.message}</span>
+            )}
           </div>
           <div className="flex justify-between">
             <div className="addBalanceFormContainer mr-2">
@@ -85,7 +107,9 @@ function AddBalance() {
                   maxLength: 3,
                 })}
               />
-              {errors.cvc && <span>{errors.cvc.message}</span>}
+              {errors.cvc && (
+                <span className="fieldError">{errors.cvc.message}</span>
+              )}
             </div>
             <div className="addBalanceFormContainer ml-2">
               <label>Amount</label>
@@ -96,7 +120,9 @@ function AddBalance() {
                   min: 1,
                 })}
               />
-              {errors.amount && <span>{errors.amount.message}</span>}
+              {errors.amount && (
+                <span className="fieldError">{errors.amount.message}</span>
+              )}
             </div>
           </div>
           <div>

@@ -144,10 +144,19 @@ exports.up = function (knex) {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
     })
-    .createTable("payments", (tbl) => {
-      tbl.increments("payment_id");
+
+    .createTable("club_payments", (tbl) => {
+      tbl.increments("club_payment_id");
       tbl.integer("amount").notNullable();
       tbl.timestamp("date").notNullable();
+      tbl
+        .integer("club_id")
+        .unsigned()
+        .notNullable()
+        .references("club_id")
+        .inTable("clubs")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       tbl
         .integer("payment_type_id")
         .unsigned()
@@ -157,39 +166,24 @@ exports.up = function (knex) {
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
     })
-    .createTable("club_payments", (tbl) => {
-      tbl.increments("club_payment_id");
-      tbl
-        .integer("club_id")
-        .unsigned()
-        .notNullable()
-        .references("club_id")
-        .inTable("clubs")
-        .onUpdate("CASCADE");
-      tbl
-        .integer("payment_id")
-        .unsigned()
-        .notNullable()
-        .references("payment_id")
-        .inTable("payments")
-        .onUpdate("CASCADE");
-    })
     .createTable("player_payments", (tbl) => {
       tbl.increments("player_payment_id");
-      tbl
-        .integer("payment_id")
-        .unsigned()
-        .notNullable()
-        .references("payment_id")
-        .inTable("payments")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+      tbl.integer("amount").notNullable();
+      tbl.timestamp("date").notNullable();
       tbl
         .integer("player_id")
         .unsigned()
         .notNullable()
         .references("player_id")
         .inTable("players")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+      tbl
+        .integer("payment_type_id")
+        .unsigned()
+        .notNullable()
+        .references("payment_type_id")
+        .inTable("payment_types")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
     })
@@ -389,7 +383,6 @@ exports.down = function (knex) {
     .dropTableIfExists("courts")
     .dropTableIfExists("player_payments")
     .dropTableIfExists("club_payments")
-    .dropTableIfExists("payments")
     .dropTableIfExists("points")
     .dropTableIfExists("players")
     .dropTableIfExists("clubs")

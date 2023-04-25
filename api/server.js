@@ -10,6 +10,7 @@ const gendersRouter = require("./genders/genders-router");
 const levelsRouter = require("./levels/levels-router");
 const invitesRouter = require("./invites/invites-router");
 const courtsRouter = require("./courts/courts-router");
+const playersPaymentRouter = require("./player-payments/payments-router");
 
 // server
 const server = express();
@@ -26,6 +27,7 @@ server.use("/api/genders", gendersRouter);
 server.use("/api/levels", levelsRouter);
 server.use("/api/invites", invitesRouter);
 server.use("/api/courts", courtsRouter);
+server.use("/api/player-payments", playersPaymentRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json({ message: "hello world" });

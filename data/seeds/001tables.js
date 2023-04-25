@@ -11,7 +11,6 @@ exports.seed = async function (knex) {
   await knex("courts").truncate();
   await knex("player_payments").truncate();
   await knex("club_payments").truncate();
-  await knex("payments").truncate();
   await knex("points").truncate();
   await knex("players").truncate();
   await knex("clubs").truncate();
@@ -46,10 +45,11 @@ exports.seed = async function (knex) {
   ]);
   await knex("payment_types").insert([
     { payment_type_id: 1, payment_type: "add_balance" },
-    { payment_type_id: 2, payment_type: "match" },
-    { payment_type_id: 3, payment_type: "registration" },
-    { payment_type_id: 4, payment_type: "promotion" },
-    { payment_type_id: 5, payment_type: "membership" },
+    { payment_type_id: 2, payment_type: "training" },
+    { payment_type_id: 3, payment_type: "match" },
+    { payment_type_id: 4, payment_type: "registration" },
+    { payment_type_id: 5, payment_type: "promotion" },
+    { payment_type_id: 6, payment_type: "membership" },
   ]);
   await knex("districts").insert([
     { district_id: 1, district: "adalar" },
@@ -191,39 +191,37 @@ exports.seed = async function (knex) {
     { point_id: 3, points: 18, player_id: 3 },
     { point_id: 4, points: 16, player_id: 4 },
   ]);
-  await knex("payments").insert([
-    { payment_id: 1, amount: 500, date: "21.04.2023", payment_type_id: 1 },
-    { payment_id: 2, amount: 150, date: "21.04.2023", payment_type_id: 2 },
-    { payment_id: 3, amount: 150, date: "22.04.2023", payment_type_id: 2 },
-    { payment_id: 4, amount: 150, date: "23.04.2023", payment_type_id: 2 },
-    { payment_id: 5, amount: 150, date: "21.04.2023", payment_type_id: 2 },
-    { payment_id: 6, amount: 150, date: "22.04.2023", payment_type_id: 2 },
-    { payment_id: 7, amount: 150, date: "23.04.2023", payment_type_id: 2 },
-    { payment_id: 8, amount: 500, date: "24.04.2023", payment_type_id: 2 },
-    { payment_id: 9, amount: 150, date: "25.04.2023", payment_type_id: 2 },
-    { payment_id: 10, amount: 150, date: "26.04.2023", payment_type_id: 2 },
-    { payment_id: 11, amount: 150, date: "27.04.2023", payment_type_id: 2 },
-    { payment_id: 12, amount: 150, date: "28.04.2023", payment_type_id: 2 },
-    { payment_id: 13, amount: 150, date: "29.04.2023", payment_type_id: 2 },
-    { payment_id: 14, amount: 150, date: "30.04.2023", payment_type_id: 2 },
-  ]);
   await knex("club_payments").insert([
-    { club_payment_id: 1, payment_id: 1, club_id: 1 },
-    { club_payment_id: 2, payment_id: 2, club_id: 1 },
-    { club_payment_id: 3, payment_id: 3, club_id: 2 },
-    { club_payment_id: 4, payment_id: 4, club_id: 2 },
-    { club_payment_id: 5, payment_id: 5, club_id: 3 },
-    { club_payment_id: 6, payment_id: 6, club_id: 3 },
-    { club_payment_id: 7, payment_id: 7, club_id: 3 },
+    {
+      club_payment_id: 1,
+      amount: 100,
+      date: "2023-04-25",
+      club_id: 1,
+      payment_type_id: 1,
+    },
+    {
+      club_payment_id: 2,
+      amount: 200,
+      date: "2023-04-25",
+      club_id: 1,
+      payment_type_id: 1,
+    },
   ]);
   await knex("player_payments").insert([
-    { player_payment_id: 1, payment_id: 8, player_id: 1 },
-    { player_payment_id: 2, payment_id: 9, player_id: 1 },
-    { player_payment_id: 3, payment_id: 10, player_id: 2 },
-    { player_payment_id: 4, payment_id: 11, player_id: 2 },
-    { player_payment_id: 5, payment_id: 12, player_id: 3 },
-    { player_payment_id: 6, payment_id: 13, player_id: 3 },
-    { player_payment_id: 7, payment_id: 14, player_id: 4 },
+    {
+      player_payment_id: 1,
+      amount: 200,
+      date: "2023-04-25",
+      player_id: 1,
+      payment_type_id: 1,
+    },
+    {
+      player_payment_id: 2,
+      amount: 50,
+      date: "2023-04-25",
+      player_id: 1,
+      payment_type_id: 2,
+    },
   ]);
   await knex("courts").insert([
     {
