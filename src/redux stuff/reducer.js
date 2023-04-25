@@ -13,6 +13,7 @@ import {
   DELETE_INVITE,
   GET_INVITES,
   GET_COURTS,
+  UPDATE_INVITE,
 } from "./actions";
 
 const initialState = {
@@ -100,7 +101,17 @@ export function myReducer(state = initialState, action) {
         ...state,
         courts: [...action.payload],
       };
-
+    case UPDATE_INVITE:
+      const copyInvites2 = [...(state.invites || [])];
+      const oldInvite = copyInvites2.filter(
+        (invite) => invite.invite_id === action.payload.invite_id
+      );
+      const index = copyInvites2.indexOf(oldInvite);
+      copyInvites2.splice(index, 1, action.payload);
+      return {
+        ...state,
+        invites: [...copyInvites2],
+      };
     default:
       return state;
   }

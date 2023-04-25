@@ -31,6 +31,7 @@ export const ADD_INVITE = "ADD_INVITE";
 export const DELETE_INVITE = "DELETE_INVITE";
 export const GET_INVITES = "GET_INVITES";
 export const GET_COURTS = "GET_COURTS";
+export const UPDATE_INVITE = "UPDATE_INVITE";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -154,13 +155,12 @@ export const addInvite = (formData, navigate) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const deleteInvite = (invite_id, navigate) => (dispatch) => {
+export const deleteInvite = (invite_id) => (dispatch) => {
   axiosWithAuth()
     .delete(url + `api/invites/${invite_id}`)
     .then((res) => {
       if (res.status === 200) {
         dispatch({ type: DELETE_INVITE, payload: invite_id });
-        navigate("/train");
       }
     })
     .catch((err) => console.log(err));
@@ -188,9 +188,13 @@ export const getCourts = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-/*
-export const acceptInvite = (invite_id) => (dispatch) => {
+export const updateInvite = (changes) => (dispatch) => {
   axiosWithAuth()
-  .put()
-}
-*/
+    .put(url + `api/invites/${changes.invite_id}`, changes)
+    .then((res) => {
+      if (res.status === 201) {
+        dispatch({ type: UPDATE_INVITE, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};

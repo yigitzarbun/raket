@@ -36,4 +36,16 @@ router.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/:invite_id", async (req, res, next) => {
+  try {
+    const updates = req.body;
+    await invitesModel.update(updates.invite_id, updates);
+    const updatedInvite = invitesModel.getById(updates.invite_id);
+    res.status(201).json(updatedInvite);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

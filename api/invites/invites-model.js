@@ -50,4 +50,8 @@ async function remove(invite_id) {
   return db("invites").where("invite_id", invite_id).del();
 }
 
-module.exports = { getAll, getByFilter, getById, add, remove };
+async function update(invite_id, changes) {
+  return db("invites").where("invite_id", invite_id).update(changes);
+}
+
+module.exports = { getAll, getByFilter, getById, add, remove, update };

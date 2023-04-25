@@ -1,18 +1,50 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getInvites, GET_USER, deleteInvite } from "./redux stuff/actions";
+import { Link } from "react-router-dom";
+import { getInvites, GET_USER, updateInvite } from "./redux stuff/actions";
 function IncomingRequests() {
-  let { invites, user } = useSelector((store) => store);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [change, setChange] = useState(false);
+
+  let { invites, user } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
     user = user;
   }
-  const handleCancel = (invite_id) => {
-    dispatch(deleteInvite(invite_id, navigate));
+  const handleAccept = (data) => {
+    setChange(!change);
+    const dataWide = {
+      invite_id: data.invite_id,
+      event_date: data.event_date,
+      time: data.time,
+      date: data.date,
+      message: data.message,
+      inviter_id: data.inviter_id,
+      invitee_id: data.invitee_id,
+      court_id: data.court_id,
+      club_id: data.club_id,
+      status: "Accepted",
+    };
+    dispatch(updateInvite(dataWide));
+  };
+
+  const handleReject = (data) => {
+    setChange(!change);
+
+    const dataWide = {
+      invite_id: data.invite_id,
+      event_date: data.event_date,
+      time: data.time,
+      date: data.date,
+      message: data.message,
+      inviter_id: data.inviter_id,
+      invitee_id: data.invitee_id,
+      court_id: data.court_id,
+      club_id: data.club_id,
+      status: "Rejected",
+    };
+    dispatch(updateInvite(dataWide));
   };
   let resultJsx = "";
   if (invites == null) {
@@ -21,7 +53,11 @@ function IncomingRequests() {
     resultJsx = "There is no booking";
   } else if (Array.isArray(invites) && invites) {
     resultJsx = invites
-      .filter((invite) => invite.invitee_id === Number(user.player_id))
+      .filter(
+        (invite) =>
+          invite.invitee_id === Number(user.player_id) &&
+          invite.status === "Pending"
+      )
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">
           <td>Training</td>
@@ -34,20 +70,23 @@ function IncomingRequests() {
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <button>
+          <button
+            onClick={() => {
+              handleAccept(invite);
+            }}
+          >
             <td>Accept</td>
           </button>
-          <button onClick={() => handleCancel(invite.invite_id)}>
-            <td>Cancel</td>
+          <button onClick={() => handleReject(invite)}>
+            <td>Reject</td>
           </button>
         </tr>
       ));
   }
-
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
-  }, []);
+  }, [change]);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
       <table className="w-full text-left">
