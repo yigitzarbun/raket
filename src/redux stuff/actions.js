@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -33,7 +34,7 @@ export const GET_INVITES = "GET_INVITES";
 export const GET_COURTS = "GET_COURTS";
 export const UPDATE_INVITE = "UPDATE_INVITE";
 export const ADD_PLAYER_PAYMENT = "ADD_PLAYER_PAYMENT";
-
+export const GET_PLAYER_PAYMENTS = "GET_PLAYER_PAYMENTS";
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
   const token = tokenObj.token;
@@ -208,6 +209,20 @@ export const addPlayerPayment = (payment, navigate) => (dispatch) => {
       if (res.status === 201) {
         dispatch({ type: ADD_PLAYER_PAYMENT, payload: res.data });
         navigate("/account");
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getPlayerPayments = (player_id) => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/player-payments")
+    .then((res) => {
+      if (res.status === 200) {
+        const myPayments = res.data.filter(
+          (payment) => payment.player_id == player_id
+        );
+        dispatch({ type: GET_PLAYER_PAYMENTS, payload: myPayments });
       }
     })
     .catch((err) => console.log(err));

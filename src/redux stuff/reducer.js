@@ -15,6 +15,7 @@ import {
   GET_COURTS,
   UPDATE_INVITE,
   ADD_PLAYER_PAYMENT,
+  GET_PLAYER_PAYMENTS,
 } from "./actions";
 
 const initialState = {
@@ -28,6 +29,7 @@ const initialState = {
   challenges: [],
   courts: [],
   playerPayments: [],
+  myPayments: [],
   players: [],
   courtAvailability: [],
   leaderboard: [],
@@ -66,17 +68,17 @@ export function myReducer(state = initialState, action) {
     case GET_CLUBS:
       return {
         ...state,
-        clubs: [...action.payload],
+        clubs: action.payload,
       };
     case GET_GENDERS:
       return {
         ...state,
-        genders: [...action.payload],
+        genders: action.payload,
       };
     case GET_LEVELS:
       return {
         ...state,
-        levels: [...action.payload],
+        levels: action.payload,
       };
     case ADD_INVITE:
       return {
@@ -90,17 +92,17 @@ export function myReducer(state = initialState, action) {
       );
       return {
         ...state,
-        invites: [...newInvites],
+        invites: newInvites,
       };
     case GET_INVITES:
       return {
         ...state,
-        invites: [...action.payload],
+        invites: action.payload,
       };
     case GET_COURTS:
       return {
         ...state,
-        courts: [...action.payload],
+        courts: action.payload,
       };
     case UPDATE_INVITE:
       const copyInvites2 = [...(state.invites || [])];
@@ -111,12 +113,17 @@ export function myReducer(state = initialState, action) {
       copyInvites2.splice(index, 1, action.payload);
       return {
         ...state,
-        invites: [...copyInvites2],
+        invites: copyInvites2,
       };
     case ADD_PLAYER_PAYMENT:
       return {
         ...state,
         playerPayments: [action.payload, ...(state.playerPayments || [])],
+      };
+    case GET_PLAYER_PAYMENTS:
+      return {
+        ...state,
+        myPayments: action.payload,
       };
     default:
       return state;
