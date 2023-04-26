@@ -109,7 +109,11 @@ function TrainInvite(props) {
                   )
                   .map((court) => (
                     <option key={court.court_id} value={court.court_id}>
-                      {court.court_name}
+                      {"Court " +
+                        court.court_name +
+                        " -- (Hourly price: TL " +
+                        court.price +
+                        " )"}
                     </option>
                   ))}
               {errors.court_id && <span>{errors.court_id.message}</span>}
@@ -135,10 +139,8 @@ function TrainInvite(props) {
               <p className="font-bold"> Invite Roger</p>
             </button>
             <Link to="/train">
-              <button>
-                <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
-                  Discard
-                </button>
+              <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
+                Discard
               </button>
             </Link>
           </div>

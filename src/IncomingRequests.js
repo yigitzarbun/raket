@@ -5,7 +5,7 @@ import { getInvites, GET_USER, updateInvite } from "./redux stuff/actions";
 function IncomingRequests() {
   const dispatch = useDispatch();
   const [change, setChange] = useState(false);
-
+  const eventType = "Training";
   let { invites, user } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
@@ -48,9 +48,17 @@ function IncomingRequests() {
   };
   let resultJsx = "";
   if (invites == null) {
-    resultJsx = "Loading booking";
+    resultJsx = (
+      <tr>
+        <td>Loading bookings</td>
+      </tr>
+    );
   } else if (invites.length === 0) {
-    resultJsx = "There is no booking";
+    resultJsx = (
+      <tr>
+        <td>No bookings</td>
+      </tr>
+    );
   } else if (Array.isArray(invites) && invites) {
     resultJsx = invites
       .filter(
@@ -60,7 +68,7 @@ function IncomingRequests() {
       )
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">
-          <td>Training</td>
+          <td>{eventType}</td>
           <td>{invite.status}</td>
           <td>{invite.fname}</td>
           <td>{invite.lname}</td>
@@ -70,16 +78,14 @@ function IncomingRequests() {
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <button
+          <td
             onClick={() => {
               handleAccept(invite);
             }}
           >
-            <td>Accept</td>
-          </button>
-          <button onClick={() => handleReject(invite)}>
-            <td>Reject</td>
-          </button>
+            Accept
+          </td>
+          <td onClick={() => handleReject(invite)}>Reject</td>
         </tr>
       ));
   }

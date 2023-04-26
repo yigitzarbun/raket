@@ -1,6 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getPlayerPayments, GET_USER } from "./redux stuff/actions";
 
 function Payments() {
+  const dispatch = useDispatch();
+  let { user, myPayments } = useSelector((store) => store);
+  if (user.player) {
+    user = user.player;
+  } else {
+    user = user;
+  }
+
+  let resultJsx = "";
+  if (myPayments === null) {
+    resultJsx = "Loading payments";
+  } else if (myPayments.length === 0) {
+    resultJsx = "No payments available";
+  } else if (Array.isArray(myPayments) && myPayments) {
+    resultJsx = myPayments.map((p) => (
+      <tr
+        key={p.player_payment_id}
+        className={p.payment_type_id === 1 ? "text-green-300" : "text-red-400"}
+      >
+        <td>{p.player_payment_id}</td>
+        <td>{p.payment_type}</td>
+        <td>
+          {new Date(p.date).getFullYear() +
+            "/" +
+            new Date(p.date).getMonth() +
+            "/" +
+            new Date(p.date).getDate()}
+        </td>
+        <td>TL {p.amount}</td>
+      </tr>
+    ));
+  }
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+    dispatch(getPlayerPayments(user.player_id));
+  }, []);
   return (
     <div>
       <div className="bg-heroPayments bg-center bg-cover py-28 rounded-md mt-4"></div>
@@ -16,26 +54,7 @@ function Payments() {
                 <th>Amount</th>
               </tr>
             </thead>
-            <tbody>
-              <tr className="h-12 text-red-400">
-                <td>001</td>
-                <td>Match Payment</td>
-                <td>10.04.2023</td>
-                <td>(TL 75,00)</td>
-              </tr>
-              <tr className="h-12 text-red-400">
-                <td>002</td>
-                <td>Match Payment</td>
-                <td>15.04.2023</td>
-                <td>(TL 75,00)</td>
-              </tr>
-              <tr className="h-12 text-green-400">
-                <td>003</td>
-                <td>Add Balance</td>
-                <td>15.04.2023</td>
-                <td>TL 175,00</td>
-              </tr>
-            </tbody>
+            <tbody>{resultJsx}</tbody>
           </table>
         </div>
       </div>

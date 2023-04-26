@@ -21,7 +21,7 @@ function AddBalance() {
   const handleAddBalance = (data) => {
     const dataWide = {
       amount: data.amount,
-      date: Date.now(),
+      date: new Date.now(),
       player_id: user.player_id,
       payment_type_id: 1,
     };
@@ -134,11 +134,8 @@ function AddBalance() {
               <p className="font-bold"> Add Balance</p>
             </button>
             <Link to="/account">
-              <button>
-                <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
-                  {" "}
-                  Discard
-                </button>
+              <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
+                Discard
               </button>
             </Link>
           </div>

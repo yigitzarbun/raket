@@ -8,18 +8,35 @@ function TrainInviteBooking() {
   const { invite_id } = useParams();
   const { invites, players } = useSelector((store) => store);
   const dispatch = useDispatch();
+  const eventType = "Training";
   const handleCancel = (invite_id) => {
     dispatch(deleteInvite(invite_id, navigate));
   };
-  let resultJsx = "";
+  let resultJsx = [];
   let textJsx = "";
-  let inviteeJsx = "";
+  let inviteeJsx = [];
   if (invites == null) {
-    resultJsx = "Loading booking";
-    inviteeJsx = "Loading booking";
+    resultJsx.push(
+      <tr key="loading">
+        <td>Loading booking</td>
+      </tr>
+    );
+    inviteeJsx.push(
+      <tr key="loading">
+        <td>Loading booking</td>
+      </tr>
+    );
   } else if (invites.length === 0) {
-    resultJsx = "There is no booking";
-    inviteeJsx = "There is no booking";
+    resultJsx.push(
+      <tr key="noBooking">
+        <td>No booking</td>
+      </tr>
+    );
+    inviteeJsx.push(
+      <tr key="noBooking">
+        <td>No booking</td>
+      </tr>
+    );
   } else if (
     Array.isArray(invites) &&
     invites &&
@@ -30,7 +47,7 @@ function TrainInviteBooking() {
       .filter((invite) => invite.invite_id === Number(invite_id))
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">
-          <td>Training</td>
+          <td>{eventType}</td>
           <td>{invite.status}</td>
           <td>
             {players &&
@@ -72,9 +89,11 @@ function TrainInviteBooking() {
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <button onClick={() => handleCancel(invite.invite_id)}>
-            <td>Cancel</td>
-          </button>
+          <td>
+            <button onClick={() => handleCancel(invite.invite_id)}>
+              Cancel
+            </button>
+          </td>
         </tr>
       ));
     textJsx = invites.filter(

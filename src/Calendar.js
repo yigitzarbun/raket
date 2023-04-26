@@ -10,6 +10,7 @@ import {
 function Calendar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const eventType = "Training";
   let { user, invites, players } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
@@ -19,11 +20,19 @@ function Calendar() {
   const handleCancel = (invite_id) => {
     dispatch(deleteInvite(invite_id, navigate));
   };
-  let resultJsx = "";
+  let resultJsx = [];
   if (invites === null) {
-    resultJsx = "Loading results";
+    resultJsx = (
+      <tr>
+        <td>Loading bookings</td>
+      </tr>
+    );
   } else if (invites.length === 0) {
-    resultJsx = "No confirmed events";
+    resultJsx = (
+      <tr>
+        <td>No confirmed events</td>
+      </tr>
+    );
   } else if (Array.isArray(invites) && invites) {
     resultJsx = invites
       .filter(
@@ -34,7 +43,7 @@ function Calendar() {
       )
       .map((invite) => (
         <tr key={invite.invite_id}>
-          <td>Training</td>
+          <td>{eventType}</td>
           <td>
             {invite.inviter_id === user.player_id
               ? players.filter(
@@ -99,9 +108,7 @@ function Calendar() {
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <button onClick={() => handleCancel(invite.invite_id)}>
-            <td>Cancel</td>
-          </button>
+          <td onClick={() => handleCancel(invite.invite_id)}>Cancel</td>
         </tr>
       ));
   }

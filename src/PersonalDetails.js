@@ -35,12 +35,7 @@ function PersonalDetails() {
         clubPreferences.push(clubs[c]["name"]);
       }
     }
-    clubList =
-      clubPreferences[0] +
-      ", " +
-      clubPreferences[1] +
-      ", " +
-      clubPreferences[2];
+    clubList = clubPreferences.map((p) => <li key={p}>{p}</li>);
   }
   useEffect(() => {
     dispatch({ type: GET_USER });
@@ -63,7 +58,7 @@ function PersonalDetails() {
           </div>
           <div className="flex">
             <p className="text-slate-950 font-bold mr-2">Gender:</p>
-            <h2>{user && user.gender}</h2>
+            <h2>{user && player.gender}</h2>
           </div>
           <div className="flex">
             <p className="text-slate-950 font-bold mr-2">Age:</p>
@@ -75,7 +70,7 @@ function PersonalDetails() {
           </div>
           <div className="flex">
             <p className="text-slate-950 font-bold mr-2">Locations:</p>
-            <h2>{clubList}</h2>
+            <ul>{clubList}</ul>
           </div>
         </div>
       </div>

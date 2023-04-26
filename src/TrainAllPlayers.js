@@ -17,11 +17,19 @@ function TrainAllPlayers() {
   } else {
     user = user;
   }
-  let resultJsx = "";
+  let resultJsx = [];
   if (players === null) {
-    resultJsx = "Loading players";
+    resultJsx.push(
+      <tr key="loading">
+        <td>Loading players</td>
+      </tr>
+    );
   } else if (players.length === 0) {
-    resultJsx = "No players available";
+    resultJsx.push(
+      <tr key="no-matching">
+        <td>No players available</td>
+      </tr>
+    );
   } else if (Array.isArray(players) && players) {
     resultJsx = players
       .filter((player) => player.player_id !== user.player_id)
@@ -44,11 +52,11 @@ function TrainAllPlayers() {
           <td>{player.lname}</td>
           <td>{player.gender}</td>
           <td>{player.level}</td>
-          <Link to="/invite" state={player.player_id}>
-            <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
+          <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
+            <Link to="/invite" state={player.player_id}>
               Invite
-            </td>
-          </Link>
+            </Link>
+          </td>
         </tr>
       ));
   }

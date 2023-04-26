@@ -11,6 +11,7 @@ function OutgoingRequests() {
   let { invites, user, players } = useSelector((store) => store);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const eventType = "Training";
   if (user.player) {
     user = user.player;
   } else {
@@ -22,15 +23,23 @@ function OutgoingRequests() {
 
   let resultJsx = "";
   if (invites == null) {
-    resultJsx = "Loading booking";
+    resultJsx = (
+      <tr>
+        <td>Loading bookings</td>
+      </tr>
+    );
   } else if (invites.length === 0) {
-    resultJsx = "There is no booking";
+    resultJsx = (
+      <tr>
+        <td>No bookings</td>
+      </tr>
+    );
   } else if (Array.isArray(invites) && invites) {
     resultJsx = invites
       .filter((invite) => invite.inviter_id === Number(user.player_id))
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">
-          <td>Training</td>
+          <td>{eventType}</td>
           <td>{invite.status}</td>
           <td>
             {players &&
@@ -72,9 +81,7 @@ function OutgoingRequests() {
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <button onClick={() => handleCancel(invite.invite_id)}>
-            <td>Cancel</td>
-          </button>
+          <td onClick={() => handleCancel(invite.invite_id)}>Cancel</td>
         </tr>
       ));
   }
