@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PlayerCardDetails from "./PlayerCardDetails";
 import { getMyCard, GET_USER } from "./redux stuff/actions";
@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 function ManagePlayerCard() {
   const dispatch = useDispatch();
   let { user, myCard } = useSelector((store) => store);
+  const [state, setState] = useState(true);
+
   if (user.player) {
     user = user.player;
   } else {
@@ -14,12 +16,12 @@ function ManagePlayerCard() {
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getMyCard(user.player_id));
-  }, []);
+  }, [state]);
   return (
     <div>
       <div className="bg-heroBalance bg-bottom bg-cover py-28 rounded-md mt-4 "></div>
       {myCard ? (
-        <PlayerCardDetails />
+        <PlayerCardDetails state={state} setState={setState} />
       ) : (
         <div className="bg-slate-800 rounded-md p-4 mt-8 text-blue-400 text-center">
           <h2 className="font-bold text-4xl text-white">

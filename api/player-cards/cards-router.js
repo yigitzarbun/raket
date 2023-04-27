@@ -19,4 +19,13 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.delete("/:player_card_id", async (req, res, next) => {
+  try {
+    const deletedCard = await cardsModel.remove(req.params.player_card_id);
+    res.status(200).json(deletedCard);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

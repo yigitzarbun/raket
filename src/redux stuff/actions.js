@@ -37,6 +37,7 @@ export const ADD_PLAYER_PAYMENT = "ADD_PLAYER_PAYMENT";
 export const GET_MY_PAYMENTS = "GET_MY_PAYMENTS";
 export const ADD_PLAYER_CARD = "ADD_PLAYER_CARD";
 export const GET_MY_CARD = "GET_MY_CARD";
+export const REMOVE_MY_CARD = "REMOVE_MY_CARD";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -157,6 +158,7 @@ export const addInvite = (formData, navigate) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: ADD_INVITE, payload: res.data });
+        toast.success("Invite successful");
         navigate("/" + `invite-booking/${res.data.invite_id}`);
       }
     })
@@ -239,6 +241,7 @@ export const addPlayerCard = (card, navigate) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: ADD_PLAYER_CARD, payload: res.data });
+        toast.success("Card added");
         navigate("/account");
       }
     })
@@ -254,6 +257,18 @@ export const getMyCard = (player_id) => (dispatch) => {
           (card) => card.player_id === player_id
         )[0];
         dispatch({ type: GET_MY_CARD, payload: myCard });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const removeMyCard = (player_card_id) => (dispatch) => {
+  axiosWithAuth()
+    .delete(url + `api/player-cards/${player_card_id}`)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: REMOVE_MY_CARD, payload: res.data });
+        toast.success("Card removed");
       }
     })
     .catch((err) => console.log(err));

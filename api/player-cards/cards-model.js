@@ -14,4 +14,8 @@ async function add(card) {
   return newCard;
 }
 
-module.exports = { getAll, add };
+async function remove(player_card_id) {
+  return await db("player_cards").where("player_card_id", player_card_id).del();
+}
+
+module.exports = { getAll, add, remove };
