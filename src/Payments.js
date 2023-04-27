@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getPlayerPayments, GET_USER } from "./redux stuff/actions";
 
 function Payments() {
@@ -57,6 +58,11 @@ function Payments() {
             <tbody>{resultJsx}</tbody>
           </table>
         </div>
+        <Link to="/add-balance">
+          <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
+            Add Balance
+          </p>
+        </Link>
       </div>
     </div>
   );

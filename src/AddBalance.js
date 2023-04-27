@@ -21,11 +21,10 @@ function AddBalance() {
   const handleAddBalance = (data) => {
     const dataWide = {
       amount: data.amount,
-      date: new Date.now(),
+      date: Date.now(),
       player_id: user.player_id,
       payment_type_id: 1,
     };
-    console.log(dataWide);
     dispatch(addPlayerPayment(dataWide, navigate));
     reset();
   };

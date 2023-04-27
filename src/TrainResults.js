@@ -54,7 +54,7 @@ function TrainResults(props) {
       .map((player) => (
         <tr key={player.player_id} className="h-12">
           <td>
-            <img src={player.face_image} className="w-12" />
+            <img src={player.face_image} className="w-12 rounded-full" />
           </td>
           <td>{player.fname}</td>
           <td>{player.lname}</td>

@@ -205,7 +205,6 @@ export const addPlayerPayment = (payment, navigate) => (dispatch) => {
   axiosWithAuth()
     .post(url + "api/player-payments", payment)
     .then((res) => {
-      console.log(res);
       if (res.status === 201) {
         dispatch({ type: ADD_PLAYER_PAYMENT, payload: res.data });
         navigate("/account");

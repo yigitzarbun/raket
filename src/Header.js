@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { LOGOUT } from "./redux stuff/actions";
+import { GET_USER, LOGOUT, getInvites } from "./redux stuff/actions";
 import { useDispatch, useSelector } from "react-redux";
 function Header() {
-  let user = useSelector((store) => store.user);
+  let { user, invites } = useSelector((store) => store);
   if (user) {
     if (user.player) {
       user = user.player;
@@ -15,6 +15,21 @@ function Header() {
   const handleLogout = () => {
     dispatch({ type: LOGOUT });
   };
+  let newInvites = null;
+  if (invites === null) {
+    newInvites = "";
+  } else if (invites.length === 0) {
+    newInvites = "";
+  } else if (Array.isArray(invites) && invites) {
+    newInvites = invites.filter(
+      (invite) =>
+        invite.invitee_id === user.player_id && invite.status === "Pending"
+    ).length;
+  }
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+    dispatch(getInvites());
+  }, []);
   return (
     <div className="flex flex-col">
       <div className="flex justify-between py-4 items-center text-white">
@@ -56,6 +71,11 @@ function Header() {
                 }
               >
                 Requests
+                {newInvites > 0 && (
+                  <span className="text-blue-400 text-xs ml-1">
+                    ({newInvites})
+                  </span>
+                )}
               </NavLink>
               <NavLink
                 to="/scores"

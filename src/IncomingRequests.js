@@ -1,16 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getInvites, GET_USER, updateInvite } from "./redux stuff/actions";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  getInvites,
+  GET_USER,
+  updateInvite,
+  addPlayerPayment,
+  getPlayerPayments,
+  getCourts,
+} from "./redux stuff/actions";
 function IncomingRequests() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const eventType = "Training";
-  let { invites, user } = useSelector((store) => store);
+  let { invites, user, courts, myPayments } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
     user = user;
+  }
+  let balance = null;
+  if (myPayments == null) {
+    balance = "Loading balance";
+  } else if (Array.isArray(myPayments) && myPayments) {
+    for (let i = 0; i < myPayments.length; i++) {
+      if (myPayments[i]["payment_type_id"] === 1) {
+        balance += myPayments[i]["amount"];
+      } else {
+        balance -= myPayments[i]["amount"];
+      }
+    }
   }
   const handleAccept = (data) => {
     setChange(!change);
@@ -27,11 +47,28 @@ function IncomingRequests() {
       status: "Accepted",
     };
     dispatch(updateInvite(dataWide));
+    const paymentDataInvitee = {
+      amount:
+        courts.filter((court) => court.court_id === data.court_id)[0]["price"] /
+        2,
+      date: Date.now(),
+      player_id: data.inviter_id,
+      payment_type_id: 2,
+    };
+    dispatch(addPlayerPayment(paymentDataInvitee, navigate));
+    const paymentDataInviter = {
+      amount:
+        courts.filter((court) => court.court_id === data.court_id)[0]["price"] /
+        2,
+      date: Date.now(),
+      player_id: user.player_id,
+      payment_type_id: 2,
+    };
+    dispatch(addPlayerPayment(paymentDataInviter, navigate));
   };
 
   const handleReject = (data) => {
     setChange(!change);
-
     const dataWide = {
       invite_id: data.invite_id,
       event_date: data.event_date,
@@ -78,20 +115,33 @@ function IncomingRequests() {
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <td
-            onClick={() => {
-              handleAccept(invite);
-            }}
-          >
-            Accept
+          <td>{invite.price}</td>
+          {balance > invite.price ? (
+            <td
+              className="cursor-pointer"
+              onClick={() => {
+                handleAccept(invite);
+              }}
+            >
+              Accept
+            </td>
+          ) : (
+            <td className="cursor-pointer text-yellow-300">
+              <Link to="/add-balance">Add Balance</Link>
+            </td>
+          )}
+
+          <td className="cursor-pointer" onClick={() => handleReject(invite)}>
+            Reject
           </td>
-          <td onClick={() => handleReject(invite)}>Reject</td>
         </tr>
       ));
   }
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
+    dispatch(getCourts());
+    dispatch(getPlayerPayments(user.player_id));
   }, [change]);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
@@ -108,6 +158,7 @@ function IncomingRequests() {
             <th>Date</th>
             <th>Time</th>
             <th>Court</th>
+            <th>Price</th>
           </tr>
         </thead>
         <tbody>{resultJsx}</tbody>
