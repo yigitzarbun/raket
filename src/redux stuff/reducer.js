@@ -15,7 +15,9 @@ import {
   GET_COURTS,
   UPDATE_INVITE,
   ADD_PLAYER_PAYMENT,
-  GET_PLAYER_PAYMENTS,
+  GET_MY_PAYMENTS,
+  ADD_PLAYER_CARD,
+  GET_MY_CARD,
 } from "./actions";
 
 const initialState = {
@@ -30,6 +32,8 @@ const initialState = {
   courts: [],
   playerPayments: [],
   myPayments: [],
+  myCard: null,
+  playerCards: [],
   players: [],
   courtAvailability: [],
   leaderboard: [],
@@ -120,10 +124,20 @@ export function myReducer(state = initialState, action) {
         ...state,
         playerPayments: [action.payload, ...(state.playerPayments || [])],
       };
-    case GET_PLAYER_PAYMENTS:
+    case GET_MY_PAYMENTS:
       return {
         ...state,
         myPayments: action.payload,
+      };
+    case ADD_PLAYER_CARD:
+      return {
+        ...state,
+        playerCards: [action.payload, ...(state.playerCards || [])],
+      };
+    case GET_MY_CARD:
+      return {
+        ...state,
+        myCard: action.payload,
       };
     default:
       return state;

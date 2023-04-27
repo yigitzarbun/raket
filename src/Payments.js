@@ -58,9 +58,9 @@ function Payments() {
             <tbody>{resultJsx}</tbody>
           </table>
         </div>
-        <Link to="/add-balance">
+        <Link to="/Account">
           <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
-            Add Balance
+            Go back to Account
           </p>
         </Link>
       </div>

@@ -44,12 +44,10 @@ exports.seed = async function (knex) {
     { indoor_outdoor_id: 3, indoor_outdoor: "both" },
   ]);
   await knex("payment_types").insert([
-    { payment_type_id: 1, payment_type: "add_balance" },
-    { payment_type_id: 2, payment_type: "training" },
-    { payment_type_id: 3, payment_type: "match" },
-    { payment_type_id: 4, payment_type: "registration" },
-    { payment_type_id: 5, payment_type: "promotion" },
-    { payment_type_id: 6, payment_type: "membership" },
+    { payment_type_id: 1, payment_type: "training" },
+    { payment_type_id: 2, payment_type: "registration" },
+    { payment_type_id: 3, payment_type: "promotion" },
+    { payment_type_id: 4, payment_type: "membership" },
   ]);
   await knex("districts").insert([
     { district_id: 1, district: "adalar" },

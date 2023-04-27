@@ -119,7 +119,6 @@ function TrainInvite(props) {
               {errors.court_id && <span>{errors.court_id.message}</span>}
             </select>
           </div>
-
           <div className="trainInviteFormContainer">
             <label>Message</label>
             <textarea

@@ -34,10 +34,16 @@ export const GET_INVITES = "GET_INVITES";
 export const GET_COURTS = "GET_COURTS";
 export const UPDATE_INVITE = "UPDATE_INVITE";
 export const ADD_PLAYER_PAYMENT = "ADD_PLAYER_PAYMENT";
-export const GET_PLAYER_PAYMENTS = "GET_PLAYER_PAYMENTS";
+export const GET_MY_PAYMENTS = "GET_MY_PAYMENTS";
+export const ADD_PLAYER_CARD = "ADD_PLAYER_CARD";
+export const GET_MY_CARD = "GET_MY_CARD";
+
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
-  const token = tokenObj.token;
+  let token = null;
+  if (tokenObj) {
+    token = tokenObj.token;
+  }
   return axios.create({
     headers: {
       Authorization: token,
@@ -207,7 +213,7 @@ export const addPlayerPayment = (payment, navigate) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: ADD_PLAYER_PAYMENT, payload: res.data });
-        navigate("/account");
+        navigate("/");
       }
     })
     .catch((err) => console.log(err));
@@ -221,7 +227,33 @@ export const getPlayerPayments = (player_id) => (dispatch) => {
         const myPayments = res.data.filter(
           (payment) => payment.player_id == player_id
         );
-        dispatch({ type: GET_PLAYER_PAYMENTS, payload: myPayments });
+        dispatch({ type: GET_MY_PAYMENTS, payload: myPayments });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const addPlayerCard = (card, navigate) => (dispatch) => {
+  axiosWithAuth()
+    .post(url + "api/player-cards", card)
+    .then((res) => {
+      if (res.status === 201) {
+        dispatch({ type: ADD_PLAYER_CARD, payload: res.data });
+        navigate("/account");
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getMyCard = (player_id) => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/player-cards")
+    .then((res) => {
+      if (res.status === 200) {
+        const myCard = res.data.filter(
+          (card) => card.player_id === player_id
+        )[0];
+        dispatch({ type: GET_MY_CARD, payload: myCard });
       }
     })
     .catch((err) => console.log(err));

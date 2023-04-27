@@ -163,7 +163,7 @@ function TrainInviteBooking() {
               If {inviteeJsx["fname"] + " " + inviteeJsx["lname"]} accepts your
               invitation within 30 mins, your court booking will be made
               automatically and the court fee will be deducted from your
-              balance.
+              registered card.
             </p>
           </div>
           <div className="flex items-center mt-4">

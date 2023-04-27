@@ -367,6 +367,22 @@ exports.up = function (knex) {
         .inTable("courts")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
+    })
+    .createTable("player_cards", (tbl) => {
+      tbl.increments("player_card_id");
+      tbl.string("name_on_card").notNullable();
+      tbl.integer("card_number").notNullable();
+      tbl.integer("expiry_month").notNullable();
+      tbl.integer("expiry_year").notNullable();
+      tbl.integer("cvc").notNullable();
+      tbl
+        .integer("player_id")
+        .unsigned()
+        .notNullable()
+        .references("player_id")
+        .inTable("players")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
     });
 };
 
@@ -376,6 +392,7 @@ exports.up = function (knex) {
  */
 exports.down = function (knex) {
   return knex.schema
+    .dropTableIfExists("player_cards")
     .dropTableIfExists("bookings")
     .dropTableIfExists("scores")
     .dropTableIfExists("invites")

@@ -20,7 +20,7 @@ function Header() {
     newInvites = "";
   } else if (invites.length === 0) {
     newInvites = "";
-  } else if (Array.isArray(invites) && invites) {
+  } else if (Array.isArray(invites) && invites && user) {
     newInvites = invites.filter(
       (invite) =>
         invite.invitee_id === user.player_id && invite.status === "Pending"

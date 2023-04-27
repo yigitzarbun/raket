@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Requests() {
   return (
-    <div className="bg-gradient-to-r from-green-500 to-cyan-500 p-8 mt-8 rounded-md shadow-md flex flex-col ">
+    <div className="bg-gradient-to-r from-green-500 to-cyan-500 p-8 mt-8 rounded-md shadow-md flex flex-col">
       <h2 className="font-bold text-4xl">Requests</h2>
       <div className="flex justify-between items-center mt-8">
         <img src="/images/john_isner.png" alt="opponent" className="w-16" />

@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addPlayerPayment, GET_USER } from "./redux stuff/actions";
-function AddBalance() {
+import { GET_USER, addPlayerCard } from "./redux stuff/actions";
+function AddPlayerCard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let user = useSelector((store) => store.user);
@@ -18,14 +18,12 @@ function AddBalance() {
     reset,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
-  const handleAddBalance = (data) => {
+  const handleAddCard = (data) => {
     const dataWide = {
-      amount: data.amount,
-      date: Date.now(),
+      ...data,
       player_id: user.player_id,
-      payment_type_id: 1,
     };
-    dispatch(addPlayerPayment(dataWide, navigate));
+    dispatch(addPlayerCard(dataWide, navigate));
     reset();
   };
   useEffect(() => {
@@ -35,9 +33,9 @@ function AddBalance() {
     <div>
       <div className="bg-heroBalance bg-bottom bg-cover py-28 rounded-md mt-4 "></div>
       <div className="bg-slate-800 text-white rounded-md p-4 mt-8 w-1/2 mx-auto">
-        <h2 className="font-bold text-4xl">Add Balance</h2>
+        <h2 className="font-bold text-4xl">Add Card</h2>
         <form
-          onSubmit={handleSubmit(handleAddBalance)}
+          onSubmit={handleSubmit(handleAddCard)}
           className="addBalanceForm flex flex-col mt-4"
         >
           <div className="addBalanceFormContainer">
@@ -45,12 +43,12 @@ function AddBalance() {
             <input
               placeholder="ROGER FEDERER"
               type="text"
-              {...register("name", {
+              {...register("name_on_card", {
                 required: "name is required",
               })}
             />
-            {errors.name && (
-              <span className="fieldError">{errors.name.message}</span>
+            {errors.name_on_card && (
+              <span className="fieldError">{errors.name_on_card.message}</span>
             )}
           </div>
           <div className="addBalanceFormContainer">
@@ -58,14 +56,14 @@ function AddBalance() {
             <input
               placeholder="1234 5678 9012 3456"
               type="number"
-              {...register("number", {
+              {...register("card_number", {
                 required: "Card number is required",
                 minLength: 16,
                 maxLength: 16,
               })}
             />
-            {errors.number && (
-              <span className="fieldError">{errors.number.message}</span>
+            {errors.card_number && (
+              <span className="fieldError">{errors.card_number.message}</span>
             )}
           </div>
           <div className="flex justify-between">
@@ -74,7 +72,7 @@ function AddBalance() {
               <input
                 placeholder="01"
                 type="number"
-                {...register("month", {
+                {...register("expiry_month", {
                   required: "Expiry month is required",
                   minLength: 2,
                   maxLength: 2,
@@ -86,7 +84,7 @@ function AddBalance() {
               <input
                 placeholder="2025"
                 type="number"
-                {...register("year", {
+                {...register("expiry_year", {
                   required: "Expiry year is required",
                   minLength: 4,
                   maxLength: 4,
@@ -95,7 +93,7 @@ function AddBalance() {
             </div>
           </div>
           <div className="flex justify-between">
-            <div className="addBalanceFormContainer mr-2">
+            <div className="addBalanceFormContainer w-1/2">
               <label className="mt-4">CVC Code</label>
               <input
                 placeholder="123"
@@ -110,19 +108,6 @@ function AddBalance() {
                 <span className="fieldError">{errors.cvc.message}</span>
               )}
             </div>
-            <div className="addBalanceFormContainer ml-2">
-              <label>Amount</label>
-              <input
-                type="number"
-                {...register("amount", {
-                  required: "You must enter a valid amount",
-                  min: 1,
-                })}
-              />
-              {errors.amount && (
-                <span className="fieldError">{errors.amount.message}</span>
-              )}
-            </div>
           </div>
           <div>
             <button
@@ -130,7 +115,7 @@ function AddBalance() {
               disabled={!isValid}
               type="submit"
             >
-              <p className="font-bold"> Add Balance</p>
+              <p className="font-bold"> Add Card</p>
             </button>
             <Link to="/account">
               <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
@@ -144,4 +129,4 @@ function AddBalance() {
   );
 }
 
-export default AddBalance;
+export default AddPlayerCard;

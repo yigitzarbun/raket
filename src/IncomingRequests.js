@@ -6,7 +6,6 @@ import {
   GET_USER,
   updateInvite,
   addPlayerPayment,
-  getPlayerPayments,
   getCourts,
 } from "./redux stuff/actions";
 function IncomingRequests() {
@@ -14,24 +13,13 @@ function IncomingRequests() {
   const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const eventType = "Training";
-  let { invites, user, courts, myPayments } = useSelector((store) => store);
+  let { invites, user, courts } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
     user = user;
   }
-  let balance = null;
-  if (myPayments == null) {
-    balance = "Loading balance";
-  } else if (Array.isArray(myPayments) && myPayments) {
-    for (let i = 0; i < myPayments.length; i++) {
-      if (myPayments[i]["payment_type_id"] === 1) {
-        balance += myPayments[i]["amount"];
-      } else {
-        balance -= myPayments[i]["amount"];
-      }
-    }
-  }
+
   const handleAccept = (data) => {
     setChange(!change);
     const dataWide = {
@@ -116,21 +104,15 @@ function IncomingRequests() {
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
           <td>{invite.price}</td>
-          {balance > invite.price ? (
-            <td
-              className="cursor-pointer"
-              onClick={() => {
-                handleAccept(invite);
-              }}
-            >
-              Accept
-            </td>
-          ) : (
-            <td className="cursor-pointer text-yellow-300">
-              <Link to="/add-balance">Add Balance</Link>
-            </td>
-          )}
 
+          <td
+            className="cursor-pointer"
+            onClick={() => {
+              handleAccept(invite);
+            }}
+          >
+            Accept
+          </td>
           <td className="cursor-pointer" onClick={() => handleReject(invite)}>
             Reject
           </td>
@@ -141,7 +123,6 @@ function IncomingRequests() {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
     dispatch(getCourts());
-    dispatch(getPlayerPayments(user.player_id));
   }, [change]);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
