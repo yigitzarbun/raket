@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getMyCard, GET_USER, removeMyCard } from "./redux stuff/actions";
@@ -12,10 +12,11 @@ function PlayerCardDetails(props) {
   } else {
     user = user;
   }
-  const handleRemoveCard = () => {
+  const handleRemoveCard = useCallback(() => {
     dispatch(removeMyCard(myCard["player_card_id"]));
     setState(!state);
-  };
+  }, [dispatch, myCard, setState, state]);
+
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getMyCard(user.player_id));

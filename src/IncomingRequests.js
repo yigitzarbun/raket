@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   getInvites,
   GET_USER,
@@ -10,7 +10,6 @@ import {
 } from "./redux stuff/actions";
 function IncomingRequests() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [change, setChange] = useState(false);
   const eventType = "Training";
   let { invites, user, courts } = useSelector((store) => store);
@@ -21,7 +20,6 @@ function IncomingRequests() {
   }
 
   const handleAccept = (data) => {
-    setChange(!change);
     const dataWide = {
       invite_id: data.invite_id,
       event_date: data.event_date,
@@ -43,7 +41,7 @@ function IncomingRequests() {
       player_id: data.inviter_id,
       payment_type_id: 2,
     };
-    dispatch(addPlayerPayment(paymentDataInvitee, navigate));
+    dispatch(addPlayerPayment(paymentDataInvitee));
     const paymentDataInviter = {
       amount:
         courts.filter((court) => court.court_id === data.court_id)[0]["price"] /
@@ -52,11 +50,11 @@ function IncomingRequests() {
       player_id: user.player_id,
       payment_type_id: 2,
     };
-    dispatch(addPlayerPayment(paymentDataInviter, navigate));
+    dispatch(addPlayerPayment(paymentDataInviter));
+    setChange(!change);
   };
 
   const handleReject = (data) => {
-    setChange(!change);
     const dataWide = {
       invite_id: data.invite_id,
       event_date: data.event_date,
@@ -70,6 +68,7 @@ function IncomingRequests() {
       status: "Rejected",
     };
     dispatch(updateInvite(dataWide));
+    setChange(!change);
   };
   let resultJsx = "";
   if (invites == null) {

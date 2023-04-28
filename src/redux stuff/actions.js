@@ -209,13 +209,13 @@ export const updateInvite = (changes) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const addPlayerPayment = (payment, navigate) => (dispatch) => {
+export const addPlayerPayment = (payment) => (dispatch) => {
   axiosWithAuth()
     .post(url + "api/player-payments", payment)
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: ADD_PLAYER_PAYMENT, payload: res.data });
-        navigate("/");
+        toast.success("Successful");
       }
     })
     .catch((err) => console.log(err));

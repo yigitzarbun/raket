@@ -42,7 +42,6 @@ function TrainInvite(props) {
   const handleSelectedClub = (event) => {
     setSelectedClub(event.target.value);
   };
-
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getClubs());
