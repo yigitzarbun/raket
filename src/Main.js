@@ -18,14 +18,21 @@ function Main() {
     user = user;
   }
   let myInvites = "";
+  let myEvents = "";
   if (invites === null) {
     myInvites = "Loading invitations";
+    myEvents = "Loading events";
   } else if (invites.length === 0) {
     myInvites = "No invitations";
+    myEvents = "No upcoming events";
   } else if (Array.isArray(invites) && invites) {
     myInvites = invites.filter(
       (invite) =>
         invite.invitee_id === user.player_id && invite.status === "Pending"
+    );
+    myEvents = invites.filter(
+      (invite) =>
+        invite.invitee_id === user.player_id && invite.status === "Accepted"
     );
   }
   useEffect(() => {
@@ -40,12 +47,21 @@ function Main() {
         <Match />
       </div>
       {myInvites && myInvites.length > 0 && <Requests />}
-
       <div className="flex justify-between">
-        <Upcoming />
-        <div className="flex flex-col w-2/3">
-          <Stats />
-          <Equipment />
+        {myEvents && myEvents.length > 0 && <Upcoming />}
+        <div
+          className={
+            myEvents && myEvents.length > 0
+              ? "flex flex-col w-4/6"
+              : "w-full flex"
+          }
+        >
+          <div className={myEvents.length === 0 ? "w-1/2" : ""}>
+            <Stats />
+          </div>
+          <div className={myEvents.length === 0 ? "w-1/2" : ""}>
+            <Equipment />
+          </div>
         </div>
       </div>
     </div>

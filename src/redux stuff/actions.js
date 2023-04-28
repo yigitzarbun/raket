@@ -171,6 +171,7 @@ export const deleteInvite = (invite_id) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch({ type: DELETE_INVITE, payload: invite_id });
+        toast.success("Cancelled event");
       }
     })
     .catch((err) => console.log(err));
