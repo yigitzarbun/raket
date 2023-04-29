@@ -44,7 +44,7 @@ function Upcoming() {
     dispatch(getInvites());
   }, []);
   return (
-    <div className="p-8 mr-4 mt-8 rounded-md shadow-md bg-gradient-to-r from-green-200 to-yellow-400">
+    <div className="p-8 mr-4 mt-8 rounded-md shadow-md bg-gradient-to-r from-red-200 to-yellow-400">
       <div className="flex justify-between">
         <h2 className="font-bold text-4xl">Upcoming</h2>
         <div className="flex justify-between w-1/8">

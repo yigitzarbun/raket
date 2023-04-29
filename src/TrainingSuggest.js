@@ -22,11 +22,9 @@ function TrainingSuggest() {
       //  level and location match
       // level +- 1 and all location and gender and age +- 10 years match
       // level +- 1 and all location and gender and age +- 15 years match
-      // level +- 1 and all location and gender match
-      //  level +- 1 and all location match
       // level +- 1 and 2 locations and gender match
       // level +- 1 and 2 locations match
-      // s level +- 1 and 1 location and gender match
+      // level +- 1 and 1 location and gender match
       // level +- 1 and 1 location match
       //
       if (
@@ -54,10 +52,90 @@ function TrainingSuggest() {
         players[i]["player_id"] !== user.player_id
       ) {
         suggested.push(players[i]);
+      } else if (
+        players[i]["level_id"] === user["level_id"] &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_1_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_1_id"] ||
+          players[i]["court_preference_3_id"] ===
+            user["court_preference_1_id"]) &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_2_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_2_id"] ||
+          players[i]["court_preference_3_id"] ===
+            user["court_preference_2_id"]) &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_3_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_3_id"] ||
+          players[i]["court_preference_3_id"] === user["court_preference_3_id"])
+      ) {
+        suggested.push(players[i]);
+      } else if (
+        players[i]["gender_id"] === user["gender_id"] &&
+        Math.abs(players[i]["birth_year"] - user["birth_year"]) <= 10 &&
+        Math.abs(players[i]["level_id"] - user["level_id"]) <= 1
+      ) {
+        suggested.push(players[i]);
+      } else if (
+        players[i]["gender_id"] === user["gender_id"] &&
+        Math.abs(players[i]["birth_year"] - user["birth_year"]) <= 15 &&
+        Math.abs(players[i]["level_id"] - user["level_id"]) <= 1
+      ) {
+        suggested.push(players[i]);
+      } else if (
+        players[i]["gender_id"] === user["gender_id"] &&
+        Math.abs(players[i]["level_id"] - user["level_id"]) <= 1 &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_1_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_1_id"] ||
+          players[i]["court_preference_3_id"] ===
+            user["court_preference_1_id"]) &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_2_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_2_id"] ||
+          players[i]["court_preference_3_id"] === user["court_preference_2_id"])
+      ) {
+        suggested.push(players[i]);
+      } else if (
+        Math.abs(players[i]["level_id"] - user["level_id"]) <= 1 &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_1_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_1_id"] ||
+          players[i]["court_preference_3_id"] ===
+            user["court_preference_1_id"]) &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_2_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_2_id"] ||
+          players[i]["court_preference_3_id"] === user["court_preference_2_id"])
+      ) {
+        suggested.push(players[i]);
+      } else if (
+        Math.abs(players[i]["level_id"] - user["level_id"]) <= 1 &&
+        (players[i]["court_preference_1_id"] ===
+          user["court_preference_1_id"] ||
+          players[i]["court_preference_2_id"] ===
+            user["court_preference_1_id"] ||
+          players[i]["court_preference_3_id"] === user["court_preference_1_id"])
+      ) {
+        suggested.push(players[i]);
+      } else if (
+        players[i]["court_preference_1_id"] === user["court_preference_1_id"] ||
+        players[i]["court_preference_2_id"] === user["court_preference_1_id"] ||
+        players[i]["court_preference_3_id"] === user["court_preference_1_id"]
+      ) {
+        suggested.push(players[i]);
+      } else if (Math.abs(players[i]["level_id"] - user["level_id"]) <= 1) {
+        suggested.push(players[i]);
       }
     }
   }
-  console.log(suggested);
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getPlayers());
