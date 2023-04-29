@@ -47,20 +47,22 @@ function Upcoming() {
     <div className="p-8 mr-4 mt-8 rounded-md shadow-md bg-gradient-to-r from-red-200 to-yellow-400">
       <div className="flex justify-between">
         <h2 className="font-bold text-4xl">Upcoming</h2>
-        <div className="flex justify-between w-1/8">
-          <div
-            className="flex-col hover:text-slate-800 cursor-pointer"
-            onClick={handlePrevIndex}
-          >
-            <img src="/images/left-arrow.png" className="w-4 h-4 mx-auto" />
+        {myEvents && myEvents.length > 1 && (
+          <div className="flex justify-between w-1/8">
+            <div
+              className="flex-col hover:text-slate-800 cursor-pointer"
+              onClick={handlePrevIndex}
+            >
+              <img src="/images/left-arrow.png" className="w-4 h-4 mx-auto" />
+            </div>
+            <div
+              className="flex-col hover:text-slate-800 cursor-pointer"
+              onClick={handleNextIndex}
+            >
+              <img src="/images/right-arrow.png" className="w-4 h-4 mx-auto" />
+            </div>
           </div>
-          <div
-            className="flex-col hover:text-slate-800 cursor-pointer"
-            onClick={handleNextIndex}
-          >
-            <img src="/images/right-arrow.png" className="w-4 h-4 mx-auto" />
-          </div>
-        </div>
+        )}
       </div>
       <h4 className="italic">Training</h4>
       <img

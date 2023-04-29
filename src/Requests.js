@@ -108,15 +108,15 @@ function Requests() {
             className="flex-col hover:text-slate-800 cursor-pointer"
             onClick={handlePrevIndex}
           >
-            <img src="/images/left-arrow.png" className="w-6 h-6 mx-auto" />
-            <p>Prev</p>
+            <img src="/images/left-arrow.png" className="w-4 h-4 mx-auto" />
+            <p className="text-sm">Prev</p>
           </div>
           <div
             className="flex-col hover:text-slate-800 cursor-pointer"
             onClick={handleNextIndex}
           >
-            <img src="/images/right-arrow.png" className="w-6 h-6 mx-auto" />
-            <p>Next</p>
+            <img src="/images/right-arrow.png" className="w-4 h-4 mx-auto" />
+            <p className="text-sm">Next</p>
           </div>
         </div>
       </div>

@@ -102,8 +102,7 @@ function IncomingRequests() {
           <td>{invite.event_date}</td>
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
-          <td>{invite.price}</td>
-
+          <td className="text-green-500">{invite.price / 2} (*)</td>
           <td
             className="cursor-pointer"
             onClick={() => {
@@ -148,6 +147,9 @@ function IncomingRequests() {
           Check out calendar for confirmed training sessions
         </p>
       </Link>
+      <p className="text-green-500 text-sm mt-5 cursor-pointer hover:text-green-400">
+        (*) Price indicates the amount that you'll need to pay.
+      </p>
     </div>
   );
 }
