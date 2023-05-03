@@ -7,17 +7,18 @@ import {
   getClubs,
   getCourts,
   GET_USER,
+  getMyCard,
 } from "./redux stuff/actions";
 
 function TrainInvite(props) {
-  let { user, clubs, courts } = useSelector((store) => store);
+  let { user, clubs, courts, myCard } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
     user = user;
   }
   const location = useLocation();
-  const invitee_player_id = location.state;
+  const invitee_player = location.state;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -30,7 +31,7 @@ function TrainInvite(props) {
     const dataWide = {
       ...data,
       inviter_id: user.player_id,
-      invitee_id: invitee_player_id,
+      invitee_id: invitee_player.player_id,
       court_id: Number(data.court_id),
       club_id: Number(data.club_id),
       date: Date.now(),
@@ -42,16 +43,26 @@ function TrainInvite(props) {
   const handleSelectedClub = (event) => {
     setSelectedClub(event.target.value);
   };
+  const [selectedDate, setSelectedDate] = useState("");
+  const handleSelectedDate = (event) => {
+    setSelectedDate(event.target.value);
+  };
+  const [selectedCourt, setSelectedCourt] = useState("");
+  const handleSelectedCourt = (event) => {
+    setSelectedCourt(event.target.value);
+  };
+
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getClubs());
     dispatch(getCourts());
+    dispatch(getMyCard(user.player_id));
   }, []);
   return (
     <>
       <div className="bg-heroTrain bg-center bg-cover py-28 rounded-md mt-4"></div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
-        <h2 className="font-bold text-4xl">Invite</h2>
+        <h2 className="font-bold text-4xl">Invite {invitee_player["fname"]}</h2>
 
         <form
           onSubmit={handleSubmit(handleTrainInvite)}
@@ -82,16 +93,9 @@ function TrainInvite(props) {
               {...register("event_date", {
                 required: "Training date is required",
               })}
+              onChange={handleSelectedDate}
             />
             {errors.event_date && <span>{errors.event_date.message}</span>}
-          </div>
-          <div className=" flex flex-wrap mt-0">
-            <label className="mt-4">Time</label>
-            <input
-              type="time"
-              {...register("time", { required: "Training time is required" })}
-            />
-            {errors.time && <span>{errors.time.message}</span>}
           </div>
           <div className="trainInviteFormContainer">
             <label>Court</label>
@@ -99,6 +103,7 @@ function TrainInvite(props) {
               {...register("court_id", {
                 required: "Court is required",
               })}
+              onChange={handleSelectedCourt}
             >
               <option value="">-- Choose a Court --</option>
               {courts &&
@@ -118,6 +123,14 @@ function TrainInvite(props) {
               {errors.court_id && <span>{errors.court_id.message}</span>}
             </select>
           </div>
+          <div className=" flex flex-wrap mt-0">
+            <label className="mt-4">Time</label>
+            <input
+              type="time"
+              {...register("time", { required: "Training time is required" })}
+            />
+            {errors.time && <span>{errors.time.message}</span>}
+          </div>
           <div className="trainInviteFormContainer">
             <label>Message</label>
             <textarea
@@ -129,13 +142,27 @@ function TrainInvite(props) {
             {errors.message && <span>{errors.message.message}</span>}
           </div>
           <div>
-            <button
-              className="mt-4 p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
-              disabled={!isValid}
-              type="submit"
-            >
-              <p className="font-bold"> Invite Roger</p>
-            </button>
+            {!myCard && (
+              <p className="text-yellow-400 font-bold">
+                You'll need to add a valid card before sending an invitation
+              </p>
+            )}
+            {myCard ? (
+              <button
+                className="mt-4 p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
+                disabled={!isValid}
+                type="submit"
+              >
+                <p className="font-bold"> Invite {invitee_player["fname"]}</p>
+              </button>
+            ) : (
+              <Link to="/add-player-card">
+                <button className="font-bold mt-4 p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">
+                  Add Card
+                </button>
+              </Link>
+            )}
+
             <Link to="/train">
               <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
                 Discard

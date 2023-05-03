@@ -7,12 +7,13 @@ import {
   updateInvite,
   addPlayerPayment,
   getCourts,
+  getMyCard,
 } from "./redux stuff/actions";
 function IncomingRequests() {
   const dispatch = useDispatch();
   const [change, setChange] = useState(false);
   const eventType = "Training";
-  let { invites, user, courts } = useSelector((store) => store);
+  let { invites, user, courts, myCard } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
@@ -103,13 +104,23 @@ function IncomingRequests() {
           <td>{invite.time}</td>
           <td>{invite.court_name}</td>
           <td className="text-green-500">{invite.price / 2} (*)</td>
-          <td
-            className="cursor-pointer"
-            onClick={() => {
-              handleAccept(invite);
-            }}
-          >
-            Accept
+          <td>
+            {myCard ? (
+              <p
+                className="cursor-pointer"
+                onClick={() => {
+                  handleAccept(invite);
+                }}
+              >
+                Accept
+              </p>
+            ) : (
+              <Link to="/add-player-card">
+                <button className="font-bold mt-4 p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">
+                  Add Card
+                </button>
+              </Link>
+            )}
           </td>
           <td className="cursor-pointer" onClick={() => handleReject(invite)}>
             Reject
@@ -121,6 +132,7 @@ function IncomingRequests() {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
     dispatch(getCourts());
+    dispatch(getMyCard(user.player_id));
   }, [change]);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
@@ -143,11 +155,11 @@ function IncomingRequests() {
         <tbody>{resultJsx}</tbody>
       </table>
       <Link to="/calendar">
-        <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
+        <p className="text-blue-500 text-sm italic mt-5 inline cursor-pointer hover:text-blue-400">
           Check out calendar for confirmed training sessions
         </p>
       </Link>
-      <p className="text-green-500 text-sm mt-5 cursor-pointer hover:text-green-400">
+      <p className="text-green-500 text-sm mt-5 hover:text-green-400">
         (*) Price indicates the amount that you'll need to pay.
       </p>
     </div>

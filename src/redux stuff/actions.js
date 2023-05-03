@@ -216,7 +216,6 @@ export const addPlayerPayment = (payment) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: ADD_PLAYER_PAYMENT, payload: res.data });
-        toast.success("Successful");
       }
     })
     .catch((err) => console.log(err));
