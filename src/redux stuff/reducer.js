@@ -18,6 +18,7 @@ import {
   GET_MY_PAYMENTS,
   ADD_PLAYER_CARD,
   GET_MY_CARD,
+  GET_BOOKINGS,
 } from "./actions";
 
 const initialState = {
@@ -37,6 +38,7 @@ const initialState = {
   players: [],
   courtAvailability: [],
   leaderboard: [],
+  bookings: [],
 };
 
 export function myReducer(state = initialState, action) {
@@ -138,6 +140,11 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         myCard: action.payload,
+      };
+    case GET_BOOKINGS:
+      return {
+        ...state,
+        bookings: [...action.payload],
       };
     default:
       return state;

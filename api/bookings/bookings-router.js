@@ -49,4 +49,4 @@ router.delete("/:booking_id", async (req, res, next) => {
   }
 });
 
-module.export = router;
+module.exports = router;

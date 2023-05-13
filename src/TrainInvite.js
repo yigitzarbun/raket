@@ -8,10 +8,11 @@ import {
   getCourts,
   GET_USER,
   getMyCard,
+  getBookings,
 } from "./redux stuff/actions";
 
 function TrainInvite(props) {
-  let { user, clubs, courts, myCard } = useSelector((store) => store);
+  let { user, clubs, courts, myCard, bookings } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
@@ -47,16 +48,32 @@ function TrainInvite(props) {
   const handleSelectedDate = (event) => {
     setSelectedDate(event.target.value);
   };
+
+  let opening = null;
+  let closing = null;
+  let availableTimes = [];
+
   const [selectedCourt, setSelectedCourt] = useState("");
   const handleSelectedCourt = (event) => {
     setSelectedCourt(event.target.value);
   };
-
+  if (selectedCourt !== "") {
+    opening = courts.filter((c) => c.court_id === Number(selectedCourt))[0][
+      "opening"
+    ];
+    closing = courts.filter((c) => c.court_id === Number(selectedCourt))[0][
+      "closing"
+    ];
+    for (let t = opening; t <= closing; t += 100) {
+      availableTimes.push(t);
+    }
+  }
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getClubs());
     dispatch(getCourts());
     dispatch(getMyCard(user.player_id));
+    dispatch(getBookings());
   }, []);
   return (
     <>
@@ -125,10 +142,29 @@ function TrainInvite(props) {
           </div>
           <div className=" flex flex-wrap mt-0">
             <label className="mt-4">Time</label>
-            <input
-              type="time"
-              {...register("time", { required: "Training time is required" })}
-            />
+            <select
+              {...register("time", {
+                required: "Time is required",
+              })}
+              onChange={handleSelectedCourt}
+            >
+              <option value="">-- Choose Time --</option>
+              {availableTimes.map((t) => (
+                <option key={t} value={t}>
+                  {t < 1000
+                    ? "0" +
+                      t.toString()[0] +
+                      ":" +
+                      t.toString()[1] +
+                      t.toString()[2]
+                    : t.toString()[0] +
+                      t.toString()[1] +
+                      ":" +
+                      t.toString()[2] +
+                      t.toString()[3]}
+                </option>
+              ))}
+            </select>
             {errors.time && <span>{errors.time.message}</span>}
           </div>
           <div className="trainInviteFormContainer">

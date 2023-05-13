@@ -38,6 +38,8 @@ export const GET_MY_PAYMENTS = "GET_MY_PAYMENTS";
 export const ADD_PLAYER_CARD = "ADD_PLAYER_CARD";
 export const GET_MY_CARD = "GET_MY_CARD";
 export const REMOVE_MY_CARD = "REMOVE_MY_CARD";
+export const GET_BOOKINGS = "GET_BOOKINGS";
+export const ADD_BOOKING = "ADD_BOOKING";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -269,6 +271,17 @@ export const removeMyCard = (player_card_id) => (dispatch) => {
       if (res.status === 200) {
         dispatch({ type: REMOVE_MY_CARD, payload: res.data });
         toast.success("Card removed");
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getBookings = () => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/bookings")
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: GET_BOOKINGS, payload: res.data });
       }
     })
     .catch((err) => console.log(err));

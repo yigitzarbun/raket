@@ -12,6 +12,7 @@ const invitesRouter = require("./invites/invites-router");
 const courtsRouter = require("./courts/courts-router");
 const playersPaymentRouter = require("./player-payments/payments-router");
 const playersCardsRouter = require("./player-cards/cards-router");
+const bookingsRouter = require("./bookings/bookings-router");
 // server
 const server = express();
 server.use(helmet());
@@ -29,6 +30,7 @@ server.use("/api/invites", invitesRouter);
 server.use("/api/courts", courtsRouter);
 server.use("/api/player-payments", playersPaymentRouter);
 server.use("/api/player-cards", playersCardsRouter);
+server.use("/api/bookings", bookingsRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json({ message: "hello world" });

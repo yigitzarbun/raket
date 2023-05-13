@@ -190,8 +190,8 @@ exports.up = function (knex) {
     .createTable("courts", (tbl) => {
       tbl.increments("court_id");
       tbl.string("court_name").notNullable();
-      tbl.integer("opening").notNullable();
-      tbl.integer("closing").notNullable();
+      tbl.time("opening").notNullable();
+      tbl.time("closing").notNullable();
       tbl.integer("price").notNullable();
       tbl
         .integer("club_id")
@@ -221,7 +221,7 @@ exports.up = function (knex) {
     .createTable("challenges", (tbl) => {
       tbl.increments("challenge_id");
       tbl.timestamp("event_date").notNullable();
-      tbl.integer("time").notNullable();
+      tbl.time("time").notNullable();
       tbl.timestamp("date").notNullable();
       tbl.string("message");
       tbl
@@ -261,7 +261,7 @@ exports.up = function (knex) {
       tbl.increments("invite_id");
       tbl.string("status").notNullable().defaultTo("Pending");
       tbl.timestamp("event_date").notNullable();
-      tbl.integer("time").notNullable();
+      tbl.time("time").notNullable();
       tbl.timestamp("date").notNullable();
       tbl.string("message");
       tbl
@@ -350,7 +350,7 @@ exports.up = function (knex) {
       tbl.increments("booking_id");
       tbl.timestamp("date").notNullable();
       tbl.timestamp("event_date").notNullable();
-      tbl.integer("time").notNullable();
+      tbl.time("time").notNullable();
       tbl
         .integer("club_id")
         .unsigned()
