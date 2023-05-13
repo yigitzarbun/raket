@@ -29,6 +29,7 @@ function TrainInvite(props) {
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const handleTrainInvite = (data) => {
+    console.log(data);
     const dataWide = {
       ...data,
       inviter_id: user.player_id,
@@ -57,17 +58,18 @@ function TrainInvite(props) {
   const handleSelectedCourt = (event) => {
     setSelectedCourt(event.target.value);
   };
-  if (selectedCourt !== "") {
-    opening = courts.filter((c) => c.court_id === Number(selectedCourt))[0][
-      "opening"
-    ];
-    closing = courts.filter((c) => c.court_id === Number(selectedCourt))[0][
-      "closing"
-    ];
-    for (let t = opening; t <= closing; t += 100) {
-      availableTimes.push(t);
+  if (selectedCourt !== "" && courts) {
+    const court = courts.filter((c) => c.court_id === Number(selectedCourt))[0];
+    if (court && court.opening && court.closing) {
+      opening = court.opening;
+      closing = court.closing;
+      for (let t = opening; t <= closing; t += 100) {
+        availableTimes.push(t);
+      }
     }
   }
+
+  console.log(availableTimes);
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getClubs());
@@ -146,7 +148,6 @@ function TrainInvite(props) {
               {...register("time", {
                 required: "Time is required",
               })}
-              onChange={handleSelectedCourt}
             >
               <option value="">-- Choose Time --</option>
               {availableTimes.map((t) => (
