@@ -32,7 +32,9 @@ function Main() {
     );
     myEvents = invites.filter(
       (invite) =>
-        invite.invitee_id === user.player_id && invite.status === "Accepted"
+        (invite.invitee_id === user.player_id ||
+          invite.inviter_id === user.player_id) &&
+        invite.status === "Accepted"
     );
   }
   useEffect(() => {

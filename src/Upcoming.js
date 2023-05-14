@@ -1,38 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getInvites, GET_USER, deleteInvite } from "./redux stuff/actions";
+import {
+  getInvites,
+  GET_USER,
+  deleteInvite,
+  getBookings,
+  updateBooking,
+} from "./redux stuff/actions";
 
 function Upcoming() {
   const dispatch = useDispatch();
-  let { user, invites } = useSelector((store) => store);
+  let { user, invites, bookings } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
     user = user;
   }
-
   const [myEvents, setMyEvents] = useState([]);
-
-  useEffect(() => {
-    dispatch({ type: GET_USER });
-    dispatch(getInvites());
-  }, []);
-
-  useEffect(() => {
-    if (Array.isArray(invites) && invites.length > 0) {
-      const filteredInvites = invites.filter(
-        (invite) =>
-          invite.invitee_id === user.player_id && invite.status === "Accepted"
-      );
-      setMyEvents(
-        filteredInvites.sort(function (a, b) {
-          return new Date(a.event_date) - new Date(b.event_date);
-        })
-      );
-    }
-  }, [invites, user]);
-
   const [invitationIndex, setInvitationIndex] = useState(0);
   const handleNextIndex = () => {
     setInvitationIndex((invitationIndex + 1) % myEvents.length);
@@ -42,12 +27,47 @@ function Upcoming() {
       (invitationIndex + myEvents.length - 1) % myEvents.length
     );
   };
-  const handleCancelEvent = (invite_id) => {
-    dispatch(deleteInvite(invite_id));
-    // booking cancelled
+  const handleCancelEvent = (invite) => {
+    dispatch(deleteInvite(invite.invite_id));
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === invite.event_date &&
+        b.time === invite.time &&
+        b.court_id === invite.court_id
+    )[0];
+    const bookingData = {
+      status: "cancelled",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: invite.event_date,
+      time: invite.time,
+      club_id: invite.club_id,
+      court_id: invite.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+    dispatch(getInvites());
+    dispatch(getBookings());
+  }, []);
+  useEffect(() => {
+    if (Array.isArray(invites) && invites.length > 0) {
+      const filteredInvites = invites.filter(
+        (invite) =>
+          (invite.invitee_id === user.player_id ||
+            invite.inviter_id === user.player_id) &&
+          invite.status === "Accepted"
+      );
+      setMyEvents(
+        filteredInvites.sort(function (a, b) {
+          return new Date(a.event_date) - new Date(b.event_date);
+        })
+      );
+    }
+  }, [invites, user]);
   return (
-    <div className="p-8 mr-4 mt-8 rounded-md shadow-md bg-gradient-to-r from-teal-400 to-purple-500">
+    <div className="p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md bg-gradient-to-r from-teal-400 to-purple-500">
       <div className="flex justify-between">
         <h2 className="font-bold text-4xl">Upcoming</h2>
         {myEvents && myEvents.length > 1 && (
@@ -141,9 +161,7 @@ function Upcoming() {
       </div>
       <button
         className="mt-4 p-2 border-2 border-black rounded-md w-full hover:bg-red-500 hover:border-red-500 hover:text-white"
-        onClick={() =>
-          handleCancelEvent(myEvents[invitationIndex]["invite_id"])
-        }
+        onClick={() => handleCancelEvent(myEvents[invitationIndex])}
       >
         <p className="font-bold">Cancel</p>
       </button>

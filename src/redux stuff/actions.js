@@ -40,6 +40,7 @@ export const GET_MY_CARD = "GET_MY_CARD";
 export const REMOVE_MY_CARD = "REMOVE_MY_CARD";
 export const GET_BOOKINGS = "GET_BOOKINGS";
 export const ADD_BOOKING = "ADD_BOOKING";
+export const UPDATE_BOOKING = "ADD_BOOKING";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -294,6 +295,17 @@ export const addBooking = (booking) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: ADD_BOOKING, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const updateBooking = (changes) => (dispatch) => {
+  axiosWithAuth()
+    .put(url + `api/bookings/:${changes.booking_id}`, changes)
+    .then((res) => {
+      if (res.status === 201) {
+        dispatch({ type: UPDATE_BOOKING, payload: res.data });
       }
     })
     .catch((err) => console.log(err));

@@ -2,15 +2,37 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import HeroTrainBooking from "./HeroTrainBooking";
-import { deleteInvite, getInvites, getPlayers } from "./redux stuff/actions";
+import {
+  deleteInvite,
+  getBookings,
+  getInvites,
+  getPlayers,
+  updateBooking,
+} from "./redux stuff/actions";
 function TrainInviteBooking() {
   const navigate = useNavigate();
   const { invite_id } = useParams();
-  const { invites, players } = useSelector((store) => store);
+  const { invites, players, bookings } = useSelector((store) => store);
   const dispatch = useDispatch();
   const eventType = "Training";
-  const handleCancel = (invite_id) => {
-    dispatch(deleteInvite(invite_id, navigate));
+  const handleCancel = (invite) => {
+    dispatch(deleteInvite(invite.invite_id, navigate));
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === invite.event_date &&
+        b.time === invite.time &&
+        b.court_id === invite.court_id
+    )[0];
+    const bookingData = {
+      status: "cancelled",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: invite.event_date,
+      time: invite.time,
+      club_id: invite.club_id,
+      court_id: invite.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
   let resultJsx = [];
   let textJsx = "";
@@ -102,9 +124,7 @@ function TrainInviteBooking() {
           </td>
           <td>{invite.court_name}</td>
           <td>
-            <button onClick={() => handleCancel(invite.invite_id)}>
-              Cancel
-            </button>
+            <button onClick={() => handleCancel(invite)}>Cancel</button>
           </td>
         </tr>
       ));
@@ -120,6 +140,7 @@ function TrainInviteBooking() {
   useEffect(() => {
     dispatch(getInvites());
     dispatch(getPlayers());
+    dispatch(getBookings());
   }, []);
   return (
     <div>

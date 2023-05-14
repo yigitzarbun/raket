@@ -8,12 +8,16 @@ import {
   addPlayerPayment,
   getCourts,
   getMyCard,
+  updateBooking,
+  getBookings,
 } from "./redux stuff/actions";
 function IncomingRequests() {
   const dispatch = useDispatch();
   const [change, setChange] = useState(false);
   const eventType = "Training";
-  let { invites, user, courts, myCard } = useSelector((store) => store);
+  let { invites, user, courts, myCard, bookings } = useSelector(
+    (store) => store
+  );
   if (user.player) {
     user = user.player;
   } else {
@@ -53,7 +57,22 @@ function IncomingRequests() {
     };
     dispatch(addPlayerPayment(paymentDataInviter));
     setChange(!change);
-    // booking confirmed
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === data.event_date &&
+        b.time === data.time &&
+        b.court_id === data.court_id
+    )[0];
+    const bookingData = {
+      status: "confirmed",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: data.event_date,
+      time: data.time,
+      club_id: data.club_id,
+      court_id: data.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
 
   const handleReject = (data) => {
@@ -71,7 +90,22 @@ function IncomingRequests() {
     };
     dispatch(updateInvite(dataWide));
     setChange(!change);
-    // booking cancelled
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === data.event_date &&
+        b.time === data.time &&
+        b.court_id === data.court_id
+    )[0];
+    const bookingData = {
+      status: "rejected",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: data.event_date,
+      time: data.time,
+      club_id: data.club_id,
+      court_id: data.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
   let resultJsx = "";
   if (invites == null) {
@@ -147,6 +181,7 @@ function IncomingRequests() {
     dispatch(getInvites());
     dispatch(getCourts());
     dispatch(getMyCard(user.player_id));
+    dispatch(getBookings());
   }, [change]);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">

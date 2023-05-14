@@ -6,20 +6,37 @@ import {
   getPlayers,
   GET_USER,
   deleteInvite,
+  updateBooking,
+  getBookings,
 } from "./redux stuff/actions";
 function Calendar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const eventType = "Training";
-  let { user, invites, players } = useSelector((store) => store);
+  let { user, invites, players, bookings } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
     user = user;
   }
-  const handleCancel = (invite_id) => {
-    dispatch(deleteInvite(invite_id, navigate));
-    // booking cancel
+  const handleCancel = (invite) => {
+    dispatch(deleteInvite(invite.invite_id, navigate));
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === invite.event_date &&
+        b.time === invite.time &&
+        b.court_id === invite.court_id
+    )[0];
+    const bookingData = {
+      status: "cancelled",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: invite.event_date,
+      time: invite.time,
+      club_id: invite.club_id,
+      court_id: invite.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
   let resultJsx = [];
   if (invites === null) {
@@ -121,7 +138,7 @@ function Calendar() {
                 invite.time.toString()[3]}
           </td>
           <td>{invite.court_name}</td>
-          <td onClick={() => handleCancel(invite.invite_id)}>Cancel</td>
+          <td onClick={() => handleCancel(invite)}>Cancel</td>
         </tr>
       ));
   }
@@ -129,6 +146,7 @@ function Calendar() {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
     dispatch(getPlayers());
+    dispatch(getBookings());
   }, []);
   return (
     <div>

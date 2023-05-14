@@ -20,6 +20,7 @@ import {
   GET_MY_CARD,
   GET_BOOKINGS,
   ADD_BOOKING,
+  UPDATE_BOOKING,
 } from "./actions";
 
 const initialState = {
@@ -151,6 +152,17 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         bookings: [action.payload, ...(state.bookings || [])],
+      };
+    case UPDATE_BOOKING:
+      const copyBookings = [...(state.bookings || [])];
+      const oldBooking = copyBookings.filter(
+        (b) => b.booking_id === action.payload.booking_id
+      )[0];
+      const indexBooking = copyBookings.indexOf(oldBooking);
+      const newBookings = copyBookings.splice(indexBooking, 1, action.payload);
+      return {
+        ...state,
+        bookings: [...newBookings],
       };
     default:
       return state;

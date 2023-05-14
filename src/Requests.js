@@ -7,11 +7,13 @@ import {
   updateInvite,
   addPlayerPayment,
   getCourts,
+  updateBooking,
+  getBookings,
 } from "./redux stuff/actions";
 function Requests() {
   const dispatch = useDispatch();
   const [change, setChange] = useState(false);
-  let { user, invites, courts } = useSelector((store) => store);
+  let { user, invites, courts, bookings } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
@@ -73,7 +75,22 @@ function Requests() {
     setChange(!change);
     dispatch(getInvites());
     setInvitationIndex(0);
-    // booking confirmed
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === data.event_date &&
+        b.time === data.time &&
+        b.court_id === data.court_id
+    )[0];
+    const bookingData = {
+      status: "confirmed",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: data.event_date,
+      time: data.time,
+      club_id: data.club_id,
+      court_id: data.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
 
   const handleReject = (data) => {
@@ -93,12 +110,28 @@ function Requests() {
     setChange(!change);
     dispatch(getInvites());
     setInvitationIndex(0);
-    // booking cancelled
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === data.event_date &&
+        b.time === data.time &&
+        b.court_id === data.court_id
+    )[0];
+    const bookingData = {
+      status: "cancelled",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: data.event_date,
+      time: data.time,
+      club_id: data.club_id,
+      court_id: data.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
     dispatch(getCourts());
+    dispatch(getBookings());
   }, [change]);
 
   return (
@@ -154,6 +187,7 @@ function Requests() {
           )}
         </div>
         <div className="flex flex-col">
+          <p className="text-sm font-bold italic">Time</p>
           {myInvites &&
             myInvites.length > 0 &&
             myInvites[invitationIndex].time !== undefined && (

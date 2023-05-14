@@ -6,9 +6,11 @@ import {
   GET_USER,
   deleteInvite,
   getPlayers,
+  updateBooking,
+  getBookings,
 } from "./redux stuff/actions";
 function OutgoingRequests() {
-  let { invites, user, players } = useSelector((store) => store);
+  let { invites, user, players, bookings } = useSelector((store) => store);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const eventType = "Training";
@@ -17,9 +19,24 @@ function OutgoingRequests() {
   } else {
     user = user;
   }
-  const handleCancel = (invite_id) => {
-    dispatch(deleteInvite(invite_id, navigate));
-    // booking cancelled
+  const handleCancel = (invite) => {
+    dispatch(deleteInvite(invite.invite_id, navigate));
+    let bookingId = bookings.filter(
+      (b) =>
+        b.event_date === invite.event_date &&
+        b.time === invite.time &&
+        b.court_id === invite.court_id
+    )[0];
+    const bookingData = {
+      status: "cancelled",
+      booking_id: bookingId.booking_id,
+      date: Date.now(),
+      event_date: invite.event_date,
+      time: invite.time,
+      club_id: invite.club_id,
+      court_id: invite.court_id,
+    };
+    dispatch(updateBooking(bookingData));
   };
 
   let resultJsx = "";
@@ -37,7 +54,11 @@ function OutgoingRequests() {
     );
   } else if (Array.isArray(invites) && invites) {
     resultJsx = invites
-      .filter((invite) => invite.inviter_id === Number(user.player_id))
+      .filter(
+        (invite) =>
+          invite.inviter_id === Number(user.player_id) &&
+          invite.status === "Pending"
+      )
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">
           <td>{eventType}</td>
@@ -94,7 +115,7 @@ function OutgoingRequests() {
                 invite.time.toString()[3]}
           </td>
           <td>{invite.court_name}</td>
-          <td onClick={() => handleCancel(invite.invite_id)}>Cancel</td>
+          <td onClick={() => handleCancel(invite)}>Cancel</td>
         </tr>
       ));
   }
@@ -103,6 +124,7 @@ function OutgoingRequests() {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
     dispatch(getPlayers());
+    dispatch(getBookings());
   }, []);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
