@@ -207,6 +207,7 @@ export const updateInvite = (changes) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: UPDATE_INVITE, payload: res.data });
+        toast.success("Successful");
       }
     })
     .catch((err) => console.log(err));

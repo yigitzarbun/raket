@@ -68,8 +68,6 @@ function TrainInvite(props) {
       }
     }
   }
-
-  console.log(availableTimes);
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getClubs());
@@ -173,7 +171,7 @@ function TrainInvite(props) {
             <textarea
               type="input"
               {...register("message")}
-              placeholder="Hey Roger, are you up for a training game?"
+              placeholder="Hey there, are you up for a training game?"
               className="px-2 py-4"
             />
             {errors.message && <span>{errors.message.message}</span>}

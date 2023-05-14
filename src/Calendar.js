@@ -106,7 +106,19 @@ function Calendar() {
           </td>
           <td>{invite.name}</td>
           <td>{invite.event_date}</td>
-          <td>{invite.time}</td>
+          <td>
+            {invite.time < 1000
+              ? "0" +
+                invite.time.toString()[0] +
+                ":" +
+                invite.time.toString()[1] +
+                invite.time.toString()[2]
+              : invite.time.toString()[0] +
+                invite.time.toString()[1] +
+                ":" +
+                invite.time.toString()[2] +
+                invite.time.toString()[3]}
+          </td>
           <td>{invite.court_name}</td>
           <td onClick={() => handleCancel(invite.invite_id)}>Cancel</td>
         </tr>

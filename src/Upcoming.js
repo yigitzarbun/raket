@@ -12,21 +12,27 @@ function Upcoming() {
     user = user;
   }
 
-  let myEvents = "";
-  if (invites === null) {
-    myEvents = "Loading events";
-  } else if (invites.length === 0) {
-    myEvents = "No upcoming events";
-  } else if (Array.isArray(invites) && invites) {
-    myEvents = invites
-      .filter(
+  const [myEvents, setMyEvents] = useState([]);
+
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+    dispatch(getInvites());
+  }, []);
+
+  useEffect(() => {
+    if (Array.isArray(invites) && invites.length > 0) {
+      const filteredInvites = invites.filter(
         (invite) =>
           invite.invitee_id === user.player_id && invite.status === "Accepted"
-      )
-      .sort(function (a, b) {
-        return new Date(a.event_date) - new Date(b.event_date);
-      });
-  }
+      );
+      setMyEvents(
+        filteredInvites.sort(function (a, b) {
+          return new Date(a.event_date) - new Date(b.event_date);
+        })
+      );
+    }
+  }, [invites, user]);
+
   const [invitationIndex, setInvitationIndex] = useState(0);
   const handleNextIndex = () => {
     setInvitationIndex((invitationIndex + 1) % myEvents.length);
@@ -39,12 +45,8 @@ function Upcoming() {
   const handleCancelEvent = (invite_id) => {
     dispatch(deleteInvite(invite_id));
   };
-  useEffect(() => {
-    dispatch({ type: GET_USER });
-    dispatch(getInvites());
-  }, []);
   return (
-    <div className="p-8 mr-4 mt-8 rounded-md shadow-md bg-gradient-to-r from-red-200 to-yellow-400">
+    <div className="p-8 mr-4 mt-8 rounded-md shadow-md bg-gradient-to-r from-teal-400 to-purple-500">
       <div className="flex justify-between">
         <h2 className="font-bold text-4xl">Upcoming</h2>
         {myEvents && myEvents.length > 1 && (
@@ -65,15 +67,16 @@ function Upcoming() {
         )}
       </div>
       <h4 className="italic">Training</h4>
-      <img
-        src={
-          myEvents &&
-          myEvents.length > 0 &&
-          myEvents[invitationIndex]["face_image"]
-        }
-        alt="opponent"
-        className="h-32 mx-auto rounded-full"
-      />
+      {myEvents.length > 0 &&
+        myEvents[invitationIndex] &&
+        myEvents[invitationIndex]["face_image"] && (
+          <img
+            src={myEvents[invitationIndex]["face_image"]}
+            alt="face"
+            className="rounded-full w-24 h-24 object-cover"
+          />
+        )}
+
       <p className="text-xl font-bold mt-2">
         {myEvents &&
           myEvents.length > 0 &&
@@ -97,9 +100,23 @@ function Upcoming() {
           <img src="/images/time.png" alt="time" className="w-4 h-4" />
           <p className="text-sm ml-2 font-bold"> Time</p>
         </div>
-        <p className="text-sm">
-          {myEvents && myEvents.length > 0 && myEvents[invitationIndex]["time"]}
-        </p>
+        {myEvents &&
+          myEvents.length > 0 &&
+          myEvents[invitationIndex].time !== undefined && (
+            <p className="text-sm">
+              {myEvents[invitationIndex].time.toString().length < 4
+                ? "0" +
+                  myEvents[invitationIndex].time.toString()[0] +
+                  ":" +
+                  myEvents[invitationIndex].time.toString()[1] +
+                  myEvents[invitationIndex].time.toString()[2]
+                : myEvents[invitationIndex].time.toString()[0] +
+                  myEvents[invitationIndex].time.toString()[1] +
+                  ":" +
+                  myEvents[invitationIndex].time.toString()[2] +
+                  myEvents[invitationIndex].time.toString()[3]}
+            </p>
+          )}
       </div>
       <div className="flex justify-between items-center mt-2">
         <div className="flex items-center">
@@ -122,7 +139,7 @@ function Upcoming() {
         </p>
       </div>
       <button
-        className="mt-4 p-2 border-2 border-black rounded-md w-full hover:bg-red-500 hover:text-white"
+        className="mt-4 p-2 border-2 border-black rounded-md w-full hover:bg-red-500 hover:border-red-500 hover:text-white"
         onClick={() =>
           handleCancelEvent(myEvents[invitationIndex]["invite_id"])
         }
