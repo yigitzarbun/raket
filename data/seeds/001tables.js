@@ -336,6 +336,7 @@ exports.seed = async function (knex) {
   await knex("bookings").insert([
     {
       booking_id: 1,
+      status: "confirmed",
       date: "21.04.2023",
       event_date: "21.04.2023",
       time: 1300,
@@ -344,6 +345,7 @@ exports.seed = async function (knex) {
     },
     {
       booking_id: 2,
+      status: "confirmed",
       date: "20.04.2023",
       event_date: "22.04.2023",
       time: 1500,

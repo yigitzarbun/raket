@@ -19,6 +19,7 @@ function Calendar() {
   }
   const handleCancel = (invite_id) => {
     dispatch(deleteInvite(invite_id, navigate));
+    // booking cancel
   };
   let resultJsx = [];
   if (invites === null) {

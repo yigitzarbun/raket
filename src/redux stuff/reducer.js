@@ -19,6 +19,7 @@ import {
   ADD_PLAYER_CARD,
   GET_MY_CARD,
   GET_BOOKINGS,
+  ADD_BOOKING,
 } from "./actions";
 
 const initialState = {
@@ -145,6 +146,11 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         bookings: [...action.payload],
+      };
+    case ADD_BOOKING:
+      return {
+        ...state,
+        bookings: [action.payload, ...(state.bookings || [])],
       };
     default:
       return state;

@@ -44,6 +44,7 @@ function Upcoming() {
   };
   const handleCancelEvent = (invite_id) => {
     dispatch(deleteInvite(invite_id));
+    // booking cancelled
   };
   return (
     <div className="p-8 mr-4 mt-8 rounded-md shadow-md bg-gradient-to-r from-teal-400 to-purple-500">

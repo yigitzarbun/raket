@@ -348,6 +348,7 @@ exports.up = function (knex) {
     })
     .createTable("bookings", (tbl) => {
       tbl.increments("booking_id");
+      tbl.string("status").notNullable();
       tbl.timestamp("date").notNullable();
       tbl.timestamp("event_date").notNullable();
       tbl.time("time").notNullable();

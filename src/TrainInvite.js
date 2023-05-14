@@ -9,6 +9,7 @@ import {
   GET_USER,
   getMyCard,
   getBookings,
+  addBooking,
 } from "./redux stuff/actions";
 
 function TrainInvite(props) {
@@ -29,7 +30,6 @@ function TrainInvite(props) {
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const handleTrainInvite = (data) => {
-    console.log(data);
     const dataWide = {
       ...data,
       inviter_id: user.player_id,
@@ -38,16 +38,21 @@ function TrainInvite(props) {
       club_id: Number(data.club_id),
       date: Date.now(),
     };
+    const bookingData = {
+      status: "pending",
+      date: Date.now(),
+      event_date: data.event_date,
+      time: data.time,
+      club_id: Number(data.club_id),
+      court_id: Number(data.court_id),
+    };
     dispatch(addInvite(dataWide, navigate));
+    dispatch(addBooking(bookingData));
     reset();
   };
   const [selectedClub, setSelectedClub] = useState("");
   const handleSelectedClub = (event) => {
     setSelectedClub(event.target.value);
-  };
-  const [selectedDate, setSelectedDate] = useState("");
-  const handleSelectedDate = (event) => {
-    setSelectedDate(event.target.value);
   };
 
   let opening = null;
@@ -110,7 +115,6 @@ function TrainInvite(props) {
               {...register("event_date", {
                 required: "Training date is required",
               })}
-              onChange={handleSelectedDate}
             />
             {errors.event_date && <span>{errors.event_date.message}</span>}
           </div>

@@ -19,6 +19,7 @@ function OutgoingRequests() {
   }
   const handleCancel = (invite_id) => {
     dispatch(deleteInvite(invite_id, navigate));
+    // booking cancelled
   };
 
   let resultJsx = "";

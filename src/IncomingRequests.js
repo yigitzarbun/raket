@@ -53,6 +53,7 @@ function IncomingRequests() {
     };
     dispatch(addPlayerPayment(paymentDataInviter));
     setChange(!change);
+    // booking confirmed
   };
 
   const handleReject = (data) => {
@@ -70,6 +71,7 @@ function IncomingRequests() {
     };
     dispatch(updateInvite(dataWide));
     setChange(!change);
+    // booking cancelled
   };
   let resultJsx = "";
   if (invites == null) {

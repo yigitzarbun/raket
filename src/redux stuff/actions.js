@@ -245,7 +245,7 @@ export const addPlayerCard = (card, navigate) => (dispatch) => {
       if (res.status === 201) {
         dispatch({ type: ADD_PLAYER_CARD, payload: res.data });
         toast.success("Card added");
-        navigate("/account");
+        navigate(-1);
       }
     })
     .catch((err) => console.log(err));
@@ -283,6 +283,17 @@ export const getBookings = () => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch({ type: GET_BOOKINGS, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const addBooking = (booking) => (dispatch) => {
+  axiosWithAuth()
+    .post(url + "api/bookings", booking)
+    .then((res) => {
+      if (res.status === 201) {
+        dispatch({ type: ADD_BOOKING, payload: res.data });
       }
     })
     .catch((err) => console.log(err));

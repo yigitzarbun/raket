@@ -73,6 +73,7 @@ function Requests() {
     setChange(!change);
     dispatch(getInvites());
     setInvitationIndex(0);
+    // booking confirmed
   };
 
   const handleReject = (data) => {
@@ -92,6 +93,7 @@ function Requests() {
     setChange(!change);
     dispatch(getInvites());
     setInvitationIndex(0);
+    // booking cancelled
   };
   useEffect(() => {
     dispatch({ type: GET_USER });
