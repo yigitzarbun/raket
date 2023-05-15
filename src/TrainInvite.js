@@ -58,21 +58,37 @@ function TrainInvite(props) {
   let opening = null;
   let closing = null;
   let availableTimes = [];
-
+  let bookedTimes = [];
   const [selectedCourt, setSelectedCourt] = useState("");
   const handleSelectedCourt = (event) => {
     setSelectedCourt(event.target.value);
+  };
+  const [selectedDate, setSelectedDate] = useState("");
+  const handleSelectedDate = (event) => {
+    setSelectedDate(event.target.value);
   };
   if (selectedCourt !== "" && courts) {
     const court = courts.filter((c) => c.court_id === Number(selectedCourt))[0];
     if (court && court.opening && court.closing) {
       opening = court.opening;
       closing = court.closing;
-      for (let t = opening; t <= closing; t += 100) {
+      for (let t = opening; t <= closing - 1; t += 100) {
         availableTimes.push(t);
       }
     }
   }
+  if (selectedCourt !== "" && selectedDate !== "" && courts && bookings) {
+    let bookedTimesArr = bookings.filter(
+      (b) =>
+        b.court_id === Number(selectedCourt) && b.event_date === selectedDate
+    );
+    if (bookedTimesArr.length > 0) {
+      for (let i = 0; i < bookedTimesArr.length; i++) {
+        bookedTimes.push(bookedTimesArr[i]["time"]);
+      }
+    }
+  }
+
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getClubs());
@@ -115,6 +131,7 @@ function TrainInvite(props) {
               {...register("event_date", {
                 required: "Training date is required",
               })}
+              onChange={handleSelectedDate}
             />
             {errors.event_date && <span>{errors.event_date.message}</span>}
           </div>
@@ -152,21 +169,23 @@ function TrainInvite(props) {
               })}
             >
               <option value="">-- Choose Time --</option>
-              {availableTimes.map((t) => (
-                <option key={t} value={t}>
-                  {t < 1000
-                    ? "0" +
-                      t.toString()[0] +
-                      ":" +
-                      t.toString()[1] +
-                      t.toString()[2]
-                    : t.toString()[0] +
-                      t.toString()[1] +
-                      ":" +
-                      t.toString()[2] +
-                      t.toString()[3]}
-                </option>
-              ))}
+              {availableTimes
+                .filter((t) => bookedTimes.includes(t) === false)
+                .map((t) => (
+                  <option key={t} value={t}>
+                    {t < 1000
+                      ? "0" +
+                        t.toString()[0] +
+                        ":" +
+                        t.toString()[1] +
+                        t.toString()[2]
+                      : t.toString()[0] +
+                        t.toString()[1] +
+                        ":" +
+                        t.toString()[2] +
+                        t.toString()[3]}
+                  </option>
+                ))}
             </select>
             {errors.time && <span>{errors.time.message}</span>}
           </div>
