@@ -2,7 +2,7 @@ import React from "react";
 
 function AccountMyStats() {
   return (
-    <div className="bg-slate-800 text-white rounded-md p-4 my-8">
+    <div className="bg-slate-800 text-white rounded-md p-4 my-8 w-1/2">
       <h2 className="font-bold text-4xl">Stats</h2>
       <div className="flex justify-between mt-4">
         <div className="text-center">

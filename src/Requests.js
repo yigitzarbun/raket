@@ -9,11 +9,14 @@ import {
   getCourts,
   updateBooking,
   getBookings,
+  getMyCard,
 } from "./redux stuff/actions";
 function Requests() {
   const dispatch = useDispatch();
   const [change, setChange] = useState(false);
-  let { user, invites, courts, bookings } = useSelector((store) => store);
+  let { user, invites, courts, bookings, myCard } = useSelector(
+    (store) => store
+  );
   if (user.player) {
     user = user.player;
   } else {
@@ -132,6 +135,7 @@ function Requests() {
     dispatch(getInvites());
     dispatch(getCourts());
     dispatch(getBookings());
+    dispatch(getMyCard(user.player_id));
   }, [change]);
 
   return (
@@ -219,14 +223,23 @@ function Requests() {
           )}
         </div>
         <div>
-          <button
-            className=" p-2 border-2 border-black rounded-md hover:bg-black hover:text-white mr-2"
-            onClick={() => {
-              handleAccept(myInvites[invitationIndex]);
-            }}
-          >
-            <p className="font-bold">Accept</p>
-          </button>
+          {myCard ? (
+            <button
+              className="p-2 border-2 border-black rounded-md hover:bg-black hover:text-white mr-2"
+              onClick={() => {
+                handleAccept(myInvites[invitationIndex]);
+              }}
+            >
+              <p className="font-bold">Accept</p>
+            </button>
+          ) : (
+            <Link to="/add-player-card">
+              <button className="font-bold mr-2 p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">
+                Add Card
+              </button>
+            </Link>
+          )}
+
           <button
             className=" p-2 border-2 border-black rounded-md hover:bg-black hover:text-white"
             onClick={() => {

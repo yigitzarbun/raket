@@ -3,6 +3,7 @@ import AccountMyStats from "./AccountMyStats";
 import PersonalDetails from "./PersonalDetails";
 import PlayerCard from "./PlayerCard";
 import PaymentHistory from "./PaymentHistory";
+import AccountEvents from "./AccountEvents";
 function Account() {
   return (
     <div>
@@ -12,7 +13,10 @@ function Account() {
         <PlayerCard />
         <PaymentHistory />
       </div>
-      <AccountMyStats />
+      <div className="flex justify-between">
+        <AccountMyStats />
+        <AccountEvents />
+      </div>
     </div>
   );
 }

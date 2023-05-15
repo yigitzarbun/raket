@@ -27,6 +27,7 @@ import ClubMain from "./ClubMain";
 import TrainAllPlayers from "./TrainAllPlayers";
 import ManagePlayerCard from "./ManagePlayerCard";
 import AddPlayerCard from "./AddPlayerCard";
+import AllEvents from "./AllEvents";
 function App() {
   return (
     <div className="max-w-5xl mx-auto">
@@ -61,6 +62,7 @@ function App() {
           <Route path="/club-calendar" element={<ClubReservations />} />
           <Route path="/manage-player-card" element={<ManagePlayerCard />} />
           <Route path="/add-player-card" element={<AddPlayerCard />} />
+          <Route path="/all-events" element={<AllEvents />} />
         </Route>
       </Routes>
       <Footer />
