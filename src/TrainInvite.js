@@ -80,7 +80,9 @@ function TrainInvite(props) {
   if (selectedCourt !== "" && selectedDate !== "" && courts && bookings) {
     let bookedTimesArr = bookings.filter(
       (b) =>
-        b.court_id === Number(selectedCourt) && b.event_date === selectedDate
+        b.court_id === Number(selectedCourt) &&
+        b.event_date === selectedDate &&
+        (b.status === "confirmed" || b.status === "pending")
     );
     if (bookedTimesArr.length > 0) {
       for (let i = 0; i < bookedTimesArr.length; i++) {
