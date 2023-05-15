@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   getInvites,
   GET_USER,
-  deleteInvite,
+  updateInvite,
   getPlayers,
   updateBooking,
   getBookings,
@@ -12,7 +12,6 @@ import {
 function OutgoingRequests() {
   let { invites, user, players, bookings } = useSelector((store) => store);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const eventType = "Training";
   if (user.player) {
     user = user.player;
@@ -20,7 +19,11 @@ function OutgoingRequests() {
     user = user;
   }
   const handleCancel = (invite) => {
-    dispatch(deleteInvite(invite.invite_id, navigate));
+    const updatedInviteData = {
+      invite_id: invite.invite_id,
+      status: "cancelled",
+    };
+    dispatch(updateInvite(updatedInviteData));
     let bookingId = bookings.filter(
       (b) =>
         b.event_date === invite.event_date &&

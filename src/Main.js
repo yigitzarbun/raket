@@ -34,7 +34,7 @@ function Main() {
       (invite) =>
         (invite.invitee_id === user.player_id ||
           invite.inviter_id === user.player_id) &&
-        invite.status === "Accepted"
+        invite.status === "confirmed"
     );
   }
   useEffect(() => {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {
   getInvites,
   GET_USER,
-  deleteInvite,
+  updateInvite,
   getBookings,
   updateBooking,
 } from "./redux stuff/actions";
@@ -28,7 +28,11 @@ function Upcoming() {
     );
   };
   const handleCancelEvent = (invite) => {
-    dispatch(deleteInvite(invite.invite_id));
+    const inviteUpdateData = {
+      invite_id: invite.invite_id,
+      status: "cancelled",
+    };
+    dispatch(updateInvite(inviteUpdateData));
     let bookingId = bookings.filter(
       (b) =>
         b.event_date === invite.event_date &&
@@ -57,7 +61,7 @@ function Upcoming() {
         (invite) =>
           (invite.invitee_id === user.player_id ||
             invite.inviter_id === user.player_id) &&
-          invite.status === "Accepted"
+          invite.status === "confirmed"
       );
       setMyEvents(
         filteredInvites.sort(function (a, b) {

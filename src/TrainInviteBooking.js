@@ -3,20 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import HeroTrainBooking from "./HeroTrainBooking";
 import {
-  deleteInvite,
+  updateInvite,
   getBookings,
   getInvites,
   getPlayers,
   updateBooking,
 } from "./redux stuff/actions";
 function TrainInviteBooking() {
-  const navigate = useNavigate();
   const { invite_id } = useParams();
+  const navigate = useNavigate();
   const { invites, players, bookings } = useSelector((store) => store);
   const dispatch = useDispatch();
   const eventType = "Training";
   const handleCancel = (invite) => {
-    dispatch(deleteInvite(invite.invite_id, navigate));
+    const updatedInviteData = {
+      invite_id: invite.invite_id,
+      status: "cancelled",
+    };
+    dispatch(updateInvite(updatedInviteData));
     let bookingId = bookings.filter(
       (b) =>
         b.event_date === invite.event_date &&
@@ -33,6 +37,7 @@ function TrainInviteBooking() {
       court_id: invite.court_id,
     };
     dispatch(updateBooking(bookingData));
+    navigate("/");
   };
   let resultJsx = [];
   let textJsx = "";

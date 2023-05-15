@@ -35,7 +35,7 @@ function IncomingRequests() {
       invitee_id: data.invitee_id,
       court_id: data.court_id,
       club_id: data.club_id,
-      status: "Accepted",
+      status: "confirmed",
     };
     dispatch(updateInvite(dataWide));
     const paymentDataInvitee = {
@@ -86,7 +86,7 @@ function IncomingRequests() {
       invitee_id: data.invitee_id,
       court_id: data.court_id,
       club_id: data.club_id,
-      status: "Rejected",
+      status: "rejected",
     };
     dispatch(updateInvite(dataWide));
     setChange(!change);

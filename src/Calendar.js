@@ -5,7 +5,7 @@ import {
   getInvites,
   getPlayers,
   GET_USER,
-  deleteInvite,
+  updateInvite,
   updateBooking,
   getBookings,
 } from "./redux stuff/actions";
@@ -20,7 +20,11 @@ function Calendar() {
     user = user;
   }
   const handleCancel = (invite) => {
-    dispatch(deleteInvite(invite.invite_id, navigate));
+    const inviteData = {
+      invite_id: invite.invite_id,
+      status: "cancelled",
+    };
+    dispatch(updateInvite(inviteData));
     let bookingId = bookings.filter(
       (b) =>
         b.event_date === invite.event_date &&
@@ -55,7 +59,7 @@ function Calendar() {
     resultJsx = invites
       .filter(
         (invite) =>
-          invite.status === "Accepted" &&
+          invite.status === "confirmed" &&
           (invite.inviter_id === user.player_id ||
             invite.invitee_id === user.player_id)
       )
