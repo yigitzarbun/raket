@@ -109,6 +109,7 @@ function Requests() {
       club_id: data.club_id,
       status: "rejected",
     };
+    console.log(dataWide);
     dispatch(updateInvite(dataWide));
     setChange(!change);
     dispatch(getInvites());
@@ -128,6 +129,7 @@ function Requests() {
       club_id: data.club_id,
       court_id: data.court_id,
     };
+    console.log(bookingData);
     dispatch(updateBooking(bookingData));
   };
   useEffect(() => {
