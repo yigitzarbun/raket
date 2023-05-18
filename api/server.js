@@ -13,6 +13,8 @@ const courtsRouter = require("./courts/courts-router");
 const playersPaymentRouter = require("./player-payments/payments-router");
 const playersCardsRouter = require("./player-cards/cards-router");
 const bookingsRouter = require("./bookings/bookings-router");
+const courtTypesRouter = require("./court_types/court_types_router");
+const indoorOutdoorRouter = require("./indoor_outdoor/indoor_outdoor_router");
 // server
 const server = express();
 server.use(helmet());
@@ -31,6 +33,8 @@ server.use("/api/courts", courtsRouter);
 server.use("/api/player-payments", playersPaymentRouter);
 server.use("/api/player-cards", playersCardsRouter);
 server.use("/api/bookings", bookingsRouter);
+server.use("/api/court-types", courtTypesRouter);
+server.use("/api/indoor-outdoor", indoorOutdoorRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json({ message: "hello world" });

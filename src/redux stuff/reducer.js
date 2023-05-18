@@ -21,6 +21,9 @@ import {
   GET_BOOKINGS,
   ADD_BOOKING,
   UPDATE_BOOKING,
+  ADD_COURT,
+  GET_COURT_TYPES,
+  GET_INDOOR_OUTDOOR,
 } from "./actions";
 
 const initialState = {
@@ -41,6 +44,8 @@ const initialState = {
   courtAvailability: [],
   leaderboard: [],
   bookings: [],
+  courtTypes: [],
+  indoorOutdoor: [],
 };
 
 export function myReducer(state = initialState, action) {
@@ -163,6 +168,21 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         bookings: [...newBookings],
+      };
+    case ADD_COURT:
+      return {
+        ...state,
+        courts: [action.payload, ...(state.courts || [])],
+      };
+    case GET_COURT_TYPES:
+      return {
+        ...state,
+        courtTypes: action.payload,
+      };
+    case GET_INDOOR_OUTDOOR:
+      return {
+        ...state,
+        indoorOutdoor: action.payload,
       };
     default:
       return state;

@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  addCourt,
+  GET_USER,
+  getCourtTypes,
+  getIndoorOutdoor,
+} from "./redux stuff/actions";
 function NewCourt() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, courtTypes, indoorOutdoor } = useSelector((store) => store);
   const {
     register,
     handleSubmit,
@@ -11,14 +20,22 @@ function NewCourt() {
   } = useForm();
   const handleNewCourt = (data) => {
     let dataWide = {
-      ...data,
-      id: Date.now(),
-      registry_date: Date.now(),
+      court_name: data.name,
+      opening: data.opening,
+      closing: data.closing,
+      price: data.price,
+      club_id: user.club_id,
+      indoor_outdoor_id: data.indoor_outdoor,
+      court_type_id: data.court_type,
     };
-    console.log(dataWide);
-    navigate("/");
+    dispatch(addCourt(dataWide, navigate));
     reset();
   };
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+    dispatch(getCourtTypes());
+    dispatch(getIndoorOutdoor());
+  }, []);
   return (
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
@@ -46,11 +63,12 @@ function NewCourt() {
               })}
             >
               <option value="">-- Select surface --</option>
-              <option value="hard">Hard </option>
-              <option value="clay">Clay </option>
-              <option value="grass">Grass</option>
-              <option value="artificial_grass">Artificial Grass</option>
-              <option value="other">Other</option>
+              {courtTypes &&
+                courtTypes.map((t) => (
+                  <option key={t.court_type_id} value={t.court_type_id}>
+                    {t.court_type}
+                  </option>
+                ))}
             </select>
             {errors.court_type && <span>{errors.court_type.message}</span>}
           </div>
@@ -62,8 +80,17 @@ function NewCourt() {
               })}
             >
               <option value="">-- Select type --</option>
-              <option value="indoor">Indoor </option>
-              <option value="outdoor">Outdoor </option>
+              {indoorOutdoor &&
+                indoorOutdoor
+                  .filter((i) => i.indoor_outdoor !== "both")
+                  .map((i) => (
+                    <option
+                      key={i.indoor_outdoor_id}
+                      value={i.indoor_outdoor_id}
+                    >
+                      {i.indoor_outdoor}
+                    </option>
+                  ))}
             </select>
             {errors.indoor_outdoor && (
               <span>{errors.indoor_outdoor.message}</span>

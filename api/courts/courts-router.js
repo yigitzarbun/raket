@@ -10,4 +10,12 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/", async (req, res, next) => {
+  try {
+    const newCourt = await courtsModel.add(req.body);
+    res.status(201).json(newCourt);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

@@ -32,6 +32,7 @@ export const ADD_INVITE = "ADD_INVITE";
 export const DELETE_INVITE = "DELETE_INVITE";
 export const GET_INVITES = "GET_INVITES";
 export const GET_COURTS = "GET_COURTS";
+export const ADD_COURT = "ADD_COURT";
 export const UPDATE_INVITE = "UPDATE_INVITE";
 export const ADD_PLAYER_PAYMENT = "ADD_PLAYER_PAYMENT";
 export const GET_MY_PAYMENTS = "GET_MY_PAYMENTS";
@@ -41,6 +42,8 @@ export const REMOVE_MY_CARD = "REMOVE_MY_CARD";
 export const GET_BOOKINGS = "GET_BOOKINGS";
 export const ADD_BOOKING = "ADD_BOOKING";
 export const UPDATE_BOOKING = "ADD_BOOKING";
+export const GET_COURT_TYPES = "GET_COURT_TYPES";
+export const GET_INDOOR_OUTDOOR = "GET_INDOOR_OUTDOOR";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -202,6 +205,18 @@ export const getCourts = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+export const addCourt = (court, navigate) => (dispatch) => {
+  axiosWithAuth()
+    .post(url + "api/courts", court)
+    .then((res) => {
+      if (res.status === 201) {
+        dispatch({ type: ADD_COURT, payload: res.data });
+        navigate("/club-dashboard");
+        toast.success("Court added");
+      }
+    })
+    .catch((err) => console.log(err));
+};
 export const updateInvite = (changes) => (dispatch) => {
   axiosWithAuth()
     .put(url + `api/invites/${changes.invite_id}`, changes)
@@ -306,6 +321,28 @@ export const updateBooking = (changes) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: UPDATE_BOOKING, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getCourtTypes = () => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/court-types")
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: GET_COURT_TYPES, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getIndoorOutdoor = () => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/indoor-outdoor")
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: GET_INDOOR_OUTDOOR, payload: res.data });
       }
     })
     .catch((err) => console.log(err));
