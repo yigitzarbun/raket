@@ -68,8 +68,6 @@ function TrainInvite(props) {
   };
   if (selectedCourt !== "" && courts) {
     const court = courts.filter((c) => c.court_id === Number(selectedCourt))[0];
-    console.log(court);
-
     if (court && court.opening && court.closing) {
       opening = court.opening;
       closing = court.closing;

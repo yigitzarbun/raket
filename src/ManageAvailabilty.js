@@ -1,8 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  GET_USER,
+  getCourts,
+  getBookings,
+  addBooking,
+} from "./redux stuff/actions";
+import { toast } from "react-toastify";
 function ManageAvailabilty() {
+  let { user, bookings, courts } = useSelector((store) => store);
+  if (user.club) {
+    user = user.club;
+  } else {
+    user = user;
+  }
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [selectedCourt, setSelectedCourt] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const handleCourt = (e) => {
+    setSelectedCourt(e.target.value);
+  };
+  const handleDate = (e) => {
+    setSelectedDate(e.target.value);
+  };
+  const availableTimes = [];
+  let bookedTimes = [];
+  let opening = null;
+  let closing = null;
+
+  if (selectedCourt !== "" && courts) {
+    const court = courts.filter((c) => c.court_id === Number(selectedCourt))[0];
+    if (court && court.opening && court.closing) {
+      opening = court.opening;
+      closing = court.closing;
+      for (let t = opening; t <= closing - 1; t += 100) {
+        availableTimes.push(t);
+      }
+    }
+  }
+  if (selectedCourt !== "" && selectedDate !== "" && courts && bookings) {
+    let bookedTimesArr = bookings.filter(
+      (b) =>
+        b.court_id === Number(selectedCourt) &&
+        b.event_date === selectedDate &&
+        (b.status === "confirmed" || b.status === "pending")
+    );
+    if (bookedTimesArr.length > 0) {
+      for (let i = 0; i < bookedTimesArr.length; i++) {
+        bookedTimes.push(bookedTimesArr[i]["time"]);
+      }
+    }
+  }
   const {
     register,
     handleSubmit,
@@ -12,12 +63,24 @@ function ManageAvailabilty() {
   const handleNewBooking = (data) => {
     let dataWide = {
       ...data,
-      id: Date.now(),
+      status: "confirmed",
+      date: new Date(),
+      event_date: data.event_date,
+      time: data.time,
+      club_id: user.club_id,
+      court_id: data.court_id,
     };
-    console.log(dataWide);
+    dispatch(addBooking(dataWide));
+    toast.success("Booking added");
     navigate("/club-account");
     reset();
   };
+
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+    dispatch(getCourts());
+    dispatch(getBookings());
+  }, []);
   return (
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
@@ -33,36 +96,60 @@ function ManageAvailabilty() {
           <div className="newCourtContainer">
             <label>Court</label>
             <select
-              {...register("court", {
+              {...register("court_id", {
                 required: "Court is required",
               })}
+              onChange={handleCourt}
             >
               <option value="">-- Choose a Court --</option>
-              <option value="1">Court 1</option>
-              <option value="2">Court 2</option>
-              <option value="3">Court 3</option>
-              <option value="center">Center Court</option>
-              {errors.court && <span>{errors.court.message}</span>}
+              {courts &&
+                courts
+                  .filter((c) => c.club_id === user.club_id)
+                  .map((c) => (
+                    <option key={c.court_id} value={c.court_id}>
+                      {c.court_name}
+                    </option>
+                  ))}
+              {errors.court_id && <span>{errors.court_id.message}</span>}
             </select>
           </div>
           <div className="newCourtContainer">
             <label>Date</label>
             <input
               type="date"
-              {...register("date", {
+              {...register("event_date", {
                 required: "Dete is required",
               })}
+              onChange={handleDate}
             />
-            {errors.date && <span>{errors.date.message}</span>}
+            {errors.event_date && <span>{errors.event_date.message}</span>}
           </div>
           <div className="newCourtContainer">
             <label>Time</label>
-            <input
-              type="time"
+            <select
               {...register("time", {
-                required: "Time hour is required",
+                required: "Time is required",
               })}
-            />
+            >
+              <option value="">-- Choose Time --</option>
+              {availableTimes
+                .filter((t) => bookedTimes.includes(t) === false)
+                .map((t) => (
+                  <option key={t} value={t}>
+                    {t < 1000
+                      ? "0" +
+                        t.toString()[0] +
+                        ":" +
+                        t.toString()[1] +
+                        t.toString()[2]
+                      : t.toString()[0] +
+                        t.toString()[1] +
+                        ":" +
+                        t.toString()[2] +
+                        t.toString()[3]}
+                  </option>
+                ))}
+            </select>
             {errors.time && <span>{errors.time.message}</span>}
           </div>
           <div className="flex">

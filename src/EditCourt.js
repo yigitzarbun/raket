@@ -81,6 +81,7 @@ function EditCourt() {
   }, []);
   return (
     <div>
+      <div className="bg-heroCourts bg-center bg-auto py-28 rounded-md mt-4"></div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">Edit Court</h2>
         <form
