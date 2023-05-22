@@ -280,7 +280,7 @@ exports.seed = async function (knex) {
   await knex("invites").insert([
     {
       invite_id: 1,
-      status: "Pending",
+      status: "pending",
       event_date: "21.04.2023",
       time: 1400,
       date: "20.04.2023",
@@ -292,7 +292,7 @@ exports.seed = async function (knex) {
     },
     {
       invite_id: 2,
-      status: "Pending",
+      status: "pending",
       event_date: "22.04.2023",
       time: 1600,
       date: "20.04.2023",

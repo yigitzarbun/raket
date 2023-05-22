@@ -184,7 +184,7 @@ function RegisterClub() {
           <div className="registerFormContainer">
             <label>Password</label>
             <input
-              type="text"
+              type="password"
               {...register("password", {
                 required: "Password is required",
               })}
@@ -194,7 +194,7 @@ function RegisterClub() {
           <div className="registerFormContainer">
             <label>Repeat Password</label>
             <input
-              type="text"
+              type="password"
               {...register("password2", {
                 required: "Password is required",
                 minLength: {

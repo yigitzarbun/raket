@@ -11,7 +11,16 @@ import {
 function NewCourt() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, courtTypes, indoorOutdoor } = useSelector((store) => store);
+  let { user, courtTypes, indoorOutdoor } = useSelector((store) => store);
+  if (user.club) {
+    user = user.club;
+  } else {
+    user = user;
+  }
+  let availableTimes = [];
+  for (let i = 0; i < 2400; i += 100) {
+    availableTimes.push(i);
+  }
   const {
     register,
     handleSubmit,
@@ -98,22 +107,58 @@ function NewCourt() {
           </div>
           <div className="newCourtContainer">
             <label>Opening Hour</label>
-            <input
-              type="time"
+            <select
               {...register("opening", {
-                required: "Opening hour is required",
+                required: "Time is required",
               })}
-            />
+            >
+              <option value="">-- Choose Time --</option>
+              {availableTimes.map((t) => (
+                <option key={t} value={t}>
+                  {t === 0
+                    ? "00:00"
+                    : t < 1000
+                    ? "0" +
+                      t.toString()[0] +
+                      ":" +
+                      t.toString()[1] +
+                      t.toString()[2]
+                    : t.toString()[0] +
+                      t.toString()[1] +
+                      ":" +
+                      t.toString()[2] +
+                      t.toString()[3]}
+                </option>
+              ))}
+            </select>
             {errors.opening && <span>{errors.opening.message}</span>}
           </div>
           <div className="newCourtContainer">
             <label>Closing Hour</label>
-            <input
-              type="time"
+            <select
               {...register("closing", {
-                required: "Closing hour is required",
+                required: "Time is required",
               })}
-            />
+            >
+              <option value="">-- Choose Time --</option>
+              {availableTimes.map((t) => (
+                <option key={t} value={t}>
+                  {t === 0
+                    ? "00:00"
+                    : t < 1000
+                    ? "0" +
+                      t.toString()[0] +
+                      ":" +
+                      t.toString()[1] +
+                      t.toString()[2]
+                    : t.toString()[0] +
+                      t.toString()[1] +
+                      ":" +
+                      t.toString()[2] +
+                      t.toString()[3]}
+                </option>
+              ))}
+            </select>
             {errors.closing && <span>{errors.closing.message}</span>}
           </div>
           <div className="newCourtContainer">

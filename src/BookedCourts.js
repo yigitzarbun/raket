@@ -49,23 +49,42 @@ function BookedCourts() {
         </thead>
         <tbody>
           {myEvents.map((e) => (
-            <tr className="h-12" key={e.booking_id}>
+            <tr className="h-12" key={e.invite_id}>
               <td>Training</td>
-              <td>{e.name}</td>
+              <td>{e.fname + " " + e.lname}</td>
               <td>
-                {
+                {players.filter((p) => p.player_id === e.invitee_id)[0][
+                  "fname"
+                ] +
+                  " " +
                   players.filter((p) => p.player_id === e.invitee_id)[0][
-                    "fname"
-                  ]
-                }
+                    "lname"
+                  ]}
               </td>
+              <td>{e.event_date}</td>
+              <td>
+                {e.time === 0
+                  ? "00:00"
+                  : e.time < 1000
+                  ? "0" +
+                    e.time.toString()[0] +
+                    ":" +
+                    e.time.toString()[1] +
+                    e.time.toString()[2]
+                  : e.time.toString()[0] +
+                    e.time.toString()[1] +
+                    ":" +
+                    e.time.toString()[2] +
+                    e.time.toString()[3]}
+              </td>
+              <td>{e.court_name}</td>
             </tr>
           ))}
         </tbody>
       </table>
     );
   }
-  console.log(invites);
+  console.log(myEvents);
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getBookings());
