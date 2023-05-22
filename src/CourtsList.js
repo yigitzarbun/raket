@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourts, GET_USER, deleteCourt } from "./redux stuff/actions";
+import { Link } from "react-router-dom";
 
 function CourtsList() {
   const dispatch = useDispatch();
@@ -80,7 +81,13 @@ function CourtsList() {
                               c.closing.toString()[3]}
                         </td>
                         <td className="py-1 px-4 border-2  border-blue-500 rounded-md hover:bg-blue-500 hover:text-white ml-2 mt-2">
-                          Edit
+                          <Link
+                            to={`/edit-court/:${c.court_id}`}
+                            state={{ court: c }}
+                          >
+                            {" "}
+                            Edit
+                          </Link>
                         </td>
                         <td onClick={() => handleDeleteCourt(c)}>Remove</td>
                       </tr>

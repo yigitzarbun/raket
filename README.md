@@ -44,10 +44,8 @@ OPENAI_API_KEY=<your_openai_api_key>
 
 4. Start the development server:
 
-   For the frontend:
-   npm start
-   For the backend:
-   npm run server
+   For the frontend: npm start
+   For the backend: npm run server
 
 5. Open your browser and visit http://localhost:3000 to access the Raket application.
 

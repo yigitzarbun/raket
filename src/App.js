@@ -28,6 +28,7 @@ import TrainAllPlayers from "./TrainAllPlayers";
 import ManagePlayerCard from "./ManagePlayerCard";
 import AddPlayerCard from "./AddPlayerCard";
 import AllEvents from "./AllEvents";
+import EditCourt from "./EditCourt";
 function App() {
   return (
     <div className="max-w-5xl mx-auto">
@@ -63,6 +64,7 @@ function App() {
           <Route path="/manage-player-card" element={<ManagePlayerCard />} />
           <Route path="/add-player-card" element={<AddPlayerCard />} />
           <Route path="/all-events" element={<AllEvents />} />
+          <Route path="/edit-court/:court_id" element={<EditCourt />} />
         </Route>
       </Routes>
       <Footer />
