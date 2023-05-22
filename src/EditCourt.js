@@ -4,16 +4,21 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  addCourt,
   getCourtTypes,
   getIndoorOutdoor,
+  updateCourt,
+  GET_USER,
 } from "./redux stuff/actions";
 function EditCourt() {
   const location = useLocation().state.court;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let { courtTypes, indoorOutdoor } = useSelector((store) => store);
-
+  let { courtTypes, indoorOutdoor, user } = useSelector((store) => store);
+  if (user.club) {
+    user = user.club;
+  } else {
+    user = user;
+  }
   let availableTimes = [];
   for (let i = 0; i < 2400; i += 100) {
     availableTimes.push(i);
@@ -55,30 +60,31 @@ function EditCourt() {
       price: location.price,
     },
   });
-  const handleNewCourt = (data) => {
+  const handleEditCourt = (data) => {
     let dataWide = {
+      court_id: location.court_id,
       court_name: data.name,
       opening: data.opening,
       closing: data.closing,
       price: data.price,
-      club_id: null,
+      club_id: user.club_id,
       indoor_outdoor_id: data.indoor_outdoor,
       court_type_id: data.court_type,
     };
-    dispatch(addCourt(dataWide, navigate));
+    dispatch(updateCourt(dataWide, navigate));
     reset();
   };
-
   useEffect(() => {
     dispatch(getCourtTypes());
     dispatch(getIndoorOutdoor());
+    dispatch({ type: GET_USER });
   }, []);
   return (
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
         <h2 className="font-bold text-4xl">Edit Court</h2>
         <form
-          onSubmit={handleSubmit(handleNewCourt)}
+          onSubmit={handleSubmit(handleEditCourt)}
           className="newCourtForm flex flex-col mt-4"
         >
           <div className="newCourtContainer">

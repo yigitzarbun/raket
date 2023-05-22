@@ -25,6 +25,7 @@ import {
   GET_COURT_TYPES,
   GET_INDOOR_OUTDOOR,
   DELETE_COURT,
+  UPDATE_COURT,
 } from "./actions";
 
 const initialState = {
@@ -189,6 +190,17 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         courts: state.courts.filter((c) => c.court_id !== action.payload),
+      };
+    case UPDATE_COURT:
+      const copyCourts = [...(state.courts || [])];
+      const oldCourt = copyCourts.filter(
+        (c) => c.court_id === action.payload.court_id
+      )[0];
+      const indexCourt = copyCourts.indexOf(oldCourt);
+      copyCourts.splice(indexCourt, 1, action.payload);
+      return {
+        ...state,
+        courts: [...copyCourts],
       };
     default:
       return state;

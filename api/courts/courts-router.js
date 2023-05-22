@@ -27,4 +27,15 @@ router.delete("/:court_id", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/:court_id", async (req, res, next) => {
+  try {
+    console.log(req.body);
+    const updates = req.body;
+    const updatedCourt = await courtsModel.update(updates.court_id, updates);
+    res.status(200).json(updatedCourt);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

@@ -44,6 +44,7 @@ export const UPDATE_BOOKING = "ADD_BOOKING";
 export const GET_COURT_TYPES = "GET_COURT_TYPES";
 export const GET_INDOOR_OUTDOOR = "GET_INDOOR_OUTDOOR";
 export const DELETE_COURT = "DELETE_COURT";
+export const UPDATE_COURT = "UPDATE_COURT";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -354,6 +355,19 @@ export const deleteCourt = (court_id) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch({ type: DELETE_COURT, payload: court_id });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const updateCourt = (changes, navigate) => (dispatch) => {
+  axiosWithAuth()
+    .put(url + `api/courts/${changes.court_id}`, changes)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: UPDATE_COURT, payload: res.data });
+        toast.success("Court updated");
+        navigate("/club-dashboard");
       }
     })
     .catch((err) => console.log(err));
