@@ -136,7 +136,7 @@ function NewCourt() {
               <p className="font-bold">Add Court</p>
             </button>
             <Link
-              to="/"
+              to="/club-dashboard"
               className="font-bold mt-4 ml-2 w-1/2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white p-2 text-center"
             >
               <button>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Train from "./Train";
 import Match from "./Match";
 import Hero from "./Hero";
@@ -6,6 +6,7 @@ import Requests from "./Requests";
 import Upcoming from "./Upcoming";
 import Stats from "./Stats";
 import Equipment from "./Equipment";
+import SearchGPT from "./SearchGPT";
 import { useDispatch, useSelector } from "react-redux";
 import { getInvites, GET_USER } from "./redux stuff/actions";
 
@@ -37,6 +38,7 @@ function Main() {
         invite.status === "confirmed"
     );
   }
+
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
@@ -65,6 +67,9 @@ function Main() {
             <Equipment />
           </div>
         </div>
+      </div>
+      <div className="mt-4">
+        <SearchGPT />
       </div>
     </div>
   );

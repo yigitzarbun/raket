@@ -4,7 +4,12 @@ import { getCourts, GET_USER } from "./redux stuff/actions";
 
 function CourtsList() {
   const dispatch = useDispatch();
-  const { courts, user } = useSelector((store) => store);
+  let { courts, user } = useSelector((store) => store);
+  if (user.club) {
+    user = user.club;
+  } else {
+    user = user;
+  }
   useEffect(() => {
     dispatch(getCourts());
     dispatch({ type: GET_USER });
