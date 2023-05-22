@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCourts, GET_USER } from "./redux stuff/actions";
+import { getCourts, GET_USER, deleteCourt } from "./redux stuff/actions";
 
 function CourtsList() {
   const dispatch = useDispatch();
@@ -10,6 +10,10 @@ function CourtsList() {
   } else {
     user = user;
   }
+  const handleDeleteCourt = (court) => {
+    dispatch(deleteCourt(court.court_id));
+    console.log(court);
+  };
   useEffect(() => {
     dispatch(getCourts());
     dispatch({ type: GET_USER });
@@ -33,7 +37,8 @@ function CourtsList() {
                   <th>Price per hour</th>
                   <th className="text-green-400">Opening hour</th>
                   <th className="text-red-500">Closing hour</th>
-                  <th>Action</th>
+                  <th>Edit</th>
+                  <th>Remove</th>
                 </tr>
               </thead>
               <tbody>
@@ -77,6 +82,7 @@ function CourtsList() {
                         <td className="py-1 px-4 border-2  border-blue-500 rounded-md hover:bg-blue-500 hover:text-white ml-2 mt-2">
                           Edit
                         </td>
+                        <td onClick={() => handleDeleteCourt(c)}>Remove</td>
                       </tr>
                     ))}
               </tbody>

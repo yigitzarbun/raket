@@ -18,4 +18,13 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.delete("/:court_id", async (req, res, next) => {
+  try {
+    const deletedCourt = await courtsModel.remove(req.params.court_id);
+    res.status(200).json(deletedCourt);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

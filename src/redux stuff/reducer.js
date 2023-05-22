@@ -24,6 +24,7 @@ import {
   ADD_COURT,
   GET_COURT_TYPES,
   GET_INDOOR_OUTDOOR,
+  DELETE_COURT,
 } from "./actions";
 
 const initialState = {
@@ -183,6 +184,11 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         indoorOutdoor: action.payload,
+      };
+    case DELETE_COURT:
+      return {
+        ...state,
+        courts: state.courts.filter((c) => c.court_id !== action.payload),
       };
     default:
       return state;

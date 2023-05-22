@@ -43,6 +43,7 @@ export const ADD_BOOKING = "ADD_BOOKING";
 export const UPDATE_BOOKING = "ADD_BOOKING";
 export const GET_COURT_TYPES = "GET_COURT_TYPES";
 export const GET_INDOOR_OUTDOOR = "GET_INDOOR_OUTDOOR";
+export const DELETE_COURT = "DELETE_COURT";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -342,6 +343,17 @@ export const getIndoorOutdoor = () => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch({ type: GET_INDOOR_OUTDOOR, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const deleteCourt = (court_id) => (dispatch) => {
+  axiosWithAuth()
+    .delete(url + `api/courts/${court_id}`)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: DELETE_COURT, payload: court_id });
       }
     })
     .catch((err) => console.log(err));
