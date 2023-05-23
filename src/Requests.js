@@ -29,10 +29,10 @@ function Requests() {
     myInvites = "Loading invitations";
   } else if (invites.length === 0) {
     myInvites = "No invitations";
-  } else if (Array.isArray(invites) && invites) {
+  } else {
     myInvites = invites.filter(
       (invite) =>
-        invite.invitee_id === user.player_id && invite.status === "Pending"
+        invite.invitee_id === user.player_id && invite.status === "pending"
     );
   }
   const handleNextIndex = () => {
@@ -109,7 +109,6 @@ function Requests() {
       club_id: data.club_id,
       status: "rejected",
     };
-    console.log(dataWide);
     dispatch(updateInvite(dataWide));
     setChange(!change);
     dispatch(getInvites());
@@ -129,9 +128,10 @@ function Requests() {
       club_id: data.club_id,
       court_id: data.court_id,
     };
-    console.log(bookingData);
     dispatch(updateBooking(bookingData));
   };
+  console.log(myInvites);
+  console.log(invites);
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());

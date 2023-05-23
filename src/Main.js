@@ -29,7 +29,7 @@ function Main() {
   } else if (Array.isArray(invites) && invites) {
     myInvites = invites.filter(
       (invite) =>
-        invite.invitee_id === user.player_id && invite.status === "Pending"
+        invite.invitee_id === user.player_id && invite.status === "pending"
     );
     myEvents = invites.filter(
       (invite) =>

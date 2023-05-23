@@ -23,7 +23,6 @@ function IncomingRequests() {
   } else {
     user = user;
   }
-
   const handleAccept = (data) => {
     const dataWide = {
       invite_id: data.invite_id,
@@ -57,22 +56,24 @@ function IncomingRequests() {
     };
     dispatch(addPlayerPayment(paymentDataInviter));
     setChange(!change);
-    let bookingId = bookings.filter(
+    let bookingId = bookings.find(
       (b) =>
         b.event_date === data.event_date &&
         b.time === data.time &&
         b.court_id === data.court_id
-    )[0];
-    const bookingData = {
-      status: "confirmed",
-      booking_id: bookingId.booking_id,
-      date: Date.now(),
-      event_date: data.event_date,
-      time: data.time,
-      club_id: data.club_id,
-      court_id: data.court_id,
-    };
-    dispatch(updateBooking(bookingData));
+    );
+    if (bookingId) {
+      const bookingData = {
+        status: "confirmed",
+        booking_id: bookingId.booking_id,
+        date: Date.now(),
+        event_date: data.event_date,
+        time: data.time,
+        club_id: data.club_id,
+        court_id: data.court_id,
+      };
+      dispatch(updateBooking(bookingData));
+    }
   };
 
   const handleReject = (data) => {
@@ -125,7 +126,7 @@ function IncomingRequests() {
       .filter(
         (invite) =>
           invite.invitee_id === Number(user.player_id) &&
-          invite.status === "Pending"
+          invite.status === "pending"
       )
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">
@@ -152,26 +153,33 @@ function IncomingRequests() {
           </td>
           <td>{invite.court_name}</td>
           <td className="text-green-500">{invite.price / 2} (*)</td>
-          <td>
-            {myCard ? (
+
+          {myCard ? (
+            <td>
               <p
-                className="cursor-pointer"
+                className=" text-center font-bold p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
                 onClick={() => {
                   handleAccept(invite);
                 }}
               >
                 Accept
               </p>
-            ) : (
-              <Link to="/add-player-card">
-                <button className="font-bold mt-4 p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">
-                  Add Card
-                </button>
-              </Link>
-            )}
-          </td>
-          <td className="cursor-pointer" onClick={() => handleReject(invite)}>
-            Reject
+            </td>
+          ) : (
+            <Link
+              to="/add-player-card"
+              className="text-center font-bold p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white"
+            >
+              Add Card
+            </Link>
+          )}
+          <td>
+            <p
+              className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+              onClick={() => handleReject(invite)}
+            >
+              Reject
+            </p>
           </td>
         </tr>
       ));

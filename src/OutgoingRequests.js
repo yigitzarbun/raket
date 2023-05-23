@@ -60,7 +60,7 @@ function OutgoingRequests() {
       .filter(
         (invite) =>
           invite.inviter_id === Number(user.player_id) &&
-          invite.status === "Pending"
+          invite.status === "pending"
       )
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">

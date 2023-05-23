@@ -60,8 +60,8 @@ function TrainResults(props) {
           <td>{player.lname}</td>
           <td>{player.gender}</td>
           <td>{player.level}</td>
-          <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
-            <Link to="/invite" state={player}>
+          <td>
+            <Link to="/invite" state={player} className="greenButton">
               Invite
             </Link>
           </td>

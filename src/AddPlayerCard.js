@@ -109,18 +109,19 @@ function AddPlayerCard() {
               )}
             </div>
           </div>
-          <div>
+          <div className="flex justify-between">
             <button
-              className="mt-4 p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
+              className="w-1/2 mt-4 mr-2 p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
               disabled={!isValid}
               type="submit"
             >
               <p className="font-bold"> Add Card</p>
             </button>
-            <Link to="/account">
-              <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
-                Discard
-              </button>
+            <Link
+              to="/account"
+              className="text-center w-1/2 font-bold mt-4 ml-2 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+            >
+              Discard
             </Link>
           </div>
         </form>

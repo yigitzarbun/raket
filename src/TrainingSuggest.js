@@ -84,7 +84,7 @@ function TrainingSuggest() {
               </p>
               <div>
                 <Link to="/invite" state={players[invitationIndex]}>
-                  <button className="mt-4 p-2 border-2 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
+                  <button className="greenButton">
                     <p className="font-bold">
                       Invite{" "}
                       {players &&
@@ -93,10 +93,7 @@ function TrainingSuggest() {
                     </p>
                   </button>
                 </Link>
-                <button
-                  onClick={handleNextIndex}
-                  className="mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4"
-                >
+                <button onClick={handleNextIndex} className="redButton">
                   <p className="font-bold"> Skip</p>
                 </button>
               </div>

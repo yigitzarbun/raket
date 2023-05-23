@@ -206,27 +206,31 @@ function TrainInvite(props) {
                 You'll need to add a valid card before sending an invitation
               </p>
             )}
-            {myCard ? (
-              <button
-                className="mt-4 p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
-                disabled={!isValid}
-                type="submit"
-              >
-                <p className="font-bold"> Invite {invitee_player["fname"]}</p>
-              </button>
-            ) : (
-              <Link to="/add-player-card">
-                <button className="font-bold mt-4 p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">
-                  Add Card
+            <div className="flex justify-between">
+              {myCard ? (
+                <button
+                  className="w-1/2 mt-4 mr-2 p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
+                  disabled={!isValid}
+                  type="submit"
+                >
+                  <p className="font-bold"> Invite {invitee_player["fname"]}</p>
                 </button>
-              </Link>
-            )}
+              ) : (
+                <Link
+                  to="/add-player-card"
+                  className="text-center w-1/2 font-bold mt-4 mr-2 p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white"
+                >
+                  Add Card
+                </Link>
+              )}
 
-            <Link to="/train">
-              <button className="font-bold mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4">
+              <Link
+                to="/train"
+                className="text-center w-1/2 font-bold mt-4 ml-2 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+              >
                 Discard
-              </button>
-            </Link>
+              </Link>
+            </div>
           </div>
         </form>
       </div>

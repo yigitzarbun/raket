@@ -129,7 +129,12 @@ function TrainInviteBooking() {
           </td>
           <td>{invite.court_name}</td>
           <td>
-            <button onClick={() => handleCancel(invite)}>Cancel</button>
+            <button
+              onClick={() => handleCancel(invite)}
+              className="text-center font-bold p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+            >
+              Cancel
+            </button>
           </td>
         </tr>
       ));
