@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   GET_USER,
@@ -14,8 +14,20 @@ function BookedCourts() {
   } else {
     user = user;
   }
+  let today = new Date();
+  let day = today.getDate().toString();
+  let month = (today.getMonth() + 1).toString();
+  let year = today.getFullYear();
+
+  let eventDay = day.padStart(2, "0");
+  let eventMonth = month.padStart(2, "0");
+  let date = `${year}-${eventMonth}-${eventDay}`;
+  const [filter, setFilter] = useState("today");
+  const handleFilter = (e) => {
+    setFilter(e.target.value);
+  };
   let myEvents = [];
-  let myBookings = [];
+  let filteredEvents = [];
   if (
     bookings &&
     invites &&
@@ -27,7 +39,21 @@ function BookedCourts() {
         i.club_id === user.club_id &&
         (i.status === "confirmed" || i.status === "pending")
     );
-    myBookings = bookings.filter((b) => b.club_id === user.club_id);
+    if (filter === "today") {
+      filteredEvents = myEvents.filter(
+        (e) =>
+          new Date(e.event_date).toDateString() ===
+          new Date(date).toDateString()
+      );
+    } else if (filter === "future") {
+      filteredEvents = myEvents.filter(
+        (e) => new Date(e.event_date).getTime() >= new Date(date).getTime()
+      );
+    } else if (filter === "past") {
+      filteredEvents = myEvents.filter(
+        (e) => new Date(e.event_date).getTime() <= new Date(date).getTime()
+      );
+    }
   }
   let resultJsx = "";
   if (bookings === null) {
@@ -48,7 +74,7 @@ function BookedCourts() {
           </tr>
         </thead>
         <tbody>
-          {myEvents.map((e) => (
+          {filteredEvents.map((e) => (
             <tr className="h-12" key={e.invite_id}>
               <td>{e.status}</td>
               <td>{e.fname + " " + e.lname}</td>
@@ -93,6 +119,14 @@ function BookedCourts() {
   }, []);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
+      <select
+        className="text-blue-600 font-bold p-2 rounded-md"
+        onChange={handleFilter}
+      >
+        <option value="today">Today</option>
+        <option value="future">Future</option>
+        <option value="past">Past</option>
+      </select>
       {resultJsx}
       <p className="text-green-500 text-sm mt-5 hover:text-green-400">
         Only courts booked through Raket are displayed
