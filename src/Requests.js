@@ -78,22 +78,25 @@ function Requests() {
     setChange(!change);
     dispatch(getInvites());
     setInvitationIndex(0);
-    let bookingId = bookings.filter(
+    let bookingId = bookings.find(
       (b) =>
         b.event_date === data.event_date &&
         b.time === data.time &&
-        b.court_id === data.court_id
-    )[0];
-    const bookingData = {
-      status: "confirmed",
-      booking_id: bookingId.booking_id,
-      date: Date.now(),
-      event_date: data.event_date,
-      time: data.time,
-      club_id: data.club_id,
-      court_id: data.court_id,
-    };
-    dispatch(updateBooking(bookingData));
+        b.court_id === data.court_id &&
+        b.status === "pending"
+    );
+    if (bookingId) {
+      const bookingData = {
+        status: "confirmed",
+        booking_id: bookingId.booking_id,
+        date: Date.now(),
+        event_date: data.event_date,
+        time: data.time,
+        club_id: data.club_id,
+        court_id: data.court_id,
+      };
+      dispatch(updateBooking(bookingData));
+    }
   };
 
   const handleReject = (data) => {
@@ -113,12 +116,13 @@ function Requests() {
     setChange(!change);
     dispatch(getInvites());
     setInvitationIndex(0);
-    let bookingId = bookings.filter(
+    let bookingId = bookings.find(
       (b) =>
         b.event_date === data.event_date &&
         b.time === data.time &&
-        b.court_id === data.court_id
-    )[0];
+        b.court_id === data.court_id &&
+        b.status !== "cancelled"
+    );
     const bookingData = {
       status: "cancelled",
       booking_id: bookingId.booking_id,
@@ -130,8 +134,7 @@ function Requests() {
     };
     dispatch(updateBooking(bookingData));
   };
-  console.log(myInvites);
-  console.log(invites);
+
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());

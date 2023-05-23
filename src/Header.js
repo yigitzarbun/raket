@@ -23,7 +23,7 @@ function Header() {
   } else if (Array.isArray(invites) && invites && user) {
     newInvites = invites.filter(
       (invite) =>
-        invite.invitee_id === user.player_id && invite.status === "Pending"
+        invite.invitee_id === user.player_id && invite.status === "pending"
     ).length;
   }
   useEffect(() => {

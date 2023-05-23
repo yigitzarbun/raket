@@ -27,7 +27,8 @@ function Calendar() {
       (b) =>
         b.event_date === invite.event_date &&
         b.time === invite.time &&
-        b.court_id === invite.court_id
+        b.court_id === invite.court_id &&
+        b.status === "confirmed"
     );
     if (bookingId) {
       const bookingData = {

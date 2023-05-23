@@ -24,22 +24,25 @@ function OutgoingRequests() {
       status: "cancelled",
     };
     dispatch(updateInvite(updatedInviteData));
-    let bookingId = bookings.filter(
+    let bookingId = bookings.find(
       (b) =>
         b.event_date === invite.event_date &&
         b.time === invite.time &&
-        b.court_id === invite.court_id
-    )[0];
-    const bookingData = {
-      status: "cancelled",
-      booking_id: bookingId.booking_id,
-      date: Date.now(),
-      event_date: invite.event_date,
-      time: invite.time,
-      club_id: invite.club_id,
-      court_id: invite.court_id,
-    };
-    dispatch(updateBooking(bookingData));
+        b.court_id === invite.court_id &&
+        b.status !== "cancelled"
+    );
+    if (bookingId) {
+      const bookingData = {
+        status: "cancelled",
+        booking_id: bookingId.booking_id,
+        date: Date.now(),
+        event_date: invite.event_date,
+        time: invite.time,
+        club_id: invite.club_id,
+        court_id: invite.court_id,
+      };
+      dispatch(updateBooking(bookingData));
+    }
   };
 
   let resultJsx = "";

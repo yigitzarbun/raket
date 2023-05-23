@@ -26,7 +26,7 @@ function TrainInviteBooking() {
         b.event_date === invite.event_date &&
         b.time === invite.time &&
         b.court_id === invite.court_id &&
-        b.status !== "cancelled"
+        b.status === "pending"
     );
     if (bookingId) {
       const bookingData = {
@@ -39,9 +39,7 @@ function TrainInviteBooking() {
         court_id: invite.court_id,
       };
       dispatch(updateBooking(bookingData));
-      console.log(bookingData);
     }
-
     navigate("/");
   };
   let resultJsx = [];

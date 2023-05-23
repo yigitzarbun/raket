@@ -60,7 +60,8 @@ function IncomingRequests() {
       (b) =>
         b.event_date === data.event_date &&
         b.time === data.time &&
-        b.court_id === data.court_id
+        b.court_id === data.court_id &&
+        b.status === "pending"
     );
     if (bookingId) {
       const bookingData = {
@@ -91,22 +92,25 @@ function IncomingRequests() {
     };
     dispatch(updateInvite(dataWide));
     setChange(!change);
-    let bookingId = bookings.filter(
+    let bookingId = bookings.find(
       (b) =>
         b.event_date === data.event_date &&
         b.time === data.time &&
-        b.court_id === data.court_id
-    )[0];
-    const bookingData = {
-      status: "rejected",
-      booking_id: bookingId.booking_id,
-      date: Date.now(),
-      event_date: data.event_date,
-      time: data.time,
-      club_id: data.club_id,
-      court_id: data.court_id,
-    };
-    dispatch(updateBooking(bookingData));
+        b.court_id === data.court_id &&
+        b.status === "pending"
+    );
+    if (bookingId) {
+      const bookingData = {
+        status: "rejected",
+        booking_id: bookingId.booking_id,
+        date: Date.now(),
+        event_date: data.event_date,
+        time: data.time,
+        club_id: data.club_id,
+        court_id: data.court_id,
+      };
+      dispatch(updateBooking(bookingData));
+    }
   };
   let resultJsx = "";
   if (invites == null) {
@@ -166,16 +170,18 @@ function IncomingRequests() {
               </p>
             </td>
           ) : (
-            <Link
-              to="/add-player-card"
-              className="text-center font-bold p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white"
-            >
-              Add Card
-            </Link>
+            <td>
+              <Link
+                to="/add-player-card"
+                className="text-center font-bold p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white"
+              >
+                Add Card
+              </Link>
+            </td>
           )}
           <td>
             <p
-              className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+              className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white cursor-pointer"
               onClick={() => handleReject(invite)}
             >
               Reject
