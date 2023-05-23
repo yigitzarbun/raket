@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {
   getInvites,
   getPlayers,
@@ -11,7 +10,6 @@ import {
 } from "./redux stuff/actions";
 function Calendar() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const eventType = "Training";
   let { user, invites, players, bookings } = useSelector((store) => store);
   if (user.player) {
@@ -25,22 +23,24 @@ function Calendar() {
       status: "cancelled",
     };
     dispatch(updateInvite(inviteData));
-    let bookingId = bookings.filter(
+    let bookingId = bookings.find(
       (b) =>
         b.event_date === invite.event_date &&
         b.time === invite.time &&
         b.court_id === invite.court_id
-    )[0];
-    const bookingData = {
-      status: "cancelled",
-      booking_id: bookingId.booking_id,
-      date: Date.now(),
-      event_date: invite.event_date,
-      time: invite.time,
-      club_id: invite.club_id,
-      court_id: invite.court_id,
-    };
-    dispatch(updateBooking(bookingData));
+    );
+    if (bookingId) {
+      const bookingData = {
+        status: "cancelled",
+        booking_id: bookingId.booking_id,
+        date: Date.now(),
+        event_date: invite.event_date,
+        time: invite.time,
+        club_id: invite.club_id,
+        court_id: invite.court_id,
+      };
+      dispatch(updateBooking(bookingData));
+    }
   };
   let resultJsx = [];
   if (invites === null) {
@@ -142,7 +142,11 @@ function Calendar() {
                 invite.time.toString()[3]}
           </td>
           <td>{invite.court_name}</td>
-          <td onClick={() => handleCancel(invite)}>Cancel</td>
+          <td onClick={() => handleCancel(invite)}>
+            <button className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white">
+              Cancel
+            </button>
+          </td>
         </tr>
       ));
   }

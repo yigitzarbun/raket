@@ -118,7 +118,11 @@ function OutgoingRequests() {
                 invite.time.toString()[3]}
           </td>
           <td>{invite.court_name}</td>
-          <td onClick={() => handleCancel(invite)}>Cancel</td>
+          <td onClick={() => handleCancel(invite)}>
+            <button className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white">
+              Cancel
+            </button>
+          </td>
         </tr>
       ));
   }
