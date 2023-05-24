@@ -129,7 +129,7 @@ function Header() {
                     : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
                 }
               >
-                Club Account
+                Account
               </NavLink>
               <NavLink
                 to="/club-calendar"
@@ -139,14 +139,14 @@ function Header() {
                     : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
                 }
               >
-                Club Calendar
+                Calendar
               </NavLink>
             </>
           )}
           {user && (
             <button
               onClick={handleLogout}
-              className="w-1/5 text-right p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+              className=" p-2 font-bold cursor-pointer border-2 border-red-500  hover:bg-red-500 rounded-md hover:text-white"
             >
               Logout
             </button>

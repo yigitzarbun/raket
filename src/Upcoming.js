@@ -167,7 +167,7 @@ function Upcoming() {
         </p>
       </div>
       <button
-        className="mt-8 p-2 border-2 border-black rounded-md w-full hover:bg-red-500 hover:border-red-500 hover:text-white"
+        className="mt-8 p-2 border-2 border-black rounded-md w-full hover:bg-black hover:text-white"
         onClick={() => handleCancelEvent(myEvents[invitationIndex])}
       >
         <p className="font-bold">Cancel</p>

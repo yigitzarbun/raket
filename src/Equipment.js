@@ -2,7 +2,7 @@ import React from "react";
 
 function Equipment() {
   return (
-    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-8 w-full mt-8 rounded-md shadow-md">
+    <div className="bg-gradient-to-r from-green-500 to-yellow-500 p-8 w-full mt-8 rounded-md shadow-md">
       <h2 className="font-bold text-4xl">Equip</h2>
       <nav className="flex justify-between items-end mt-4">
         <a

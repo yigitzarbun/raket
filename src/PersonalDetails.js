@@ -42,7 +42,14 @@ function PersonalDetails() {
   }, []);
   return (
     <div className=" bg-gradient-to-r from-sky-500 to-indigo-500 text-white rounded-md p-4 my-8 mr-2 w-1/2">
-      <h2 className="font-bold text-4xl text-black">Personal Details</h2>
+      <div className="flex justify-between">
+        <h2 className="font-bold text-4xl text-black">Personal Details</h2>
+        <img
+          src="/images/edit.png"
+          alt="edit-profile"
+          className="w-6 h-6 object-contain cursor-pointer"
+        />
+      </div>
       <div className="mt-4 flex">
         <img
           src={user && user.face_image}
@@ -69,15 +76,33 @@ function PersonalDetails() {
             </tr>
             <tr>
               <th>Club #1</th>
-              <td>{user && clubPreferences[0].slice(0, 10) + ".."}</td>
+              <td>
+                {user &&
+                  clubPreferences[0] &&
+                  Array.isArray(clubPreferences) &&
+                  typeof clubPreferences[0] === "string" &&
+                  clubPreferences[0].slice(0, 10) + ".."}
+              </td>
             </tr>
             <tr>
               <th>Club #2</th>
-              <td>{user && clubPreferences[1].slice(0, 10) + ".."}</td>
+              <td>
+                {user &&
+                  clubPreferences[1] &&
+                  Array.isArray(clubPreferences) &&
+                  typeof clubPreferences[1] === "string" &&
+                  clubPreferences[1].slice(0, 10) + ".."}
+              </td>
             </tr>
             <tr>
               <th>Club #3</th>
-              <td>{user && clubPreferences[2].slice(0, 10) + ".."}</td>
+              <td>
+                {user &&
+                  clubPreferences[2] &&
+                  Array.isArray(clubPreferences) &&
+                  typeof clubPreferences[2] === "string" &&
+                  clubPreferences[2].slice(0, 10) + ".."}
+              </td>
             </tr>
           </tbody>
         </table>
