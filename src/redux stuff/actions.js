@@ -45,6 +45,7 @@ export const GET_COURT_TYPES = "GET_COURT_TYPES";
 export const GET_INDOOR_OUTDOOR = "GET_INDOOR_OUTDOOR";
 export const DELETE_COURT = "DELETE_COURT";
 export const UPDATE_COURT = "UPDATE_COURT";
+export const GET_DISTRICTS = "GET_DISTRICTS";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -368,6 +369,17 @@ export const updateCourt = (changes, navigate) => (dispatch) => {
         dispatch({ type: UPDATE_COURT, payload: res.data });
         toast.success("Court updated");
         navigate("/club-dashboard");
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getDistricts = () => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/districts")
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: GET_DISTRICTS, payload: res.data });
       }
     })
     .catch((err) => console.log(err));

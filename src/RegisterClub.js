@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { registerClub } from "./redux stuff/actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCourtTypes,
+  getDistricts,
+  getIndoorOutdoor,
+  registerClub,
+} from "./redux stuff/actions";
 function RegisterClub() {
+  const { courtTypes, indoorOutdoor, districts } = useSelector(
+    (store) => store
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -35,6 +43,12 @@ function RegisterClub() {
   const [image, setImage] = useState("");
   const [pass1, setPass1] = useState("");
   const [pass2, setPass2] = useState("");
+
+  useEffect(() => {
+    dispatch(getCourtTypes());
+    dispatch(getIndoorOutdoor());
+    dispatch(getDistricts());
+  }, []);
   return (
     <div>
       <div className="bg-slate-800 text-white p-8 mt-8 rounded-md shadow-md w-1/2 mx-auto">
@@ -94,18 +108,12 @@ function RegisterClub() {
               onChange={(e) => setDistrict(e.target.value)}
             >
               <option value="">-- Select district --</option>
-              <option value="1">Adalar </option>
-              <option value="2">Ataşehir </option>
-              <option value="3">Beşiktaş</option>
-              <option value="4">Beykoz</option>
-              <option value="5">Beylikdüzü</option>
-              <option value="6">Beyoğlu</option>
-              <option value="7">Çekmeköy</option>
-              <option value="8">Kadıköy </option>{" "}
-              <option value="9">Kartal</option>
-              <option value="10">Maltepe</option>
-              <option value="11">Pendik</option>
-              <option value="12">Tuzla</option>
+              {districts &&
+                districts.map((d) => (
+                  <option key={d.district_id} value={d.district_id}>
+                    {d.district}
+                  </option>
+                ))}
             </select>
             {errors.district_id && <span>{errors.district_id.message}</span>}
           </div>
@@ -131,11 +139,12 @@ function RegisterClub() {
               onChange={(e) => setType1(e.target.value)}
             >
               <option value="">-- Select court type --</option>
-              <option value="1">Hard </option>
-              <option value="2">Clay</option>
-              <option value="3">Grass</option>
-              <option value="4">Artificial Grass</option>
-              <option value="5">Other</option>
+              {courtTypes &&
+                courtTypes.map((c) => (
+                  <option key={c.court_type_id} value={c.court_type_id}>
+                    {c.court_type}
+                  </option>
+                ))}
             </select>
             {errors.court_type_1_id && (
               <span>{errors.court_type_1_id.message}</span>
@@ -150,11 +159,12 @@ function RegisterClub() {
               onChange={(e) => setType2(e.target.value)}
             >
               <option value="">-- Select court type --</option>
-              <option value="1">Hard </option>
-              <option value="2">Clay</option>
-              <option value="3">Grass</option>
-              <option value="4">Artificial Grass</option>
-              <option value="5">Other</option>
+              {courtTypes &&
+                courtTypes.map((c) => (
+                  <option key={c.court_type_id} value={c.court_type_id}>
+                    {c.court_type}
+                  </option>
+                ))}
             </select>
             {errors.court_type_2_id && (
               <span>{errors.court_type_2_id.message}</span>
@@ -169,11 +179,12 @@ function RegisterClub() {
               onChange={(e) => setType3(e.target.value)}
             >
               <option value="">-- Select court type --</option>
-              <option value="1">Hard </option>
-              <option value="2">Clay</option>
-              <option value="3">Grass</option>
-              <option value="4">Artificial Grass</option>
-              <option value="5">Other</option>
+              {courtTypes &&
+                courtTypes.map((c) => (
+                  <option key={c.court_type_id} value={c.court_type_id}>
+                    {c.court_type}
+                  </option>
+                ))}
             </select>
             {errors.court_type_3_id && (
               <span>{errors.court_type_3_id.message}</span>
@@ -188,9 +199,12 @@ function RegisterClub() {
               onChange={(e) => setIndoor(e.target.value)}
             >
               <option value="">-- Select indoor / outdoor --</option>
-              <option value="1">Indoor-only </option>
-              <option value="2">Outdoor-only</option>
-              <option value="3">Both</option>
+              {indoorOutdoor &&
+                indoorOutdoor.map((i) => (
+                  <option key={i.indoor_outdoor_id} value={i.indoor_outdoor_id}>
+                    {i.indoor_outdoor}
+                  </option>
+                ))}
             </select>
             {errors.indoor_outdoor_id && (
               <span>{errors.indoor_outdoor_id.message}</span>

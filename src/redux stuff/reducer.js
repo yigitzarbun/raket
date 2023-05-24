@@ -26,6 +26,7 @@ import {
   GET_INDOOR_OUTDOOR,
   DELETE_COURT,
   UPDATE_COURT,
+  GET_DISTRICTS,
 } from "./actions";
 
 const initialState = {
@@ -201,6 +202,11 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         courts: [...copyCourts],
+      };
+    case GET_DISTRICTS:
+      return {
+        ...state,
+        districts: action.payload,
       };
     default:
       return state;
