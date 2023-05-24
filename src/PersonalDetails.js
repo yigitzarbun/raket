@@ -19,23 +19,21 @@ function PersonalDetails() {
     player = players.filter((p) => p.player_id === user.player_id)[0];
   }
 
-  let clubList = "";
+  let clubPreferences = [];
   if (clubs == null) {
-    clubList = "Loading clubs";
+    clubPreferences.push(<p>Loading clubs</p>);
   } else if (clubs.length === 0) {
-    clubList = "No clubs available";
+    clubPreferences.push(<p>No clubs available</p>);
   } else if (Array.isArray(clubs) && clubs) {
-    let clubPreferences = [];
     for (let c = 0; c < clubs.length; c++) {
-      if (clubs[c]["club_id"] == user["club_preference_1_id"]) {
+      if (clubs[c]["club_id"] === user["club_preference_1_id"]) {
         clubPreferences.push(clubs[c]["name"]);
-      } else if (clubs[c]["club_id"] == user["club_preference_2_id"]) {
+      } else if (clubs[c]["club_id"] === user["club_preference_2_id"]) {
         clubPreferences.push(clubs[c]["name"]);
-      } else if (clubs[c]["club_id"] == user["club_preference_3_id"]) {
+      } else if (clubs[c]["club_id"] === user["club_preference_3_id"]) {
         clubPreferences.push(clubs[c]["name"]);
       }
     }
-    clubList = clubPreferences.map((p) => <li key={p}>{p}</li>);
   }
   useEffect(() => {
     dispatch({ type: GET_USER });
@@ -51,28 +49,38 @@ function PersonalDetails() {
           alt="profile-pic"
           className="w-32 h-32 rounded-full mr-4"
         />
-        <div className="flex flex-col">
-          <div className="flex">
-            <p className="text-slate-950 font-bold mr-2">Name:</p>
-            <h2>{user && user.fname + " " + user.lname}</h2>
-          </div>
-          <div className="flex">
-            <p className="text-slate-950 font-bold mr-2">Gender:</p>
-            <h2>{user && player.gender}</h2>
-          </div>
-          <div className="flex">
-            <p className="text-slate-950 font-bold mr-2">Age:</p>
-            <h2>{user && new Date().getFullYear() - user.birth_year}</h2>
-          </div>
-          <div className="flex">
-            <p className="text-slate-950 font-bold mr-2">Level:</p>
-            <h2>{player && player.level}</h2>
-          </div>
-          <div className="flex">
-            <p className="text-slate-950 font-bold mr-2">Locations:</p>
-            <ul>{clubList}</ul>
-          </div>
-        </div>
+        <table className="text-left w-1/2">
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <td>{user && user.fname + " " + user.lname}</td>
+            </tr>
+            <tr>
+              <th>Gender</th>
+              <td>{user && player.gender}</td>
+            </tr>
+            <tr>
+              <th>Age</th>
+              <td>{user && new Date().getFullYear() - user.birth_year}</td>
+            </tr>
+            <tr>
+              <th>Level</th>
+              <td>{user && player.level}</td>
+            </tr>
+            <tr>
+              <th>Club #1</th>
+              <td>{user && clubPreferences[0].slice(0, 10) + ".."}</td>
+            </tr>
+            <tr>
+              <th>Club #2</th>
+              <td>{user && clubPreferences[1].slice(0, 10) + ".."}</td>
+            </tr>
+            <tr>
+              <th>Club #3</th>
+              <td>{user && clubPreferences[2].slice(0, 10) + ".."}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
