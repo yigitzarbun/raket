@@ -69,3 +69,11 @@ code {
 .redButton {
   @apply mt-4 p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white ml-4;
 }
+
+.activeStep {
+  @apply h-2 w-1/5 border border-blue-300 bg-blue-400;
+}
+
+.inactiveStep {
+  @apply h-2 w-1/5 border border-blue-300;
+}

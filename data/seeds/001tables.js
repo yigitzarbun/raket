@@ -48,6 +48,7 @@ exports.seed = async function (knex) {
     { payment_type_id: 2, payment_type: "registration" },
     { payment_type_id: 3, payment_type: "promotion" },
     { payment_type_id: 4, payment_type: "membership" },
+    { payment_type_id: 5, payment_type: "refund" },
   ]);
   await knex("districts").insert([
     { district_id: 1, district: "adalar" },
@@ -280,7 +281,7 @@ exports.seed = async function (knex) {
   await knex("invites").insert([
     {
       invite_id: 1,
-      status: "pending",
+      status: "confirmed",
       event_date: "21.04.2023",
       time: 1400,
       date: "20.04.2023",
