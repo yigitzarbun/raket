@@ -101,37 +101,37 @@ function Upcoming() {
           <img
             src={myEvents[invitationIndex]["face_image"]}
             alt="face"
-            className="rounded-full w-24 h-24 object-cover"
+            className="rounded-full w-32 h-32 object-cover mt-8"
           />
         )}
 
-      <p className="text-xl font-bold mt-2">
+      <p className="text-xl font-bold mt-4">
         {myEvents &&
           myEvents.length > 0 &&
           myEvents[invitationIndex]["fname"] +
             " " +
             myEvents[invitationIndex]["lname"]}
       </p>
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-4">
         <div className="flex items-center">
           <img src="/images/calendar.png" alt="date" className="w-4 h-4" />
-          <p className="text-sm ml-2 font-bold">Date</p>
+          <p className="ml-2 font-bold">Date</p>
         </div>
-        <p className="text-sm">
+        <p>
           {myEvents &&
             myEvents.length > 0 &&
             myEvents[invitationIndex]["event_date"]}
         </p>
       </div>
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-4">
         <div className="flex items-center">
           <img src="/images/time.png" alt="time" className="w-4 h-4" />
-          <p className="text-sm ml-2 font-bold"> Time</p>
+          <p className="ml-2 font-bold"> Time</p>
         </div>
         {myEvents &&
           myEvents.length > 0 &&
           myEvents[invitationIndex].time !== undefined && (
-            <p className="text-sm">
+            <p>
               {myEvents[invitationIndex].time.toString().length < 4
                 ? "0" +
                   myEvents[invitationIndex].time.toString()[0] +
@@ -146,28 +146,28 @@ function Upcoming() {
             </p>
           )}
       </div>
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-4">
         <div className="flex items-center">
           <img src="/images/location.png" alt="location" className="w-4 h-4" />
-          <p className="text-sm ml-2 font-bold">Location</p>
+          <p className="ml-2 font-bold">Location</p>
         </div>
-        <p className="text-sm">
+        <p>
           {myEvents && myEvents.length > 0 && myEvents[invitationIndex]["name"]}
         </p>
       </div>
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-4">
         <div className="flex items-center">
           <img src="/images/court.png" alt="court" className="w-4 h-4" />
-          <p className="text-sm ml-2 font-bold">Court</p>
+          <p className="ml-2 font-bold">Court</p>
         </div>
-        <p className="text-sm">
+        <p>
           {myEvents &&
             myEvents.length > 0 &&
             myEvents[invitationIndex]["court_name"]}
         </p>
       </div>
       <button
-        className="mt-4 p-2 border-2 border-black rounded-md w-full hover:bg-red-500 hover:border-red-500 hover:text-white"
+        className="mt-8 p-2 border-2 border-black rounded-md w-full hover:bg-red-500 hover:border-red-500 hover:text-white"
         onClick={() => handleCancelEvent(myEvents[invitationIndex])}
       >
         <p className="font-bold">Cancel</p>
