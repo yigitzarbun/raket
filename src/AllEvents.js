@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getInvites, GET_USER } from "./redux stuff/actions";
+import { getInvites, GET_USER, getPlayers } from "./redux stuff/actions";
 
 function AllEvents() {
   const dispatch = useDispatch();
   let eventType = "Training";
-  let { user, invites } = useSelector((store) => store);
+  let { user, invites, players } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
@@ -43,33 +43,45 @@ function AllEvents() {
           </tr>
         </thead>
         <tbody>
-          {myEvents.map((event) => (
-            <tr key={event.invite_id} className="text-white">
-              <td>{eventType}</td>
-              <td>{event.status}</td>
-              <td>{event.fname}</td>
-              <td>{event.lname}</td>
-              <td>{event.level}</td>
-              <td>{event.gender}</td>
-              <td>{event.name}</td>
-              <td>{event.event_date}</td>
-              <td>
-                {event.time < 1000
-                  ? "0" +
-                    event.time.toString()[0] +
-                    ":" +
-                    event.time.toString()[1] +
-                    event.time.toString()[2]
-                  : event.time.toString()[0] +
-                    event.time.toString()[1] +
-                    ":" +
-                    event.time.toString()[2] +
-                    event.time.toString()[3]}
-              </td>
-              <td>{event.court_name}</td>
-              <td className="text-green-500">{event.price / 2} (*)</td>
-            </tr>
-          ))}
+          {myEvents.length > 0 &&
+            Array.isArray(myEvents) &&
+            myEvents.map((event) => (
+              <tr key={event.invite_id} className="text-white">
+                <td>{eventType}</td>
+                <td>{event.status}</td>
+                <td>
+                  {event.fname !== user.fname
+                    ? event.fname
+                    : (players.find((p) => p.player_id === event.invitee_id) ||
+                        {})["fname"]}
+                </td>
+                <td>
+                  {event.lname !== user.lname
+                    ? event.lname
+                    : (players.find((p) => p.player_id === event.invitee_id) ||
+                        {})["lname"]}
+                </td>
+                <td>{event.level}</td>
+                <td>{event.gender}</td>
+                <td>{event.name}</td>
+                <td>{event.event_date}</td>
+                <td>
+                  {event.time < 1000
+                    ? "0" +
+                      event.time.toString()[0] +
+                      ":" +
+                      event.time.toString()[1] +
+                      event.time.toString()[2]
+                    : event.time.toString()[0] +
+                      event.time.toString()[1] +
+                      ":" +
+                      event.time.toString()[2] +
+                      event.time.toString()[3]}
+                </td>
+                <td>{event.court_name}</td>
+                <td className="text-green-500">{event.price / 2} (*)</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     );
@@ -82,6 +94,7 @@ function AllEvents() {
   }
   useEffect(() => {
     dispatch(getInvites());
+    dispatch(getPlayers());
     dispatch({ type: GET_USER });
   }, []);
   return (
