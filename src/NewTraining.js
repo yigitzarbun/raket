@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import HeroTrain from "./HeroTrain";
 import TrainingSuggest from "./TrainingSuggest";
 import SearchTrain from "./SearchTrain";
 import TrainResults from "./TrainResults";
@@ -22,7 +21,7 @@ function NewTraining() {
   }, []);
   return (
     <div>
-      <HeroTrain />
+      <div className="bg-heroTrain bg-center bg-cover py-28 rounded-md mt-4"></div>
       <div className="flex flex-col">
         <div className="flex justify-between">
           <TrainingSuggest />

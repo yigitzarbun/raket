@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import HeroTrainBooking from "./HeroTrainBooking";
 import {
   updateInvite,
   getBookings,
@@ -157,8 +156,7 @@ function TrainInviteBooking() {
   }, []);
   return (
     <div>
-      <HeroTrainBooking />
-
+      <div className="bg-heroInvite bg-bottom bg-cover py-28 rounded-md mt-4"></div>
       <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md">
         <h2 className="font-bold text-4xl text-white">Booking Details</h2>
         <table className="w-full text-left mt-4 bg-slate-800 rounded-md px-4 py-14 ">

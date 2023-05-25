@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import HeroRequests from "./HeroRequests";
 import IncomingRequests from "./IncomingRequests";
 import OutgoingRequests from "./OutgoingRequests";
 
@@ -15,7 +14,7 @@ function AllRequests() {
   };
   return (
     <div>
-      <HeroRequests />
+      <div className="bg-heroRequests bg-bottom bg-cover py-28 rounded-md mt-4"></div>
       <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md">
         <div className="flex justify-between">
           <button

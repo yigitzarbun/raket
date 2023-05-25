@@ -7,11 +7,15 @@ import {
   updateInvite,
   updateBooking,
   getBookings,
+  addPlayerPayment,
+  getCourts,
 } from "./redux stuff/actions";
 function Calendar() {
   const dispatch = useDispatch();
   const eventType = "Training";
-  let { user, invites, players, bookings } = useSelector((store) => store);
+  let { user, invites, players, bookings, courts } = useSelector(
+    (store) => store
+  );
   if (user.player) {
     user = user.player;
   } else {
@@ -41,6 +45,33 @@ function Calendar() {
         court_id: invite.court_id,
       };
       dispatch(updateBooking(bookingData));
+
+      if (courts && invites) {
+        let court = invites.find((i) => i.invite_id === invite.invite_id);
+        if (court) {
+          let courtPrice = court["price"];
+          const playerPayment1 = {
+            amount: courtPrice / 2,
+            date: Date.now(),
+            player_id: user.player_id,
+            payment_type_id: 5,
+          };
+          dispatch(addPlayerPayment(playerPayment1));
+          let player2Id;
+          if (court.inviter_id === user.player_id) {
+            player2Id = court["invitee_id"];
+          } else {
+            player2Id = court["inviter_id"];
+          }
+          const playerPayment2 = {
+            amount: courtPrice / 2,
+            date: Date.now(),
+            player_id: player2Id,
+            payment_type_id: 5,
+          };
+          dispatch(addPlayerPayment(playerPayment2));
+        }
+      }
     }
   };
   let resultJsx = [];
@@ -156,6 +187,7 @@ function Calendar() {
     dispatch(getInvites());
     dispatch(getPlayers());
     dispatch(getBookings());
+    dispatch(getCourts());
   }, []);
   return (
     <div>

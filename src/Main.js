@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Train from "./Train";
 import Match from "./Match";
-import Hero from "./Hero";
 import Requests from "./Requests";
 import Upcoming from "./Upcoming";
 import Stats from "./Stats";
@@ -45,7 +44,7 @@ function Main() {
   }, []);
   return (
     <div>
-      <Hero />
+      <div className="bg-hero bg-bottom bg-auto py-28 rounded-md mt-4"></div>
       <div className="flex justify-between">
         <Train />
         <Match />
