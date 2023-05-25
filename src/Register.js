@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getClubs,
-  getCourtTypes,
   getGenders,
   getLevels,
   registerPlayer,
@@ -32,7 +31,7 @@ function Register() {
     getValues,
     reset,
     formState: { errors, isValid },
-  } = useForm();
+  } = useForm({ mode: "onChange" });
   const handleRegister = (data) => {
     let dataWide = {
       ...data,
@@ -43,7 +42,6 @@ function Register() {
     dispatch(registerPlayer(dataWide, navigate));
     reset();
   };
-
   useEffect(() => {
     dispatch(getClubs());
     dispatch(getGenders());
@@ -281,8 +279,8 @@ function Register() {
           <div className="flex">
             <button
               className="mt-4 mr-2  border-2 w-1/2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white p-2"
-              disabled={!isValid}
               type="submit"
+              disabled={!isValid}
             >
               <p className="font-bold">Register</p>
             </button>

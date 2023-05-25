@@ -19,7 +19,7 @@ function Footer() {
               Raket
             </p>
             <address className="text-slate-200 text-sm mt-4">
-              Caddebostan Mah. Mine Sok. <br /> No: 8 D:1, Kadıköy / İstanbul
+              Caddebostan Mah. Mine Sok. <br /> No: 8 D: 1, Kadıköy / İstanbul
             </address>
             <p className="text-slate-200 text-sm mt-4">
               <span className="font-bold text-white">E:</span> hello@raket.com

@@ -80,16 +80,24 @@ function CourtsList() {
                               c.closing.toString()[2] +
                               c.closing.toString()[3]}
                         </td>
-                        <td className="py-1 px-4 border-2  border-blue-500 rounded-md hover:bg-blue-500 hover:text-white ml-2 mt-2">
+                        <td>
                           <Link
                             to={`/edit-court/:${c.court_id}`}
                             state={{ court: c }}
                           >
-                            {" "}
-                            Edit
+                            <button className="text-center font-bold  p-2 border-2 border-blue-500 rounded-md hover:bg-blue-500 hover:text-white">
+                              Edit
+                            </button>
                           </Link>
                         </td>
-                        <td onClick={() => handleDeleteCourt(c)}>Remove</td>
+                        <td>
+                          <button
+                            onClick={() => handleDeleteCourt(c)}
+                            className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+                          >
+                            Remove
+                          </button>
+                        </td>
                       </tr>
                     ))}
               </tbody>

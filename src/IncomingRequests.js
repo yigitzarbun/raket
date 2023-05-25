@@ -43,7 +43,7 @@ function IncomingRequests() {
         2,
       date: Date.now(),
       player_id: data.inviter_id,
-      payment_type_id: 2,
+      payment_type_id: 1,
     };
     dispatch(addPlayerPayment(paymentDataInvitee));
     const paymentDataInviter = {

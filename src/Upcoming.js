@@ -7,11 +7,13 @@ import {
   updateInvite,
   getBookings,
   updateBooking,
+  addPlayerPayment,
+  getCourts,
 } from "./redux stuff/actions";
 
 function Upcoming() {
   const dispatch = useDispatch();
-  let { user, invites, bookings } = useSelector((store) => store);
+  let { user, invites, bookings, courts } = useSelector((store) => store);
   if (user.player) {
     user = user.player;
   } else {
@@ -52,11 +54,38 @@ function Upcoming() {
       };
       dispatch(updateBooking(bookingData));
     }
+    if (courts && invites) {
+      let court = invites.find((i) => i.invite_id === invite.invite_id);
+      if (court) {
+        let courtPrice = court["price"];
+        const playerPayment1 = {
+          amount: courtPrice / 2,
+          date: Date.now(),
+          player_id: user.player_id,
+          payment_type_id: 5,
+        };
+        dispatch(addPlayerPayment(playerPayment1));
+        let player2Id;
+        if (court.inviter_id === user.player_id) {
+          player2Id = court["invitee_id"];
+        } else {
+          player2Id = court["inviter_id"];
+        }
+        const playerPayment2 = {
+          amount: courtPrice / 2,
+          date: Date.now(),
+          player_id: player2Id,
+          payment_type_id: 5,
+        };
+        dispatch(addPlayerPayment(playerPayment2));
+      }
+    }
   };
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
     dispatch(getBookings());
+    dispatch(getCourts());
   }, []);
   useEffect(() => {
     if (Array.isArray(invites) && invites.length > 0) {

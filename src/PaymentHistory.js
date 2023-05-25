@@ -17,7 +17,9 @@ function PaymentHistory() {
     paymentCount = "No payments yet";
   } else if (Array.isArray(myPayments) && myPayments) {
     for (let i = 0; i < myPayments.length; i++) {
-      paymentCount++;
+      if (myPayments[i]["payment_type_id"] !== 5) {
+        paymentCount++;
+      }
     }
   }
   useEffect(() => {
