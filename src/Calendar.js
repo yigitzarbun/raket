@@ -9,6 +9,7 @@ import {
   getBookings,
   addPlayerPayment,
   getCourts,
+  addClubPayment,
 } from "./redux stuff/actions";
 function Calendar() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function Calendar() {
         let court = invites.find((i) => i.invite_id === invite.invite_id);
         if (court) {
           let courtPrice = court["price"];
+          let clubId = court["club_id"];
           const playerPayment1 = {
             amount: courtPrice / 2,
             date: Date.now(),
@@ -70,6 +72,13 @@ function Calendar() {
             payment_type_id: 5,
           };
           dispatch(addPlayerPayment(playerPayment2));
+          const clubPayment = {
+            amount: courtPrice,
+            date: Date.now(),
+            club_id: clubId,
+            payment_type_id: 5,
+          };
+          dispatch(addClubPayment(clubPayment));
         }
       }
     }

@@ -20,7 +20,10 @@ function ClubBookings() {
 
   if (user && invites) {
     myInvites = invites.filter(
-      (i) => i.club_id === user.club_id && i.event_date === date
+      (i) =>
+        i.club_id === user.club_id &&
+        i.event_date === date &&
+        i.status === "confirmed"
     );
   }
 

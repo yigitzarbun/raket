@@ -10,6 +10,7 @@ import {
   updateBooking,
   getBookings,
   getMyCard,
+  addClubPayment,
 } from "./redux stuff/actions";
 function Requests() {
   const dispatch = useDispatch();
@@ -97,6 +98,15 @@ function Requests() {
       };
       dispatch(updateBooking(bookingData));
     }
+    const clubPayment = {
+      amount: courts.filter((court) => court.court_id === data.court_id)[0][
+        "price"
+      ],
+      date: Date.now(),
+      club_id: data.club_id,
+      payment_type_id: 1,
+    };
+    dispatch(addClubPayment(clubPayment));
   };
 
   const handleReject = (data) => {

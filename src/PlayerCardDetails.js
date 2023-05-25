@@ -36,7 +36,10 @@ function PlayerCardDetails(props) {
         </div>
         <div className="flex flex-col">
           <p className="text-sm font-bold italic">Card Number</p>
-          <p>{myCard && myCard["card_number"]}</p>
+          <p>
+            {myCard &&
+              "**** **** **** " + myCard["card_number"].toString().slice(12)}
+          </p>
         </div>
         <div className="flex flex-col">
           <p className="text-sm font-bold italic">Expiry Month</p>
@@ -48,7 +51,7 @@ function PlayerCardDetails(props) {
         </div>
         <div className="flex flex-col">
           <p className="text-sm font-bold italic">CVC</p>
-          <p>{myCard && myCard["cvc"]}</p>
+          <p>{myCard && "** " + myCard["cvc"].toString().slice(2)}</p>
         </div>
         <button
           className=" p-2 border-2 border-black rounded-md hover:bg-black hover:text-white mr-2"

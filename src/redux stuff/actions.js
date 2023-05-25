@@ -46,6 +46,8 @@ export const GET_INDOOR_OUTDOOR = "GET_INDOOR_OUTDOOR";
 export const DELETE_COURT = "DELETE_COURT";
 export const UPDATE_COURT = "UPDATE_COURT";
 export const GET_DISTRICTS = "GET_DISTRICTS";
+export const GET_CLUB_PAYMENTS = "GET_CLUB_PAYMENTS";
+export const ADD_CLUB_PAYMENT = "ADD_CLUB_PAYMENT";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -380,6 +382,28 @@ export const getDistricts = () => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch({ type: GET_DISTRICTS, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getClubPayments = () => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/club-payments")
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: GET_CLUB_PAYMENTS, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const addClubPayment = (clubPayment) => (dispatch) => {
+  axiosWithAuth()
+    .post(url + "api/club-payments", clubPayment)
+    .then((res) => {
+      if (res.status === 201) {
+        dispatch({ type: ADD_CLUB_PAYMENT, payload: res.data });
       }
     })
     .catch((err) => console.log(err));

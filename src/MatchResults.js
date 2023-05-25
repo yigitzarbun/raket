@@ -37,8 +37,8 @@ function MatchResults() {
             <td className="text-green-400">9</td>
             <td className="text-red-500">1</td>
             <td className="text-blue-400">5</td>
-            <td className="p-1 border-2 mt-4 border-green-500 rounded-md hover:bg-green-500 hover:text-white">
-              Challenge
+            <td>
+              <button className="greenButton">Challenge </button>
             </td>
           </tr>
         </tbody>

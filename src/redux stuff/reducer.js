@@ -27,6 +27,8 @@ import {
   DELETE_COURT,
   UPDATE_COURT,
   GET_DISTRICTS,
+  GET_CLUB_PAYMENTS,
+  ADD_CLUB_PAYMENT,
 } from "./actions";
 
 const initialState = {
@@ -40,6 +42,7 @@ const initialState = {
   challenges: [],
   courts: [],
   playerPayments: [],
+  clubPayments: [],
   myPayments: [],
   myCard: null,
   playerCards: [],
@@ -207,6 +210,16 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         districts: action.payload,
+      };
+    case GET_CLUB_PAYMENTS:
+      return {
+        ...state,
+        clubPayments: action.payload,
+      };
+    case ADD_CLUB_PAYMENT:
+      return {
+        ...state,
+        clubPayments: [action.payload, ...(state.clubPayments || [])],
       };
     default:
       return state;

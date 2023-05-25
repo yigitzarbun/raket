@@ -11,6 +11,7 @@ function Payments() {
   } else {
     user = user;
   }
+  let paidSum = 0;
 
   let resultJsx = "";
   if (myPayments === null) {
@@ -18,10 +19,19 @@ function Payments() {
   } else if (myPayments.length === 0) {
     resultJsx = "No payments available";
   } else if (Array.isArray(myPayments) && myPayments) {
+    if (user) {
+      let paidTotal = myPayments
+        .filter((p) => p.payment_type_id !== 5)
+        .reduce((acc, curr) => acc + curr.amount, 0);
+      let refundedTotal = myPayments
+        .filter((p) => p.payment_type_id === 5)
+        .reduce((acc, curr) => acc + curr.amount, 0);
+      paidSum = paidTotal - refundedTotal;
+    }
     resultJsx = myPayments.map((p) => (
       <tr
         key={p.player_payment_id}
-        className={p.payment_type_id === 1 ? "text-green-300" : "text-red-400"}
+        className={p.payment_type_id === 5 ? "text-green-300" : "text-red-400"}
       >
         <td>{p.player_payment_id}</td>
         <td>{p.payment_type}</td>
@@ -58,6 +68,7 @@ function Payments() {
             <tbody>{resultJsx}</tbody>
           </table>
         </div>
+        <h4 className="text-slate-300 mt-4">{`After subtracting refunds, you were charged a total of TL ${paidSum} since joining Raket`}</h4>
         <Link to="/Account">
           <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
             Go back to Account
