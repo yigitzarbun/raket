@@ -132,6 +132,7 @@ function TrainInvite(props) {
               {...register("event_date", {
                 required: "Training date is required",
               })}
+              min={new Date().toISOString().split("T")[0]}
               onChange={handleSelectedDate}
             />
             {errors.event_date && <span>{errors.event_date.message}</span>}

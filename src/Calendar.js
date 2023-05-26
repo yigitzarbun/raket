@@ -12,6 +12,14 @@ import {
   addClubPayment,
 } from "./redux stuff/actions";
 function Calendar() {
+  let today = new Date().toISOString().split("T")[0];
+  let time = new Date()
+    .toISOString()
+    .split("T")[1]
+    .slice(0, 5)
+    .split(":")
+    .join("");
+
   const dispatch = useDispatch();
   const eventType = "Training";
   let { user, invites, players, bookings, courts } = useSelector(
@@ -100,7 +108,8 @@ function Calendar() {
     resultJsx = invites
       .filter(
         (invite) =>
-          invite.status === "confirmed" &&
+          ((invite.status === "confirmed" && invite.event_date > today) ||
+            (invite.event_date === today && invite.time >= time)) &&
           (invite.inviter_id === user.player_id ||
             invite.invitee_id === user.player_id)
       )
