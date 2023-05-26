@@ -35,9 +35,9 @@ function CourtsList() {
                   <th>Court Name / No.</th>
                   <th>Surface</th>
                   <th>Indoor / Outdoor</th>
-                  <th>Price per hour</th>
-                  <th className="text-green-400">Opening hour</th>
-                  <th className="text-red-500">Closing hour</th>
+                  <th>Price / hour</th>
+                  <th className="text-green-400">Opening</th>
+                  <th className="text-red-500">Closing</th>
                   <th>Edit</th>
                   <th>Remove</th>
                 </tr>

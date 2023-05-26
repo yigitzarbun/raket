@@ -122,16 +122,6 @@ function Header() {
                 Courts
               </NavLink>
               <NavLink
-                to="/club-account"
-                className={({ isActive }) =>
-                  isActive
-                    ? "active-link"
-                    : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
-                }
-              >
-                Account
-              </NavLink>
-              <NavLink
                 to="/club-calendar"
                 className={({ isActive }) =>
                   isActive
@@ -140,6 +130,16 @@ function Header() {
                 }
               >
                 Calendar
+              </NavLink>
+              <NavLink
+                to="/club-account"
+                className={({ isActive }) =>
+                  isActive
+                    ? "active-link"
+                    : "p-2 font-bold cursor-pointer hover:bg-gradient-to-r from-sky-500 to-indigo-500 hover:rounded-md hover:text-white"
+                }
+              >
+                Account
               </NavLink>
             </>
           )}

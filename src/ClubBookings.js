@@ -23,7 +23,7 @@ function ClubBookings() {
       (i) =>
         i.club_id === user.club_id &&
         i.event_date === date &&
-        i.status === "confirmed"
+        (i.status === "confirmed" || i.status === "pending")
     );
   }
 
