@@ -47,11 +47,11 @@ function BookedCourts() {
       );
     } else if (filter === "future") {
       filteredEvents = myEvents.filter(
-        (e) => new Date(e.event_date).getTime() >= new Date(date).getTime()
+        (e) => new Date(e.event_date).getTime() > new Date(date).getTime()
       );
     } else if (filter === "past") {
       filteredEvents = myEvents.filter(
-        (e) => new Date(e.event_date).getTime() <= new Date(date).getTime()
+        (e) => new Date(e.event_date).getTime() < new Date(date).getTime()
       );
     }
   }

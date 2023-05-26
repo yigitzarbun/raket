@@ -23,6 +23,14 @@ function Requests() {
   } else {
     user = user;
   }
+  const backgrounds = [
+    "bg-gradient-to-r from-green-500 to-cyan-500 p-8 mt-8 rounded-md shadow-md flex flex-col",
+    "bg-gradient-to-r from-yellow-200 via-green-200 to-green-500 p-8 mt-8 rounded-md shadow-md flex flex-col",
+    "bg-gradient-to-r from-green-200 via-green-300 to-blue-500 p-8 mt-8 rounded-md shadow-md flex flex-col",
+    "bg-gradient-to-r from-purple-400 to-yellow-400 p-8 mt-8 rounded-md shadow-md flex flex-col",
+    "bg-gradient-to-r from-green-300 to-purple-400 p-8 mt-8 rounded-md shadow-md flex flex-col",
+  ];
+  const [bg, setBg] = useState(0);
   const [invitationIndex, setInvitationIndex] = useState(0);
 
   let myInvites = "";
@@ -38,11 +46,13 @@ function Requests() {
   }
   const handleNextIndex = () => {
     setInvitationIndex((invitationIndex + 1) % myInvites.length);
+    setBg((bg + 1) % backgrounds.length);
   };
   const handlePrevIndex = () => {
     setInvitationIndex(
       (invitationIndex + myInvites.length - 1) % myInvites.length
     );
+    setBg((bg + backgrounds.length - 1) % backgrounds.length);
   };
   const handleAccept = (data) => {
     const dataWide = {
@@ -154,7 +164,7 @@ function Requests() {
   }, [change]);
 
   return (
-    <div className="bg-gradient-to-r from-green-500 to-cyan-500 p-8 mt-8 rounded-md shadow-md flex flex-col">
+    <div className={backgrounds[bg]}>
       <div className="flex justify-between">
         <h2 className="font-bold text-4xl">Requests</h2>
         {myInvites.length > 1 && (

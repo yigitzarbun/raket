@@ -28,6 +28,8 @@ function ClubPayments() {
         paymentDate.getDate() === date
       );
     });
+    receivedToday = myPayments.filter((p) => p.payment_type_id === 1);
+    refundedToday = myPayments.filter((p) => p.payment_type_id === 5);
   }
 
   if (user) {
@@ -47,11 +49,13 @@ function ClubPayments() {
     <div className="bg-gradient-to-r from-cyan-500 to-green-500 p-4 my-8  ml-2 w-1/4 rounded-md shadow-md">
       <h2 className="font-bold text-4xl">Payments</h2>
       <h4 className="text-2xl mt-4">TL {paidSum}</h4>
-      <p className="mt-2">{`${myPayments.length} payments today`}</p>
+      <p className="mt-2">{`${
+        receivedToday.length - refundedToday.length
+      } payments today`}</p>
       <Link to="/club-payments">
-        <p className="text-sm mt-4 italic cursor-pointer hover:text-slate-700">
-          View payment history
-        </p>
+        <button className="mt-8 p-2 border-2 border-black rounded-md hover:bg-black hover:text-white">
+          <p className="font-bold">View All</p>
+        </button>
       </Link>
     </div>
   );

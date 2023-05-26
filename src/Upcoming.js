@@ -20,15 +20,25 @@ function Upcoming() {
   } else {
     user = user;
   }
+  const backgrounds = [
+    "bg-gradient-to-r from-green-500 to-cyan-500 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
+    "bg-gradient-to-r from-yellow-200 via-green-200 to-green-500 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
+    "bg-gradient-to-r from-green-200 via-green-300 to-blue-500 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
+    "bg-gradient-to-r from-purple-400 to-yellow-400 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
+    "bg-gradient-to-r from-green-300 to-purple-400 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
+  ];
+  const [bg, setBg] = useState(0);
   const [myEvents, setMyEvents] = useState([]);
   const [invitationIndex, setInvitationIndex] = useState(0);
   const handleNextIndex = () => {
     setInvitationIndex((invitationIndex + 1) % myEvents.length);
+    setBg((bg + 1) % backgrounds.length);
   };
   const handlePrevIndex = () => {
     setInvitationIndex(
       (invitationIndex + myEvents.length - 1) % myEvents.length
     );
+    setBg((bg + backgrounds.length - 1) % backgrounds.length);
   };
   const handleCancelEvent = (invite) => {
     const inviteUpdateData = {
@@ -112,7 +122,7 @@ function Upcoming() {
     }
   }, [invites, user]);
   return (
-    <div className="p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md bg-gradient-to-r from-teal-400 to-purple-500">
+    <div className={backgrounds[bg]}>
       <div className="flex justify-between">
         <h2 className="font-bold text-4xl">Upcoming</h2>
         {myEvents && myEvents.length > 1 && (
