@@ -19,6 +19,9 @@ function Main() {
   }
   let myInvites = "";
   let myEvents = "";
+  let now = new Date();
+  let today = now.toISOString().split("T")[0];
+  let time = now.toISOString().split("T")[1].slice(0, 5).split(":").join("");
   if (invites === null) {
     myInvites = "Loading invitations";
     myEvents = "Loading events";
@@ -28,13 +31,18 @@ function Main() {
   } else if (Array.isArray(invites) && invites) {
     myInvites = invites.filter(
       (invite) =>
-        invite.invitee_id === user.player_id && invite.status === "pending"
+        invite.invitee_id === user.player_id &&
+        invite.status === "pending" &&
+        (invite.event_date > today ||
+          (invite.event_date === today && invite.time >= time))
     );
     myEvents = invites.filter(
       (invite) =>
         (invite.invitee_id === user.player_id ||
           invite.inviter_id === user.player_id) &&
-        invite.status === "confirmed"
+        invite.status === "confirmed" &&
+        (invite.event_date > today ||
+          (invite.event_date === today && invite.time >= time))
     );
   }
 

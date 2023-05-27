@@ -10,11 +10,14 @@ import {
   addPlayerPayment,
   getCourts,
   addClubPayment,
+  getPlayers,
 } from "./redux stuff/actions";
 
 function Upcoming() {
   const dispatch = useDispatch();
-  let { user, invites, bookings, courts } = useSelector((store) => store);
+  let { user, invites, bookings, courts, players } = useSelector(
+    (store) => store
+  );
   if (user.player) {
     user = user.player;
   } else {
@@ -22,10 +25,8 @@ function Upcoming() {
   }
   const backgrounds = [
     "bg-gradient-to-r from-green-500 to-cyan-500 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
-    "bg-gradient-to-r from-yellow-200 via-green-200 to-green-500 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
-    "bg-gradient-to-r from-green-200 via-green-300 to-blue-500 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
-    "bg-gradient-to-r from-purple-400 to-yellow-400 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
-    "bg-gradient-to-r from-green-300 to-purple-400 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
+    "bg-gradient-to-r from-green-200 via-green-400 to-green-500 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
+    "bg-gradient-to-r from-blue-500 to-blue-600 p-8 mr-4 mt-8 rounded-md w-2/6 shadow-md",
   ];
   const [bg, setBg] = useState(0);
   const [myEvents, setMyEvents] = useState([]);
@@ -98,13 +99,21 @@ function Upcoming() {
         };
         dispatch(addClubPayment(clubPayment));
       }
+      dispatch(getInvites());
     }
   };
+  let now = new Date();
+  let time = now
+    .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    .replace(":", "");
+  let today = now.toISOString().split("T")[0];
+
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
     dispatch(getBookings());
     dispatch(getCourts());
+    dispatch(getPlayers());
   }, []);
   useEffect(() => {
     if (Array.isArray(invites) && invites.length > 0) {
@@ -112,7 +121,9 @@ function Upcoming() {
         (invite) =>
           (invite.invitee_id === user.player_id ||
             invite.inviter_id === user.player_id) &&
-          invite.status === "confirmed"
+          invite.status === "confirmed" &&
+          (invite.event_date > today ||
+            (invite.event_date === today && invite.time >= time))
       );
       setMyEvents(
         filteredInvites.sort(function (a, b) {
@@ -143,23 +154,40 @@ function Upcoming() {
         )}
       </div>
       <h4 className="italic">Training</h4>
-      {myEvents.length > 0 &&
+      {myEvents &&
+        myEvents.length > 0 &&
         myEvents[invitationIndex] &&
-        myEvents[invitationIndex]["face_image"] && (
+        myEvents[invitationIndex]["face_image"] &&
+        players && (
           <img
-            src={myEvents[invitationIndex]["face_image"]}
+            src={
+              myEvents[invitationIndex]["inviter_id"] === user.player_id
+                ? players.filter(
+                    (p) =>
+                      p.player_id === myEvents[invitationIndex]["invitee_id"]
+                  )[0]["face_image"]
+                : myEvents[invitationIndex]["face_image"]
+            }
             alt="face"
             className="rounded-full w-32 h-32 object-cover mt-8"
           />
         )}
-
-      <p className="text-xl font-bold mt-4">
-        {myEvents &&
-          myEvents.length > 0 &&
-          myEvents[invitationIndex]["fname"] +
-            " " +
-            myEvents[invitationIndex]["lname"]}
-      </p>
+      {myEvents &&
+        myEvents.length > 0 &&
+        myEvents[invitationIndex] &&
+        players && (
+          <p className="text-xl font-bold mt-4">
+            {myEvents[invitationIndex]["inviter_id"] === user.player_id
+              ? players.filter(
+                  (p) => p.player_id === myEvents[invitationIndex]["invitee_id"]
+                )[0]["fname"] +
+                " " +
+                players.filter(
+                  (p) => p.player_id === myEvents[invitationIndex]["invitee_id"]
+                )[0]["lname"]
+              : `${myEvents[invitationIndex]["fname"]} ${myEvents[invitationIndex]["lname"]}`}
+          </p>
+        )}
       <div className="flex justify-between items-center mt-4">
         <div className="flex items-center">
           <img src="/images/calendar.png" alt="date" className="w-4 h-4" />

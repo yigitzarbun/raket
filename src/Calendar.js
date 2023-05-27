@@ -12,13 +12,11 @@ import {
   addClubPayment,
 } from "./redux stuff/actions";
 function Calendar() {
-  let today = new Date().toISOString().split("T")[0];
-  let time = new Date()
-    .toISOString()
-    .split("T")[1]
-    .slice(0, 5)
-    .split(":")
-    .join("");
+  let now = new Date();
+  let time = now
+    .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    .replace(":", "");
+  let today = now.toISOString().split("T")[0];
 
   const dispatch = useDispatch();
   const eventType = "Training";
