@@ -109,7 +109,9 @@ function Calendar() {
       .filter(
         (invite) =>
           ((invite.status === "confirmed" && invite.event_date > today) ||
-            (invite.event_date === today && invite.time >= time)) &&
+            (invite.event_date === today &&
+              invite.time >= time &&
+              invite.status === "confirmed")) &&
           (invite.inviter_id === user.player_id ||
             invite.invitee_id === user.player_id)
       )
