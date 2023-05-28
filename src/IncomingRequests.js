@@ -122,15 +122,15 @@ function IncomingRequests() {
       dispatch(updateBooking(bookingData));
     }
   };
-  let resultJsx = "";
+  let resultJsx = [];
   if (invites == null) {
-    resultJsx = (
+    resultJsx.push(
       <tr>
         <td>Loading bookings</td>
       </tr>
     );
   } else if (invites.length === 0) {
-    resultJsx = (
+    resultJsx.push(
       <tr>
         <td>No bookings</td>
       </tr>
@@ -227,14 +227,19 @@ function IncomingRequests() {
         </thead>
         <tbody>{resultJsx}</tbody>
       </table>
-      <Link to="/calendar">
-        <p className="text-blue-500 text-sm italic mt-5 inline cursor-pointer hover:text-blue-400">
+      {resultJsx.length === 0 && (
+        <p className="text-center mt-8">No incoming requests</p>
+      )}
+      <Link to="/calendar" className="mt-8 flex">
+        <p className="text-blue-500 text-sm italic inline cursor-pointer hover:text-blue-400">
           Check out calendar for confirmed training sessions
         </p>
       </Link>
-      <p className="text-green-500 text-sm mt-5 hover:text-green-400">
-        (*) Price indicates the amount that you'll need to pay.
-      </p>
+      {resultJsx.length > 0 && (
+        <p className="text-green-500 text-sm mt-8 hover:text-green-400">
+          (*) Price indicates the amount that you'll need to pay.
+        </p>
+      )}
     </div>
   );
 }

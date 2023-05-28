@@ -228,8 +228,11 @@ function Calendar() {
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>{resultJsx && resultJsx}</tbody>
+            {resultJsx && resultJsx.length > 0 && <tbody>{resultJsx}</tbody>}
           </table>
+          {resultJsx && resultJsx.length === 0 && (
+            <p className="mt-8 text-center">No upcoming events</p>
+          )}
         </div>
       </div>
     </div>

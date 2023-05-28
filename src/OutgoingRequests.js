@@ -45,15 +45,15 @@ function OutgoingRequests() {
     }
   };
 
-  let resultJsx = "";
+  let resultJsx = [];
   if (invites == null) {
-    resultJsx = (
+    resultJsx.push(
       <tr>
         <td>Loading bookings</td>
       </tr>
     );
   } else if (invites.length === 0) {
-    resultJsx = (
+    resultJsx.push(
       <tr>
         <td>No bookings</td>
       </tr>
@@ -155,8 +155,11 @@ function OutgoingRequests() {
         </thead>
         <tbody>{resultJsx}</tbody>
       </table>
+      {resultJsx.length === 0 && (
+        <p className="text-center mt-8">No incoming requests</p>
+      )}
       <Link to="/train">
-        <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
+        <p className="text-blue-500 text-sm italic mt-8 cursor-pointer hover:text-blue-400">
           Invite players for training
         </p>
       </Link>
