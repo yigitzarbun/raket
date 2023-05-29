@@ -29,6 +29,7 @@ router.post(
   playersMd.emailExists,
   (req, res, next) => {
     const { email, password } = req.body;
+    console.log(req.body);
     playersModel
       .getByFilter({ email })
       .then((player) => {

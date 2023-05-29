@@ -1,9 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getInvites, GET_USER, getPlayers } from "./redux stuff/actions";
 
 function AllEvents() {
   const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+  const handleClear = () => {
+    setSearch("");
+  };
   let eventType = "Training";
   let { user, invites, players } = useSelector((store) => store);
   if (user.player) {
@@ -12,6 +19,7 @@ function AllEvents() {
     user = user;
   }
   let myEvents = null;
+  let filteredEvents = null;
   if (invites === null) {
     myEvents = "Loading..";
   } else if (invites.length === 0) {
@@ -22,9 +30,20 @@ function AllEvents() {
         invite.inviter_id === user.player_id ||
         invite.invitee_id === user.player_id
     );
+    filteredEvents = myEvents.filter((e) => {
+      if (search === "") {
+        return e;
+      } else if (
+        e.fname.toLowerCase().includes(search.toLowerCase()) ||
+        e.lname.toLowerCase().includes(search.toLowerCase()) ||
+        e.name.toLowerCase().includes(search.toLowerCase())
+      ) {
+        return e;
+      }
+    });
   }
   let resultJsx = null;
-  if (myEvents && myEvents.length > 0) {
+  if (filteredEvents && filteredEvents.length > 0) {
     resultJsx = (
       <table className="w-full text-left">
         <thead>
@@ -43,9 +62,9 @@ function AllEvents() {
           </tr>
         </thead>
         <tbody>
-          {myEvents.length > 0 &&
-            Array.isArray(myEvents) &&
-            myEvents.map((event) => (
+          {filteredEvents.length > 0 &&
+            Array.isArray(filteredEvents) &&
+            filteredEvents.map((event) => (
               <tr key={event.invite_id} className="text-white">
                 <td>{eventType}</td>
                 <td>{event.status}</td>
@@ -85,10 +104,16 @@ function AllEvents() {
         </tbody>
       </table>
     );
+  } else if (myEvents.length > 0 && filteredEvents.length === 0) {
+    resultJsx = (
+      <div>
+        <p>No events matching your criteria.</p>
+      </div>
+    );
   } else {
     resultJsx = (
       <div>
-        <p>No past events found</p>
+        <p>No past events available yet.</p>
       </div>
     );
   }
@@ -102,6 +127,21 @@ function AllEvents() {
       <div className="bg-heroAllEvents bg-bottom bg-cover py-28 rounded-md mt-4"></div>
       <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md">
         <h2 className="font-bold text-4xl text-white">Events History</h2>
+        <div className="flex my-4">
+          <input
+            type="text"
+            value={search}
+            className="w-3/4 rounded-md p-2  text-black"
+            placeholder="Search players by name"
+            onChange={handleSearch}
+          />
+          <button
+            onClick={handleClear}
+            className="p-2 border-2 border-red-500 font-bold rounded-md text-white hover:bg-red-500 ml-2"
+          >
+            Clear
+          </button>
+        </div>
         <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
           {resultJsx}
         </div>
