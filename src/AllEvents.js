@@ -65,6 +65,11 @@ function AllEvents() {
   } else {
     user = user;
   }
+  const compareDates = (a, b) => {
+    const dateA = new Date(a.event_date);
+    const dateB = new Date(b.event_date);
+    return dateA - dateB;
+  };
   let myEvents = null;
   let filteredEvents = null;
   if (invites === null) {
@@ -116,7 +121,8 @@ function AllEvents() {
         } else if (selectedStatus === e.status) {
           return e;
         }
-      });
+      })
+      .sort(compareDates);
   }
   let resultJsx = null;
   if (filteredEvents && filteredEvents.length > 0) {
