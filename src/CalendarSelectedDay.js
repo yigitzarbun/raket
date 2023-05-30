@@ -1,19 +1,19 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 function CalendarSelectedDay(props) {
-  const { selectedDay, myEvents } = props;
+  const { selectedDay, myEvents, handleSelectedDay } = props;
   const eventType = "Training";
   let resultJsx = [];
-  if (selectedDay === null || selectedDay === "") {
-    resultJsx.push(
-      <div className="flex items-center justify-center h-full">
-        <p className="text-center">Select a day to view details</p>
-      </div>
-    );
-  } else if (myEvents.length === 0) {
+  if (myEvents.length === 0) {
     resultJsx.push(
       <div className="flex items-center justify-center h-full">
         <p className="text-center">No events available</p>
+      </div>
+    );
+  } else if (selectedDay === "") {
+    resultJsx.push(
+      <div className="flex items-center justify-center h-full">
+        <p className="text-center">Select a day to view details</p>
       </div>
     );
   } else if (selectedDay.length > 0) {
@@ -57,11 +57,20 @@ function CalendarSelectedDay(props) {
             ))}
           </tbody>
         </table>
-        <div className="w-1/2 mx-auto mt-6">
-          <button className="w-full text-center border-2 border-blue-500 rounded-md hover:bg-blue-500 p-2 font-bold">
+        <div className="w-1/2 mx-auto my-6">
+          <button
+            onClick={() => handleSelectedDay("")}
+            className="w-full text-center border-2 border-blue-500 rounded-md hover:bg-blue-500 p-2 font-bold"
+          >
             Done
           </button>
         </div>
+        <Link
+          to="/calendar"
+          className="text-sm text-slate-400 hover:text-blue-500"
+        >
+          View list for detailed information
+        </Link>
       </div>
     );
   }

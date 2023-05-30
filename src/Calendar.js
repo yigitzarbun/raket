@@ -219,10 +219,15 @@ function Calendar() {
     <div>
       <div className="bg-heroCalendar bg-bottom bg-cover py-28 rounded-md mt-4"></div>
       <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md">
-        <h2 className="font-bold text-4xl text-white">Calendar</h2>
-        <Link to="/player-calendar-view" className="text-white">
-          <p>Calendar View</p>
-        </Link>
+        <div className="flex justify-between items-center">
+          <h2 className="font-bold text-4xl text-white">Calendar</h2>
+          <Link
+            to="/player-calendar-view"
+            className="text-slate-400 hover:text-blue-400"
+          >
+            <p>Calendar View</p>
+          </Link>
+        </div>
         <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
           <table className="w-full text-left">
             <thead>
