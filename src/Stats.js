@@ -13,7 +13,7 @@ function Stats() {
     color: "white",
   };
   return (
-    <div className="bg-slate-950 p-8 w-full mt-8 rounded-md shadow-md">
+    <div className="bg-slate-950 p-5 w-full mt-8 rounded-md shadow-md">
       <div className="flex justify-between mb-4">
         <button
           onClick={() => handleDisplayed("myStats")}

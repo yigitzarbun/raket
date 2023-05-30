@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   getInvites,
   getPlayers,
@@ -28,6 +29,11 @@ function Calendar() {
   } else {
     user = user;
   }
+  const sortDates = (a, b) => {
+    const dateA = new Date(a.event_date);
+    const dateB = new Date(b.event_date);
+    return dateA - dateB;
+  };
   const handleCancel = (invite) => {
     const inviteData = {
       invite_id: invite.invite_id,
@@ -113,6 +119,7 @@ function Calendar() {
           (invite.inviter_id === user.player_id ||
             invite.invitee_id === user.player_id)
       )
+      .sort(sortDates)
       .map((invite) => (
         <tr key={invite.invite_id}>
           <td>{eventType}</td>
@@ -200,6 +207,7 @@ function Calendar() {
         </tr>
       ));
   }
+
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getInvites());
@@ -212,6 +220,9 @@ function Calendar() {
       <div className="bg-heroCalendar bg-bottom bg-cover py-28 rounded-md mt-4"></div>
       <div className="bg-slate-950 p-8 mt-8 rounded-md shadow-md">
         <h2 className="font-bold text-4xl text-white">Calendar</h2>
+        <Link to="/player-calendar-view" className="text-white">
+          <p>Calendar View</p>
+        </Link>
         <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
           <table className="w-full text-left">
             <thead>

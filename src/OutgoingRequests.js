@@ -18,6 +18,11 @@ function OutgoingRequests() {
   } else {
     user = user;
   }
+  const sortDates = (a, b) => {
+    const dateA = new Date(a.event_date);
+    const dateB = new Date(b.event_date);
+    return dateA - dateB;
+  };
   const handleCancel = (invite) => {
     const updatedInviteData = {
       invite_id: invite.invite_id,
@@ -65,6 +70,7 @@ function OutgoingRequests() {
           invite.inviter_id === Number(user.player_id) &&
           invite.status === "pending"
       )
+      .sort(sortDates)
       .map((invite) => (
         <tr key={invite.invite_id} className="text-white">
           <td>{eventType}</td>
