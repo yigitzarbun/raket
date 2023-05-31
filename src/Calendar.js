@@ -104,6 +104,8 @@ function Calendar() {
     setSearch("");
   };
   let resultJsx = [];
+  let myEvents = [];
+  let filteredEvents = [];
   if (invites === null) {
     resultJsx = (
       <tr>
@@ -117,100 +119,128 @@ function Calendar() {
       </tr>
     );
   } else if (Array.isArray(invites) && invites) {
-    resultJsx = invites
-      .filter(
-        (invite) =>
-          ((invite.status === "confirmed" && invite.event_date > today) ||
-            (invite.event_date === today &&
-              invite.time >= time &&
-              invite.status === "confirmed")) &&
-          (invite.inviter_id === user.player_id ||
-            invite.invitee_id === user.player_id)
-      )
-      .sort(sortDates)
-      .map((invite) => (
-        <tr key={invite.invite_id}>
-          <td>{eventType}</td>
-          <td>
-            {invite.inviter_id === user.player_id
-              ? players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0]["fname"] +
-                  " " +
-                  players.filter(
-                    (player) => player.player_id === invite.invitee_id
-                  )[0]["lname"]
-              : players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0]["fname"] +
-                  " " +
-                  players.filter(
-                    (player) => player.player_id === invite.inviter_id
-                  )[0]["lname"]}
-          </td>
-          <td>
-            {invite.inviter_id === user.player_id
-              ? players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0]["level"]
-              : players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0]["level"]}
-          </td>
-          <td>
-            {invite.inviter_id === user.player_id
-              ? players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0]["gender"]
-              : players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0]["gender"]}
-          </td>
-          <td>
-            {invite.name && invite.name.length > 8
-              ? invite.name.slice(0, 8).padEnd(10, ".")
-              : invite.name}
-          </td>
-          <td>{invite.event_date}</td>
-          <td>
-            {invite.time < 1000
-              ? "0" +
-                invite.time.toString()[0] +
-                ":" +
-                invite.time.toString()[1] +
-                invite.time.toString()[2]
-              : invite.time.toString()[0] +
-                invite.time.toString()[1] +
-                ":" +
-                invite.time.toString()[2] +
-                invite.time.toString()[3]}
-          </td>
-          <td>{invite.court_name}</td>
-          <td onClick={() => handleCancel(invite)}>
-            <button className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white">
-              Cancel
-            </button>
-          </td>
-        </tr>
-      ));
+    myEvents = invites.filter(
+      (invite) =>
+        ((invite.status === "confirmed" && invite.event_date > today) ||
+          (invite.event_date === today &&
+            invite.time >= time &&
+            invite.status === "confirmed")) &&
+        (invite.inviter_id === user.player_id ||
+          invite.invitee_id === user.player_id)
+    );
+    filteredEvents = myEvents.filter((invite) => {
+      if (search === "") {
+        return invite;
+      } else if (
+        invite.fname.toLowerCase().includes(search.toLowerCase()) ||
+        invite.lname.toLowerCase().includes(search.toLowerCase()) ||
+        invite.name.toLowerCase().includes(search.toLowerCase())
+      ) {
+        return invite;
+      }
+    });
+    resultJsx = (
+      <table className="w-full text-left">
+        <thead>
+          <tr className="h-12 text-blue-400">
+            <th>Event</th>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Gender</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Court</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredEvents.sort(sortDates).map((invite) => (
+            <tr key={invite.invite_id}>
+              <td>{eventType}</td>
+              <td>
+                {invite.inviter_id === user.player_id
+                  ? players.filter(
+                      (player) => player.player_id === invite.invitee_id
+                    )[0] &&
+                    players.filter(
+                      (player) => player.player_id === invite.invitee_id
+                    )[0]["fname"] +
+                      " " +
+                      players.filter(
+                        (player) => player.player_id === invite.invitee_id
+                      )[0]["lname"]
+                  : players.filter(
+                      (player) => player.player_id === invite.inviter_id
+                    )[0] &&
+                    players.filter(
+                      (player) => player.player_id === invite.inviter_id
+                    )[0]["fname"] +
+                      " " +
+                      players.filter(
+                        (player) => player.player_id === invite.inviter_id
+                      )[0]["lname"]}
+              </td>
+              <td>
+                {invite.inviter_id === user.player_id
+                  ? players.filter(
+                      (player) => player.player_id === invite.invitee_id
+                    )[0] &&
+                    players.filter(
+                      (player) => player.player_id === invite.invitee_id
+                    )[0]["level"]
+                  : players.filter(
+                      (player) => player.player_id === invite.inviter_id
+                    )[0] &&
+                    players.filter(
+                      (player) => player.player_id === invite.inviter_id
+                    )[0]["level"]}
+              </td>
+              <td>
+                {invite.inviter_id === user.player_id
+                  ? players.filter(
+                      (player) => player.player_id === invite.invitee_id
+                    )[0] &&
+                    players.filter(
+                      (player) => player.player_id === invite.invitee_id
+                    )[0]["gender"]
+                  : players.filter(
+                      (player) => player.player_id === invite.inviter_id
+                    )[0] &&
+                    players.filter(
+                      (player) => player.player_id === invite.inviter_id
+                    )[0]["gender"]}
+              </td>
+              <td>
+                {invite.name && invite.name.length > 8
+                  ? invite.name.slice(0, 8).padEnd(10, ".")
+                  : invite.name}
+              </td>
+              <td>{invite.event_date}</td>
+              <td>
+                {invite.time < 1000
+                  ? "0" +
+                    invite.time.toString()[0] +
+                    ":" +
+                    invite.time.toString()[1] +
+                    invite.time.toString()[2]
+                  : invite.time.toString()[0] +
+                    invite.time.toString()[1] +
+                    ":" +
+                    invite.time.toString()[2] +
+                    invite.time.toString()[3]}
+              </td>
+              <td>{invite.court_name}</td>
+              <td onClick={() => handleCancel(invite)}>
+                <button className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white">
+                  Cancel
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   }
 
   useEffect(() => {
@@ -249,25 +279,11 @@ function Calendar() {
           </button>
         </div>
         <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="h-12 text-blue-400">
-                <th>Event</th>
-                <th>Name</th>
-                <th>Level</th>
-                <th>Gender</th>
-                <th>Location</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Court</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            {resultJsx && resultJsx.length > 0 && <tbody>{resultJsx}</tbody>}
-          </table>
-          {resultJsx && resultJsx.length === 0 && (
-            <p className="mt-8 text-center">No upcoming events</p>
+          {filteredEvents.length > 0 && resultJsx}
+          {myEvents.length > 0 && filteredEvents.length === 0 && (
+            <p>No events matching your search criteria</p>
           )}
+          {myEvents.length === 0 && <p>No upcoming events</p>}
         </div>
       </div>
     </div>
