@@ -110,7 +110,18 @@ function CalendarViewPlayer() {
                     : "p-2 calendarWidth border-2 border-slate-600 bg-slate-900 text-white"
                 }
               >
-                <p className="font-bold"> {d}</p>
+                <div className="flex justify-between">
+                  <p className="font-bold"> {d}</p>
+                  {now.getFullYear() === selectedYear &&
+                    now.getMonth() + 1 === selectedMonth &&
+                    Number(now.getDate()) === Number(d) && (
+                      <img
+                        src="/images/today.png"
+                        alt="today-calendar"
+                        className="w-4 h-4 object-contain"
+                      />
+                    )}
+                </div>
                 {myEvents.filter(
                   (e) =>
                     e.event_date ===
