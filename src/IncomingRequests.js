@@ -152,11 +152,14 @@ function IncomingRequests() {
         <tr key={invite.invite_id} className="text-white">
           <td>{eventType}</td>
           <td>{invite.status}</td>
-          <td>{invite.fname}</td>
-          <td>{invite.lname}</td>
+          <td>{`${invite.fname} ${invite.lname}`}</td>
           <td>{invite.level}</td>
           <td>{invite.gender}</td>
-          <td>{invite.name}</td>
+          <td>
+            {invite.name && invite.name.length > 8
+              ? invite.name.slice(0, 8).padEnd(10, ".")
+              : invite.name}
+          </td>
           <td>{invite.event_date}</td>
           <td>
             {invite.time < 1000
@@ -177,7 +180,7 @@ function IncomingRequests() {
           {myCard ? (
             <td>
               <p
-                className=" text-center font-bold p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
+                className=" text-center text-sm font-bold p-2 border-2 cursor-pointer border-green-500 rounded-md hover:bg-green-500 hover:text-white"
                 onClick={() => {
                   handleAccept(invite);
                 }}
@@ -189,7 +192,7 @@ function IncomingRequests() {
             <td>
               <Link
                 to="/add-player-card"
-                className="text-center font-bold p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white"
+                className="text-center text-sm font-bold p-2 border-2 border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white"
               >
                 Add Card
               </Link>
@@ -197,7 +200,7 @@ function IncomingRequests() {
           )}
           <td>
             <p
-              className="text-center font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white cursor-pointer"
+              className="text-center text-sm font-bold  p-2 border-2 border-red-500 rounded-md hover:bg-red-500 hover:text-white cursor-pointer"
               onClick={() => handleReject(invite)}
             >
               Reject
@@ -220,8 +223,7 @@ function IncomingRequests() {
           <tr className="h-12 text-blue-400">
             <th>Event</th>
             <th>Status</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Level</th>
             <th>Gender</th>
             <th>Location</th>

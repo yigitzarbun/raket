@@ -238,7 +238,12 @@ function Requests() {
         <div className="flex flex-col">
           <p className="text-sm font-bold italic">Location</p>
           {myInvites[invitationIndex] && (
-            <p>{myInvites[invitationIndex]["name"]}</p>
+            <p>
+              {myInvites[invitationIndex]["name"] &&
+              myInvites[invitationIndex]["name"].length > 8
+                ? myInvites[invitationIndex]["name"].slice(0, 8).padEnd(10, ".")
+                : myInvites[invitationIndex]["name"]}
+            </p>
           )}
         </div>
         <div className="flex flex-col">

@@ -114,7 +114,11 @@ function TrainInviteBooking() {
                 (player) => player.player_id == invite.invitee_id
               )[0]["gender"]}
           </td>
-          <td>{invite.name}</td>
+          <td>
+            {invite.name && invite.name.length > 8
+              ? invite.name.slice(0, 8).padEnd(10, ".")
+              : invite.name}
+          </td>
           <td>{invite.event_date}</td>
           <td>
             {invite.time < 1000

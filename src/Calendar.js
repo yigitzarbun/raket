@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -95,6 +95,14 @@ function Calendar() {
       }
     }
   };
+  // search
+  const [search, setSearch] = useState("");
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+  const handleClear = () => {
+    setSearch("");
+  };
   let resultJsx = [];
   if (invites === null) {
     resultJsx = (
@@ -130,28 +138,21 @@ function Calendar() {
                 )[0] &&
                 players.filter(
                   (player) => player.player_id === invite.invitee_id
-                )[0]["fname"]
+                )[0]["fname"] +
+                  " " +
+                  players.filter(
+                    (player) => player.player_id === invite.invitee_id
+                  )[0]["lname"]
               : players.filter(
                   (player) => player.player_id === invite.inviter_id
                 )[0] &&
                 players.filter(
                   (player) => player.player_id === invite.inviter_id
-                )[0]["fname"]}
-          </td>
-          <td>
-            {invite.inviter_id === user.player_id
-              ? players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.invitee_id
-                )[0]["lname"]
-              : players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0] &&
-                players.filter(
-                  (player) => player.player_id === invite.inviter_id
-                )[0]["lname"]}
+                )[0]["fname"] +
+                  " " +
+                  players.filter(
+                    (player) => player.player_id === invite.inviter_id
+                  )[0]["lname"]}
           </td>
           <td>
             {invite.inviter_id === user.player_id
@@ -183,7 +184,11 @@ function Calendar() {
                   (player) => player.player_id === invite.inviter_id
                 )[0]["gender"]}
           </td>
-          <td>{invite.name}</td>
+          <td>
+            {invite.name && invite.name.length > 8
+              ? invite.name.slice(0, 8).padEnd(10, ".")
+              : invite.name}
+          </td>
           <td>{invite.event_date}</td>
           <td>
             {invite.time < 1000
@@ -228,13 +233,27 @@ function Calendar() {
             <p>Calendar View</p>
           </Link>
         </div>
+        <div className="flex my-4">
+          <input
+            type="text"
+            value={search}
+            className="w-3/4 rounded-md p-2  text-black"
+            placeholder="Search players by name"
+            onChange={handleSearch}
+          />
+          <button
+            onClick={handleClear}
+            className="p-2 border-2 border-red-500 font-bold rounded-md text-white hover:bg-red-500 ml-2"
+          >
+            Clear
+          </button>
+        </div>
         <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
           <table className="w-full text-left">
             <thead>
               <tr className="h-12 text-blue-400">
                 <th>Event</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Level</th>
                 <th>Gender</th>
                 <th>Location</th>

@@ -132,6 +132,7 @@ function Upcoming() {
       );
     }
   }, [invites, user]);
+
   return (
     <div className={backgrounds[bg]}>
       <div className="flex justify-between">
@@ -227,9 +228,14 @@ function Upcoming() {
           <img src="/images/location.png" alt="location" className="w-4 h-4" />
           <p className="ml-2 font-bold">Location</p>
         </div>
-        <p>
-          {myEvents && myEvents.length > 0 && myEvents[invitationIndex]["name"]}
-        </p>
+        {myEvents[invitationIndex] && (
+          <p>
+            {myEvents[invitationIndex]["name"] &&
+            myEvents[invitationIndex]["name"].length > 8
+              ? myEvents[invitationIndex]["name"].slice(0, 8).padEnd(10, ".")
+              : myEvents[invitationIndex]["name"]}
+          </p>
+        )}
       </div>
       <div className="flex justify-between items-center mt-4">
         <div className="flex items-center">

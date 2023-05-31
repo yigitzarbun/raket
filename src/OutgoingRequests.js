@@ -82,16 +82,11 @@ function OutgoingRequests() {
               )[0] &&
               players.filter(
                 (player) => player.player_id == invite.invitee_id
-              )[0]["fname"]}
-          </td>
-          <td>
-            {players &&
-              players.filter(
-                (player) => player.player_id == invite.invitee_id
-              )[0] &&
-              players.filter(
-                (player) => player.player_id == invite.invitee_id
-              )[0]["lname"]}
+              )[0]["fname"] +
+                " " +
+                players.filter(
+                  (player) => player.player_id == invite.invitee_id
+                )[0]["lname"]}
           </td>
           <td>
             {players &&
@@ -111,7 +106,11 @@ function OutgoingRequests() {
                 (player) => player.player_id == invite.invitee_id
               )[0]["gender"]}
           </td>
-          <td>{invite.name}</td>
+          <td>
+            {invite.name && invite.name.length > 8
+              ? invite.name.slice(0, 8).padEnd(10, ".")
+              : invite.name}
+          </td>
           <td>{invite.event_date}</td>
           <td>
             {invite.time < 1000
@@ -149,8 +148,7 @@ function OutgoingRequests() {
           <tr className="h-12 text-blue-400">
             <th>Event</th>
             <th>Status</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>FName</th>
             <th>Level</th>
             <th>Gender</th>
             <th>Location</th>
@@ -162,7 +160,7 @@ function OutgoingRequests() {
         <tbody>{resultJsx}</tbody>
       </table>
       {resultJsx.length === 0 && (
-        <p className="text-center mt-8">No incoming requests</p>
+        <p className="text-center mt-8">No outgoing requests</p>
       )}
       <Link to="/train">
         <p className="text-blue-500 text-sm italic mt-8 cursor-pointer hover:text-blue-400">
