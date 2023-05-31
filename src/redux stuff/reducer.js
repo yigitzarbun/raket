@@ -29,6 +29,7 @@ import {
   GET_DISTRICTS,
   GET_CLUB_PAYMENTS,
   ADD_CLUB_PAYMENT,
+  UPDATE_PLAYER_DETAILS,
 } from "./actions";
 
 const initialState = {
@@ -220,6 +221,17 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         clubPayments: [action.payload, ...(state.clubPayments || [])],
+      };
+    case UPDATE_PLAYER_DETAILS:
+      const copyPlayers = [...(state.players || [])];
+      const selectedPlayer = copyPlayers.filter(
+        (p) => p.player_id === action.payload.player_id
+      )[0];
+      const indexPlayer = copyPlayers.indexOf(selectedPlayer);
+      copyPlayers.splice(indexPlayer, 1, action.payload);
+      return {
+        ...state,
+        players: [...copyPlayers],
       };
     default:
       return state;

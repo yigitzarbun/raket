@@ -24,9 +24,16 @@ async function add(player) {
   return newPlayer;
 }
 
+async function update(updates) {
+  return await db("players")
+    .where("player_id", updates.player_id)
+    .update(updates);
+}
+
 module.exports = {
   getAll,
   getByFilter,
   getById,
   add,
+  update,
 };

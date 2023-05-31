@@ -18,4 +18,14 @@ router.get("/:player_id", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/:player_id", async (req, res, next) => {
+  try {
+    await playersModel.update(req.body);
+    const updatedPlayer = await playersModel.getById(req.body.player_id);
+    res.status(200).json(updatedPlayer);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

@@ -33,7 +33,7 @@ function CalendarSelectedDay(props) {
           </thead>
           <tbody className="text-sm">
             {selectedDay.map((s) => (
-              <tr>
+              <tr key={selectedDay[0]["invite_id"]}>
                 <td>{eventType}</td>
                 <td>
                   {s.time < 1000

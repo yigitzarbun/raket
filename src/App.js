@@ -30,6 +30,7 @@ import AddPlayerCard from "./AddPlayerCard";
 import AllEvents from "./AllEvents";
 import EditCourt from "./EditCourt";
 import CalendarViewPlayer from "./CalendarViewPlayer";
+import EditPersonalDetails from "./EditPersonalDetails";
 function App() {
   return (
     <div className="max-w-5xl mx-auto">
@@ -66,6 +67,10 @@ function App() {
           <Route path="/add-player-card" element={<AddPlayerCard />} />
           <Route path="/all-events" element={<AllEvents />} />
           <Route path="/edit-court/:court_id" element={<EditCourt />} />
+          <Route
+            path="/edit-personal-details"
+            element={<EditPersonalDetails />}
+          />
           <Route
             path="/player-calendar-view"
             element={<CalendarViewPlayer />}

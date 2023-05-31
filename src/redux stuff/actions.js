@@ -48,6 +48,7 @@ export const UPDATE_COURT = "UPDATE_COURT";
 export const GET_DISTRICTS = "GET_DISTRICTS";
 export const GET_CLUB_PAYMENTS = "GET_CLUB_PAYMENTS";
 export const ADD_CLUB_PAYMENT = "ADD_CLUB_PAYMENT";
+export const UPDATE_PLAYER_DETAILS = "UPDATE_PLAYER_DETAILS";
 
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
@@ -404,6 +405,19 @@ export const addClubPayment = (clubPayment) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         dispatch({ type: ADD_CLUB_PAYMENT, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const updatePlayerDetails = (updates, navigate) => (dispatch) => {
+  axiosWithAuth()
+    .put(url + `api/players/${updates.player_id}`, updates)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: UPDATE_PLAYER_DETAILS, payload: res.data });
+        toast.success("Details updated");
+        navigate("/account");
       }
     })
     .catch((err) => console.log(err));
