@@ -23,6 +23,14 @@ function TrainInvite(props) {
   const invitee_player = location.state;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const today = new Date();
+  const hour = today.getHours();
+  let minute = today.getMinutes();
+  if (String(minute).length === 1) {
+    minute = String(minute).padStart(2, "0");
+  }
+  let time = Number(String(hour) + String(minute));
+
   const {
     register,
     handleSubmit,
@@ -89,7 +97,6 @@ function TrainInvite(props) {
       }
     }
   }
-
   useEffect(() => {
     dispatch({ type: GET_USER });
     dispatch(getClubs());
@@ -172,7 +179,7 @@ function TrainInvite(props) {
             >
               <option value="">-- Choose Time --</option>
               {availableTimes
-                .filter((t) => bookedTimes.includes(t) === false)
+                .filter((t) => bookedTimes.includes(t) === false && t > time)
                 .map((t) => (
                   <option key={t} value={t}>
                     {t < 1000
