@@ -164,7 +164,11 @@ function AllEvents() {
                 </td>
                 <td>{event.level}</td>
                 <td>{event.gender}</td>
-                <td>{event.name}</td>
+                <td>
+                  {event.name && event.name.length > 8
+                    ? event.name.slice(0, 8).padEnd(10, ".")
+                    : event.name}
+                </td>
                 <td>{event.event_date}</td>
                 <td>
                   {event.time < 1000
