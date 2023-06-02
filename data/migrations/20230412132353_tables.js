@@ -220,6 +220,7 @@ exports.up = function (knex) {
     })
     .createTable("challenges", (tbl) => {
       tbl.increments("challenge_id");
+      tbl.string("status").notNullable().defaultTo("pending");
       tbl.timestamp("event_date").notNullable();
       tbl.time("time").notNullable();
       tbl.timestamp("date").notNullable();

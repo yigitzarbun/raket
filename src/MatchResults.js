@@ -1,51 +1,116 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
-function MatchResults() {
+import { GET_USER } from "./redux stuff/actions";
+function MatchResults(props) {
+  const dispatch = useDispatch();
+  const { players, filter, setFilter } = props;
+  let { user } = useSelector((store) => store);
+  if (user.player) {
+    user = user.player;
+  }
+  let filteredPlayers = [];
+  if (players && user) {
+    filteredPlayers = players.filter((p) => p.player_id !== user.player_id);
+  }
+  let resultJsx = [];
+  let searchedPlayers = [];
+  if (filteredPlayers === null) {
+    resultJsx.push(
+      <tr key="loading">
+        <td>Loading players</td>
+      </tr>
+    );
+  } else if (filteredPlayers.length === 0) {
+    resultJsx.push(
+      <tr key="no-matching">
+        <td>No players available</td>
+      </tr>
+    );
+  } else if (filteredPlayers && Array.isArray(filteredPlayers)) {
+    searchedPlayers = filteredPlayers.filter((player) => {
+      if (
+        !filter ||
+        (filter.club_preference_id === "" &&
+          filter.level_id === "" &&
+          player.player_id !== user.player_id)
+      ) {
+        return player;
+      } else if (
+        filter &&
+        (filter.club_preference_id === 0 ||
+          filter.club_preference_id === player.club_preference_1_id ||
+          filter.club_preference_id === player.club_preference_2_id ||
+          filter.club_preference_id === player.club_preference_3_id) &&
+        (filter.level_id === 0 || filter.level_id === player.level_id) &&
+        player.player_id !== user.player_id
+      ) {
+        return player;
+      }
+    });
+    if (searchedPlayers.length > 0) {
+      resultJsx = (
+        <table className="w-full text-left mt-4">
+          <thead>
+            <tr className="h-12">
+              <th>Image</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Level</th>
+              <th>Gender</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {searchedPlayers.map((player) => (
+              <tr key={player.player_id} className="h-12">
+                <td>
+                  <img src={player.face_image} className="w-12 rounded-full" />
+                </td>
+                <td>{player.fname}</td>
+                <td>{player.lname}</td>
+                <td>{player.gender}</td>
+                <td>{player.level}</td>
+                <td>
+                  <Link to="/challenge" state={player} className="greenButton">
+                    Challenge
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    } else {
+      resultJsx = (
+        <div className="my-8 text-center">
+          <h2 className="font-bold text-xl">
+            No players matching search criteria
+          </h2>
+          <p className="mt-4">
+            Clear or refine search criteria to find players to challenge for a
+            match.
+          </p>
+          <button onClick={() => setFilter("")} className="redButton font-bold">
+            Clear Search
+          </button>
+        </div>
+      );
+    }
+  }
+  useEffect(() => {
+    dispatch({ type: GET_USER });
+  }, []);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
       <h2 className="font-bold text-4xl">Results</h2>
-      <table className="w-full text-left mt-4">
-        <thead>
-          <tr className="h-12">
-            <th className="text-slate-300">#</th>
-            <th>Player Name</th>
-            <th>Player</th>
-            <th>Level</th>
-            <th>Gender</th>
-            <th>Events</th>
-            <th className="text-green-400">Won</th>
-            <th className="text-red-500">Lost</th>
-            <th className="text-blue-400">Practice</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="h-12">
-            <td className="text-slate-300">1</td>
-            <td>Carlos Alcaraz</td>
-            <td>
-              <img
-                src="/images/alcaraz.png"
-                alt="player-image"
-                className="w-12 h-12 rounded-full object-contain "
-              />
-            </td>
-            <td>Pro</td>
-            <td>Male</td>
-            <td>15</td>
-            <td className="text-green-400">9</td>
-            <td className="text-red-500">1</td>
-            <td className="text-blue-400">5</td>
-            <td>
-              <button className="greenButton">Challenge </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400">
-        View All
-      </p>
+      {resultJsx}
+      <Link
+        to="/train-all-players"
+        className="text-blue-500 text-sm italic mt-5 cursor-pointer hover:text-blue-400"
+      >
+        View All Players
+      </Link>
     </div>
   );
 }

@@ -27,7 +27,7 @@ function NewTraining() {
           <TrainingSuggest />
           <SearchTrain handleTrain={handleTrain} />
         </div>
-        <TrainResults players={players} filter={filter} />
+        <TrainResults players={players} filter={filter} setFilter={setFilter} />
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ function SearchTrain(props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const { clubs, genders, levels } = useSelector((store) => store);
@@ -62,6 +63,12 @@ function SearchTrain(props) {
           type="submit"
         >
           <p className="font-bold"> Find a partner</p>
+        </button>
+        <button
+          onClick={() => reset()}
+          className="text-sm italic text-center mt-4 cursor-pointer hover:text-slate-800"
+        >
+          Clear search
         </button>
       </form>
     </div>

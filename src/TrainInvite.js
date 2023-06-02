@@ -24,6 +24,17 @@ function TrainInvite(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const today = new Date();
+  const year = today.getFullYear();
+  let month = today.getMonth() + 1;
+  let date = today.getDate();
+
+  if (String(month).length === 1) {
+    month = String(month).padStart(2, "0");
+  }
+  if (String(date).length === 1) {
+    date = String(date).padStart(2, "0");
+  }
+  const currDate = `${year}-${month}-${date}`;
   const hour = today.getHours();
   let minute = today.getMinutes();
   if (String(minute).length === 1) {
@@ -177,9 +188,19 @@ function TrainInvite(props) {
                 required: "Time is required",
               })}
             >
-              <option value="">-- Choose Time --</option>
+              <option value="">-- Pick a Time --</option>
               {availableTimes
-                .filter((t) => bookedTimes.includes(t) === false && t > time)
+                .filter((t) => {
+                  if (!bookedTimes.includes(t) && selectedDate > currDate) {
+                    return t;
+                  } else if (
+                    !bookedTimes.includes(t) &&
+                    selectedDate === currDate &&
+                    t > time
+                  ) {
+                    return t;
+                  }
+                })
                 .map((t) => (
                   <option key={t} value={t}>
                     {t < 1000

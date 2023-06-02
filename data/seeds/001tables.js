@@ -152,23 +152,6 @@ exports.seed = async function (knex) {
     {
       player_id: 3,
       user_type: "player",
-      registry_date: "15.04.2023",
-      fname: "Carlos",
-      lname: "Alcaraz",
-      email: "carlos@raket.com",
-      birth_year: 2003,
-      face_image: "/images/alcaraz.png",
-      body_image: "/images/alcaraz-body.png",
-      password: "1234",
-      level_id: 4,
-      gender_id: 1,
-      club_preference_1_id: 1,
-      club_preference_2_id: 2,
-      club_preference_3_id: 3,
-    },
-    {
-      player_id: 4,
-      user_type: "player",
       registry_date: "16.04.2023",
       fname: "Novak",
       lname: "Djokovic",
@@ -188,7 +171,6 @@ exports.seed = async function (knex) {
     { point_id: 1, points: 12, player_id: 1 },
     { point_id: 2, points: 14, player_id: 2 },
     { point_id: 3, points: 18, player_id: 3 },
-    { point_id: 4, points: 16, player_id: 4 },
   ]);
   await knex("club_payments").insert([
     {
@@ -257,6 +239,7 @@ exports.seed = async function (knex) {
   await knex("challenges").insert([
     {
       challenge_id: 1,
+      status: "pending",
       event_date: "21.04.2023",
       time: 1300,
       date: "20.04.2023",
@@ -268,6 +251,7 @@ exports.seed = async function (knex) {
     },
     {
       challenge_id: 2,
+      status: "pending",
       event_date: "22.04.2023",
       time: 1500,
       date: "20.04.2023",

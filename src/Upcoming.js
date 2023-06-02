@@ -158,7 +158,6 @@ function Upcoming() {
       {myEvents &&
         myEvents.length > 0 &&
         myEvents[invitationIndex] &&
-        myEvents[invitationIndex]["face_image"] &&
         players && (
           <img
             src={
