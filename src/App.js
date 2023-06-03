@@ -51,7 +51,10 @@ function App() {
             path="/invite-booking/:invite_id"
             element={<TrainInviteBooking />}
           />
-          <Route path="/challenge-booking" element={<MatchInviteBooking />} />
+          <Route
+            path="/challenge-booking/:challenge_id"
+            element={<MatchInviteBooking />}
+          />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/leaderboard" element={<LeaderboardFull />} />
           <Route path="/scores" element={<Scores />} />

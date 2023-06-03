@@ -49,7 +49,9 @@ export const GET_DISTRICTS = "GET_DISTRICTS";
 export const GET_CLUB_PAYMENTS = "GET_CLUB_PAYMENTS";
 export const ADD_CLUB_PAYMENT = "ADD_CLUB_PAYMENT";
 export const UPDATE_PLAYER_DETAILS = "UPDATE_PLAYER_DETAILS";
-
+export const ADD_CHALLENGE = "ADD_CHALLENGE";
+export const GET_CHALLENGES = "GET_CHALLENGES";
+export const UPDATE_CHALLENGE = "UPDATE_CHALLENGE";
 const axiosWithAuth = () => {
   const tokenObj = JSON.parse(localStorage.getItem(key));
   let token = null;
@@ -418,6 +420,42 @@ export const updatePlayerDetails = (updates, navigate) => (dispatch) => {
         dispatch({ type: UPDATE_PLAYER_DETAILS, payload: res.data });
         toast.success("Details updated");
         navigate("/account");
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const addChallenge = (challenge, navigate) => (dispatch) => {
+  axiosWithAuth()
+    .post(url + "api/challenges", challenge)
+    .then((res) => {
+      if (res.status === 201) {
+        dispatch({ type: ADD_CHALLENGE, payload: res.data });
+        toast.success("Challenge sent");
+        navigate("/" + `challenge-booking/${res.data.challenge_id}`);
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const getChallenges = () => (dispatch) => {
+  axiosWithAuth()
+    .get(url + "api/challenges")
+    .then((res) => {
+      if ((res.status = 200)) {
+        dispatch({ type: GET_CHALLENGES, payload: res.data });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+export const updateChallenge = (updates) => (dispatch) => {
+  axiosWithAuth()
+    .put(url + `api/challenges/:${updates.challenge_id}`, updates)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({ type: UPDATE_CHALLENGE, payload: res.data });
+        toast.success("Action successful");
       }
     })
     .catch((err) => console.log(err));

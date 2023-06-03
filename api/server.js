@@ -27,6 +27,7 @@ const courtTypesRouter = require("./court_types/court_types_router");
 const indoorOutdoorRouter = require("./indoor_outdoor/indoor_outdoor_router");
 const districtsRouter = require("./districts/districts-router");
 const clubPaymentsRouter = require("./club-payments/club-payments-router");
+const challengesRouter = require("./challenges/challenges-router");
 // server
 const server = express();
 server.use(helmet());
@@ -49,6 +50,7 @@ server.use("/api/court-types", courtTypesRouter);
 server.use("/api/indoor-outdoor", indoorOutdoorRouter);
 server.use("/api/districts", districtsRouter);
 server.use("/api/club-payments", clubPaymentsRouter);
+server.use("/api/challenges", challengesRouter);
 
 server.post("/api/chatgpt", async (req, res, next) => {
   try {

@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   GET_USER,
+  addBooking,
+  addChallenge,
   getBookings,
   getClubs,
   getCourts,
@@ -94,12 +96,27 @@ function MatchInvite() {
   } = useForm();
 
   const handleChallenge = (data) => {
-    // prepare send challenge dataWide
-    // ****
-    // add challenge to db
-    // ****
-    // add booking
-
+    const challengeData = {
+      status: "pending",
+      event_date: data.date,
+      time: data.time,
+      date: Date.now(),
+      message: data.message,
+      challenger_id: Number(user.player_id),
+      challengee_id: Number(opponent.player_id),
+      club_id: Number(data.location),
+      court_id: Number(data.court),
+    };
+    dispatch(addChallenge(challengeData, navigate));
+    const bookingDetails = {
+      status: "pending",
+      date: Date.now(),
+      event_date: data.date,
+      time: data.time,
+      club_id: Number(data.location),
+      court_id: Number(data.court),
+    };
+    dispatch(addBooking(bookingDetails));
     navigate("/challenge-booking");
   };
   useEffect(() => {
@@ -162,15 +179,14 @@ function MatchInvite() {
                   .filter((c) => Number(c.club_id) === Number(selectedClub))
                   .map((c) => (
                     <option key={c.court_id} value={c.court_id}>
-                      {c.court_name}
+                      {`${c.court_name} -- (Hourly price: TL ${c.price})`}
                     </option>
                   ))}
               {errors.court && <span>{errors.court.message}</span>}
             </select>
           </div>
-          <label className="mt-4">Time</label>
           <div className=" flex flex-wrap mt-0">
-            <label>Court</label>
+            <label className="mt-4">Time</label>
             <select
               {...register("time", {
                 required: "Time is required",

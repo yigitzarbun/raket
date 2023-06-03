@@ -30,6 +30,9 @@ import {
   GET_CLUB_PAYMENTS,
   ADD_CLUB_PAYMENT,
   UPDATE_PLAYER_DETAILS,
+  ADD_CHALLENGE,
+  GET_CHALLENGES,
+  UPDATE_CHALLENGE,
 } from "./actions";
 
 const initialState = {
@@ -232,6 +235,27 @@ export function myReducer(state = initialState, action) {
       return {
         ...state,
         players: [...copyPlayers],
+      };
+    case ADD_CHALLENGE:
+      return {
+        ...state,
+        challenges: [action.payload, ...(state.challenges || [])],
+      };
+    case GET_CHALLENGES:
+      return {
+        ...state,
+        challenges: [...action.payload],
+      };
+    case UPDATE_CHALLENGE:
+      const copyChallenges = [...(state.challenges || [])];
+      const selectedChallenge = copyChallenges.find(
+        (c) => c.challenge_id === action.payload.challenge_id
+      );
+      const indexOfChallenge = copyChallenges.indexOf(selectedChallenge);
+      copyChallenges.splice(indexOfChallenge, 1, action.payload);
+      return {
+        ...state,
+        challenges: [...copyChallenges],
       };
     default:
       return state;
