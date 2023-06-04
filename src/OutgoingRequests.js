@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   getInvites,
   GET_USER,
@@ -8,11 +8,17 @@ import {
   getPlayers,
   updateBooking,
   getBookings,
+  getChallenges,
+  updateChallenge,
 } from "./redux stuff/actions";
 function OutgoingRequests() {
-  let { invites, user, players, bookings } = useSelector((store) => store);
+  let { invites, user, players, bookings, challenges } = useSelector(
+    (store) => store
+  );
   const dispatch = useDispatch();
-  const eventType = "Training";
+  const training = "Training";
+  const match = "Match";
+
   if (user.player) {
     user = user.player;
   } else {
@@ -24,11 +30,19 @@ function OutgoingRequests() {
     return dateA - dateB;
   };
   const handleCancel = (invite) => {
-    const updatedInviteData = {
-      invite_id: invite.invite_id,
-      status: "cancelled",
-    };
-    dispatch(updateInvite(updatedInviteData));
+    if (invite.invite_id) {
+      const updatedInviteData = {
+        invite_id: invite.invite_id,
+        status: "cancelled",
+      };
+      dispatch(updateInvite(updatedInviteData));
+    } else if (invite.challengee_id) {
+      const updatedChallengeData = {
+        challenge_id: invite.challenge_id,
+        status: "cancelled",
+      };
+      dispatch(updateChallenge(updatedChallengeData));
+    }
     let bookingId = bookings.find(
       (b) =>
         b.event_date === invite.event_date &&
@@ -51,6 +65,8 @@ function OutgoingRequests() {
   };
 
   let resultJsx = [];
+  let trainingInvites = [];
+  let matchChallenges = [];
   if (invites == null) {
     resultJsx.push(
       <tr>
@@ -64,46 +80,71 @@ function OutgoingRequests() {
       </tr>
     );
   } else if (Array.isArray(invites) && invites) {
-    resultJsx = invites
-      .filter(
-        (invite) =>
-          invite.inviter_id === Number(user.player_id) &&
-          invite.status === "pending"
-      )
+    trainingInvites = invites.filter(
+      (invite) =>
+        invite.inviter_id === Number(user.player_id) &&
+        invite.status === "pending"
+    );
+    matchChallenges = challenges.filter(
+      (challenge) =>
+        challenge.challenger_id === Number(user.player_id) &&
+        challenge.status === "pending"
+    );
+    resultJsx = [...trainingInvites, ...matchChallenges]
       .sort(sortDates)
       .map((invite) => (
-        <tr key={invite.invite_id} className="text-white">
-          <td>{eventType}</td>
+        <tr key={invite.date} className="text-white">
+          <td>
+            {players && players.find((p) => p.player_id === invite.invitee_id)
+              ? training
+              : players.find((p) => p.player_id === invite.challengee_id)
+              ? match
+              : ""}
+          </td>
           <td>{invite.status}</td>
           <td>
             {players &&
               players.filter(
-                (player) => player.player_id == invite.invitee_id
+                (player) =>
+                  player.player_id === invite.invitee_id ||
+                  player.player_id === invite.challengee_id
               )[0] &&
               players.filter(
-                (player) => player.player_id == invite.invitee_id
+                (player) =>
+                  player.player_id == invite.invitee_id ||
+                  player.player_id === invite.challengee_id
               )[0]["fname"] +
                 " " +
                 players.filter(
-                  (player) => player.player_id == invite.invitee_id
+                  (player) =>
+                    player.player_id == invite.invitee_id ||
+                    player.player_id === invite.challengee_id
                 )[0]["lname"]}
           </td>
           <td>
             {players &&
               players.filter(
-                (player) => player.player_id == invite.invitee_id
+                (player) =>
+                  player.player_id == invite.invitee_id ||
+                  player.player_id === invite.challengee_id
               )[0] &&
               players.filter(
-                (player) => player.player_id == invite.invitee_id
+                (player) =>
+                  player.player_id == invite.invitee_id ||
+                  player.player_id === invite.challengee_id
               )[0]["level"]}
           </td>
           <td>
             {players &&
               players.filter(
-                (player) => player.player_id == invite.invitee_id
+                (player) =>
+                  player.player_id == invite.invitee_id ||
+                  player.player_id === invite.challengee_id
               )[0] &&
               players.filter(
-                (player) => player.player_id == invite.invitee_id
+                (player) =>
+                  player.player_id == invite.invitee_id ||
+                  player.player_id === invite.challengee_id
               )[0]["gender"]}
           </td>
           <td>
@@ -113,7 +154,7 @@ function OutgoingRequests() {
           </td>
           <td>{invite.event_date}</td>
           <td>
-            {invite.time < 1000
+            {invite.time && invite.time < 1000
               ? "0" +
                 invite.time.toString()[0] +
                 ":" +
@@ -140,6 +181,7 @@ function OutgoingRequests() {
     dispatch(getInvites());
     dispatch(getPlayers());
     dispatch(getBookings());
+    dispatch(getChallenges());
   }, []);
   return (
     <div className="bg-slate-800 text-white rounded-md p-4 mt-8">
@@ -148,7 +190,7 @@ function OutgoingRequests() {
           <tr className="h-12 text-blue-400">
             <th>Event</th>
             <th>Status</th>
-            <th>FName</th>
+            <th>Name</th>
             <th>Level</th>
             <th>Gender</th>
             <th>Location</th>

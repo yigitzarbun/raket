@@ -221,6 +221,7 @@ exports.up = function (knex) {
     .createTable("challenges", (tbl) => {
       tbl.increments("challenge_id");
       tbl.string("status").notNullable().defaultTo("pending");
+      tbl.string("event_type").notNullable().defaultTo("match");
       tbl.timestamp("event_date").notNullable();
       tbl.time("time").notNullable();
       tbl.timestamp("date").notNullable();
@@ -261,6 +262,7 @@ exports.up = function (knex) {
     .createTable("invites", (tbl) => {
       tbl.increments("invite_id");
       tbl.string("status").notNullable().defaultTo("pending");
+      tbl.string("event_type").notNullable().defaultTo("training");
       tbl.timestamp("event_date").notNullable();
       tbl.time("time").notNullable();
       tbl.timestamp("date").notNullable();

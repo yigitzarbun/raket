@@ -130,13 +130,13 @@ function IncomingRequests() {
   let resultJsx = [];
   if (invites == null) {
     resultJsx.push(
-      <tr>
+      <tr key="loading">
         <td>Loading bookings</td>
       </tr>
     );
   } else if (invites.length === 0) {
     resultJsx.push(
-      <tr>
+      <tr key="noBooking">
         <td>No bookings</td>
       </tr>
     );
