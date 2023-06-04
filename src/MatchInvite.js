@@ -34,7 +34,6 @@ function MatchInvite() {
   const openCourtTimes = [];
   let opening = 0;
   let closing = 0;
-
   if (
     courts &&
     clubs &&

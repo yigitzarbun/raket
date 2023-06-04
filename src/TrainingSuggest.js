@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getPlayers, GET_USER, addInvite } from "./redux stuff/actions";
+import { getPlayers, GET_USER } from "./redux stuff/actions";
 function TrainingSuggest() {
   const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ function TrainingSuggest() {
     suggested = "Loading events";
   } else if (players.length === 0) {
     suggested = "No upcoming events";
-  } else if (Array.isArray(players) && players) {
+  } else if (Array.isArray(players) && players && user) {
     suggested = players.filter((player) => player.player_id !== user.player_id);
   }
   const [invitationIndex, setInvitationIndex] = useState(0);
@@ -37,8 +37,8 @@ function TrainingSuggest() {
             <img
               src={
                 players &&
-                players[invitationIndex] !== undefined &&
-                players[invitationIndex]["body_image"]
+                suggested[invitationIndex] !== undefined &&
+                suggested[invitationIndex]["body_image"]
               }
               alt="opponent"
               className="w-1/3"
@@ -47,15 +47,15 @@ function TrainingSuggest() {
               <p>#4</p>
               <p className="font-bold text-2xl">
                 {players &&
-                  players[invitationIndex] !== undefined &&
-                  players[invitationIndex]["fname"] +
+                  suggested[invitationIndex] !== undefined &&
+                  suggested[invitationIndex]["fname"] +
                     " " +
-                    players[invitationIndex]["lname"]}
+                    suggested[invitationIndex]["lname"]}
               </p>
               <p>
                 {players &&
-                  players[invitationIndex] !== undefined &&
-                  players[invitationIndex]["gender"]}
+                  suggested[invitationIndex] !== undefined &&
+                  suggested[invitationIndex]["gender"]}
               </p>
               <div className="flex justify-between">
                 <div className="text-center">
@@ -78,18 +78,18 @@ function TrainingSuggest() {
               <p className="mt-8 text-sm italic">
                 Would you like to invite{" "}
                 {players &&
-                  players[invitationIndex] !== undefined &&
-                  players[invitationIndex]["fname"]}{" "}
+                  suggested[invitationIndex] !== undefined &&
+                  suggested[invitationIndex]["fname"]}{" "}
                 for a training session?
               </p>
               <div>
-                <Link to="/invite" state={players[invitationIndex]}>
+                <Link to="/invite" state={suggested[invitationIndex]}>
                   <button className="greenButton">
                     <p className="font-bold">
                       Invite{" "}
                       {players &&
-                        players[invitationIndex] !== undefined &&
-                        players[invitationIndex]["fname"]}
+                        suggested[invitationIndex] !== undefined &&
+                        suggested[invitationIndex]["fname"]}
                     </p>
                   </button>
                 </Link>
